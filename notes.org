@@ -5,11 +5,11 @@
  - In C, it is allowed and compilers assume it returns ~int~. It is also allowed in function declarations.
  - In C++, it is syntax error.
  This code is valid in C and invalid in C++:
- #+BEGIN_SRC C
- func(int x)
- {
-     return x + 1;
- }
+ #+BEGIN_SRC C++
+   func(int x)
+   {
+       return x + 1;
+   }
  #+END_SRC
 
 *** Missing return statement in functions with non-void return type
@@ -17,8 +17,8 @@
  - In C, it is allowed. Compilers can show a warning but they don't have to.
  - In C++, it is syntax error.
  This code is valid in C and invalid in C++:
- #+BEGIN_SRC C
- int func() {}
+ #+BEGIN_SRC C++
+   int func() {}
  #+END_SRC
 
 *** Implicit/default function declaration
@@ -26,7 +26,7 @@
  - In C, compilers will assume it is an external function with the default declaration: ~int func();~
  - In C++, it is syntax error.
  This code will compile in C and compiler will assume ~bar()~ function has ~int bar();~ declaration:
- #+BEGIN_SRC C
+ #+BEGIN_SRC C++
    int foo()
    {
        bar();
@@ -35,17 +35,17 @@
 
 *** Declaration of functions without parameter
  There are different rules for C and C++.
-  #+BEGIN_SRC C
-  int foo();
-  int bar(void);
+  #+BEGIN_SRC C++
+    int foo();
+    int bar(void);
   #+END_SRC
   - In C, these 2 function declarations have different meaning.
    + ~int foo();~ means, we don't have any information about parameters so we can pass what ever we want.
    + ~int bar(void);~ means, function does not take any parameters.
   - In C++, both of the declarations have the same meaning. Functions do not take any parameters.
   According to the declarations above, this code is valid in C. Invalid in C++, because ~int foo();~ does not take any parameters.
-  #+BEGIN_SRC C
-  foo(1, 2);
+  #+BEGIN_SRC C++
+    foo(1, 2);
   #+END_SRC
 
 *** Nameless parameters in function definitions
@@ -53,7 +53,66 @@
   - In C, it is not allowed. (Since C20, it is also allowed in C.)
   - In C++, it is allowed.
   This code is invalid for C (before C20) and valid for C++:
-  #+BEGIN_SRC C
-  void func(int) {}
+  #+BEGIN_SRC C++
+    void func(int) {}
   #+END_SRC
 
+*** Scope of for-statement
+ - In C, inside of the for loop has a different block scope than for-statement itself.
+ - In C++, inside of the for loop and for-statement itself are in same block scope.
+ Because of this difference, name shadowing inside a for loop is valid in C, but invalid in C++:
+ #+BEGIN_SRC C++
+   for (int i = 0; i < 10 ++i;)
+   {
+       int i = 99;
+   }
+ #+END_SRC
+ We can say above code looks like this for C compiler:
+ #+BEGIN_SRC C++
+   for (int i = 0; i < 10 ++i;)
+   {
+       {
+	   int i = 99;
+       }
+   }
+ #+END_SRC
+ /Note: For C and C++, name shadowing is only valid between different scopes./
+
+** Differences About Types and Type Conversions
+*** Logic data type (boolean)
+ In C:
+ - ~int~ is used instead of logic data type.
+ - ~_Bool~ type is added in C99, but it is not widely used.
+ - C doesn't have ~false~, ~true~ constants. ~stdbool.h~ defines macros for them.
+
+ In C++:
+ - ~bool~ type, ~false~ and ~true~ constants are build-in to the language. No need to include anything.
+ - Implicit type conversion from arithmetic types and pointer types to ~bool~ is allowed.
+ - Implicit type conversion from ~bool~ to arithmetic type is allowed.
+ These are valid in C++:
+ #+BEGIN_SRC C++
+   // Implicit conversion from arithmetic types to bool
+   int x = 45;
+   bool b1 = x;
+
+   double y = 33.11;
+   bool b2 = y;
+
+   // Implicit conversion from pointer types to bool
+   int z = 100;
+   int* p = &z;
+   bool b3 = p;
+
+   // Implicit conversion from bool to arithmetic types
+   bool b4 = true;
+   int t = b4;
+ #+END_SRC
+
+ But, this is invalid:
+ #+BEGIN_SRC C++
+   // No implicit conversion from bool to pointer types
+   bool b5 = false;
+   int* ptr = b5;
+ #+END_SRC
+
+ 
