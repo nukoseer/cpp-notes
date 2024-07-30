@@ -1,0 +1,59 @@
+* Differences Between C and C++
+** Fundemental Syntax Differences
+*** Implicit int
+ If a function does not have a return type:
+ - In C, it is allowed and compilers assume it returns ~int~. It is also allowed in function declarations.
+ - In C++, it is syntax error.
+ This code is valid in C and invalid in C++:
+ #+BEGIN_SRC C
+ func(int x)
+ {
+     return x + 1;
+ }
+ #+END_SRC
+
+*** Missing return statement in functions with non-void return type
+ If a function has return type but does not return anything:
+ - In C, it is allowed. Compilers can show a warning but they don't have to.
+ - In C++, it is syntax error.
+ This code is valid in C and invalid in C++:
+ #+BEGIN_SRC C
+ int func() {}
+ #+END_SRC
+
+*** Implicit/default function declaration
+ If name lookup fails for a function:
+ - In C, compilers will assume it is an external function with the default declaration: ~int func();~
+ - In C++, it is syntax error.
+ This code will compile in C and compiler will assume ~bar()~ function has ~int bar();~ declaration:
+ #+BEGIN_SRC C
+   int foo()
+   {
+       bar();
+   }
+ #+END_SRC
+
+*** Declaration of functions without parameter
+ There are different rules for C and C++.
+  #+BEGIN_SRC C
+  int foo();
+  int bar(void);
+  #+END_SRC
+  - In C, these 2 function declarations have different meaning.
+   + ~int foo();~ means, we don't have any information about parameters so we can pass what ever we want.
+   + ~int bar(void);~ means, function does not take any parameters.
+  - In C++, both of the declarations have the same meaning. Functions do not take any parameters.
+  According to the declarations above, this code is valid in C. Invalid in C++, because ~int foo();~ does not take any parameters.
+  #+BEGIN_SRC C
+  foo(1, 2);
+  #+END_SRC
+
+*** Nameless parameters in function definitions
+ Caution! This is about function definitions not declarations.
+  - In C, it is not allowed. (Since C20, it is also allowed in C.)
+  - In C++, it is allowed.
+  This code is invalid for C (before C20) and valid for C++:
+  #+BEGIN_SRC C
+  void func(int) {}
+  #+END_SRC
+
