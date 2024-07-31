@@ -28,7 +28,7 @@
  - In C++, it is syntax error.
  This code will compile in C and compiler will assume ~bar()~ function has ~int bar();~ declaration:
  #+BEGIN_SRC C++
-   int foo()
+   void foo()
    {
        bar();
    }
@@ -89,7 +89,7 @@
  In C++:
  - ~bool~ type, ~false~ and ~true~ constants are build-in to the language. No need to include anything.
  - Implicit type conversion from arithmetic types and pointer types to ~bool~ is allowed.
- - Implicit type conversion from ~bool~ to arithmetic type is allowed.
+ - Implicit type conversion from ~bool~ to arithmetic types is allowed.
  These are valid in C++:
  #+BEGIN_SRC C++
    // Implicit conversion from arithmetic types to bool
