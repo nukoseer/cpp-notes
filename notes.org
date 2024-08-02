@@ -338,6 +338,7 @@
 
 * C++ Topics
 ** Initialization
+ There are very different ways to initialize objects in C++.
 *** Default initialization
  Default initialized objects are created with a garbage value.
  #+BEGIN_SRC C++
@@ -354,13 +355,91 @@
  #+END_SRC
 
 *** Copy initialization
- If objects are initialized like in the C. It is called ~copy initialization~.
+ If objects are initialized like in the C language, it is called ~copy initialization~.
  #+BEGIN_SRC C++
    int x = 10; // Copy initialization.
  #+END_SRC
 
 *** Direct initialization
- If objects are initialized by using paranthesis. It is called ~direct initialization~.
+ If objects are initialized by using paranthesis, it is called ~direct initialization~.
  #+BEGIN_SRC C++
    int x(98); // Direct initialization.
  #+END_SRC
+
+*** Direct-list / brace initialization (uniform initialization)
+ If objects are initialized by using braces, it is called ~direct-list initialization~. ~direct-list/brace initialization~ is added to the language to have a uniform way to initialize objects. This is why it is also called ~uniform initialization~. It can be used to initialize any object.
+ #+BEGIN_SRC C++
+  int x{ 10 }; // Direct-list initialization.
+ #+END_SRC
+
+ Unlike other initialization methods, if an implicit narrowing conversion occurs during ~direct-list initialization~, it is a syntax error.
+ #+BEGIN_SRC C++
+   double dval = 5.6;
+
+   // Implicit narrowing conversion does not cause any error but compilers might show a warning.
+   int i1 = dval;
+   int i2(dval);
+
+   // Invalid. Implicit narrowing conversion causes a syntax error. Explicit cast is needed.
+   int i3{dval};
+ #+END_SRC
+
+ In C++, there are such declarations that can be interpreted as both ~object instantiation~ and ~function declaration~ at the same time. In such cases, ~function declaration~ has the priority. This is called ~most vexing parse~ and sometimes it leads to problems.
+ Example:
+ #+BEGIN_SRC C++
+   struct A
+   {
+   };
+
+   struct B
+   {
+       B(A);
+   };
+
+   // Here, we wanted to create a bx object from class B type by calling its constructor with a temporary object with class A type.
+   // C++ understands this as a function declaration. It is a function named bx and it has a return type of class B,
+   // and takes a function pointer as a parameter. Sigh..
+   B bx(A());
+
+   // This can be prevented by using direct-list initialization.
+   B by{A()};
+   B bz(A{});
+ #+END_SRC
+
+*** Value initialization
+ If objects are initialized by using braces but inside of the braces are empty, it is called ~value initialization~. Value initialized objects are first initialized to zero, if any additional initialization steps are required, this is done after ~zero initialization~.
+ #+BEGIN_SRC C++
+   int x{}; // Value initialization.
+ #+END_SRC
+
+** nullptr
+ In C++, there is a keyword that represents a null pointer, and it is called ~nullptr~. It is not a macro like in C. It is a keyword, a constant and its type is ~nullptr_t~.
+
+ You can assign ~nullptr~ to other pointer types but there is no implicit conversion from ~nullptr_t~ type to arithmetic types.
+ #+BEGIN_SRC C++
+   // Invalid
+   int x = nullptr;
+
+   // Valid
+   int* y = nullptr;
+   double* z = nullptr;
+ #+END_SRC
+
+** Reference Semantics
+ There is an alternative way to represent pointers in C++, which is called ~reference~,, but this is only an alternative at the language layer, the underlying representation does not change once the code is compiled. Everything works with the pointers in assembly level.
+
+ There are 3 different reference categories:
+  - L-value reference
+  - R-value reference
+  - Forwarding/universal reference
+  An example:
+  #+BEGIN_SRC C++
+    int x = 10;
+    // L-value reference
+    int& y = x;
+    // R-value reference
+    int&& z = 10;
+    // Forwarding/universal reference
+    auto&& t = 10;
+  #+END_SRC
+
