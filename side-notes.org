@@ -1,0 +1,43 @@
+** Unspecified Behaviour
+ In C and C++, ~unspecified behaviour~ indicates that compilers are not required to generate the same code from the same source in some contexts. Having ~unspecied behaviour~ code is not harmful as long as the meaning of the code does not change depending on it.
+
+*** Order of evalutation of subexpressions
+ The evaluation order of the subexpressions are unspecified in C and C++.
+ In this code, we cannot assume that ~f2()~ will be called before ~f1()~ (or vise versa) because it is ~unspecified behaviour~. ~f2()~ or ~f1()~ may be called first and we cannot rely on it:
+ #+BEGIN_SRC C++
+   int a = f1() * (f2() * 5);
+ #+END_SRC
+ Normally, this code is okay but if you assume, for example, ~f2()~ always will be called first and your code logic is rely on it, then it is a problem.
+
+*** Addresses of same string literals
+ In C and C++, if we use the same string literals in multiple places, there is no guarantee that they will be stored in the same address. 
+ In the following code, we cannot assume that ~p1~ and ~p2~ are stored in the same address, even though they are the same string literal:
+ #+BEGIN_SRC C++
+   const char* p1 = "example";
+   const char* p2 = "example";
+
+   if (p1 == p2)
+   {
+       // ...
+   }
+ #+END_SRC
+ The compiler may decide to store only one of them, in which case ~p1~ and ~p2~ will be the same address, but we cannot assume that the compiler will do this because it is an ~unspecified behaviour~. The compiler can do whatever it wants, depending on the situation. For example, it may decide to store one pair of equal string literals at the same address but for a different pair it may not.
+
+** Implementation-defined Behaviour
+ ~Implementation-defined behaviour~ is a sub category of  ~unspecified behaviour~. The only difference is that if something is ~implementation defined behaviour~, the compiler has to document it. In this case, we can assume that the compiler will produce the same result for the same code, but it may be different across different compilers.
+
+*** The storage size of the arithmetic types
+ The storage size of the arithmetic types is ~implementation defined~. For example, we ofthen assume that the storage size of ~int~ is ~4 bytes~, but it doesn't have to be. Depending on the compiler/platform, it can be ~2~, ~4~, ~8~ or more bytes. If we build the code and see that ~int~ is ~4 bytes~, it will always be ~4 bytes~ regardless of the specific code (assuming the compiler settings do not change).
+
+*** Char types
+ There are actually 3 char types in C and C++.
+  - ~char~
+  - ~signed char~
+  - ~unsigned char~
+ We cannot assume that the ~char~ type is ~unsigned char~ or ~signed char~ because it is ~implementation defined behaviour~. The ~char~ type in my compiler may be ~unsigned char~ but it may be ~signed char~ in a different compiler. Most of the compilers have a command-line option to set it.
+
+*** Bitwise right shift
+ If the left operand of the bitwise right shift operator is one of the signed integer types and is negative, the filling bits can be either 0 bits or 1 bits because it is ~implementation defined behaviour~. The compiler may or may not generate code for the ~sign extension~.
+
+
+ where we left - 2.47:57 sequence point
