@@ -1,8 +1,8 @@
 ** Unspecified Behaviour
  In C and C++, ~unspecified behaviour~ indicates that compilers are not required to generate the same code from the same source in some contexts. Having ~unspecied behaviour~ code is not harmful as long as the meaning of the code does not change depending on it.
 
-*** Order of evalutation of subexpressions
- The evaluation order of the subexpressions are unspecified in C and C++.
+*** Evalulation order of subexpressions
+ The evaluation order of the subexpressions is unspecified in C and C++. Operator precedence does not determine the order of evaluation. 
  In this code, we cannot assume that ~f2()~ will be called before ~f1()~ (or vise versa) because it is ~unspecified behaviour~. ~f2()~ or ~f1()~ may be called first and we cannot rely on it:
  #+BEGIN_SRC C++
    int a = f1() * (f2() * 5);
@@ -39,5 +39,63 @@
 *** Bitwise right shift
  If the left operand of the bitwise right shift operator is one of the signed integer types and is negative, the filling bits can be either 0 bits or 1 bits because it is ~implementation defined behaviour~. The compiler may or may not generate code for the ~sign extension~.
 
-
- where we left - 2.47:57 sequence point
+** Sequence point
+ A sequence point is a code point (in the source file) at which all side effects prior to this code point must be completed at this point. Sequence points are only relevant at compile-time, not run-time.
+ For example, ~prefix ++ operator~ has the side effect of incrementing its operand by 1, which is completed after a sequence point is passed:
+ #+BEGIN_SRC C++
+   int x = 10;
+   ++x;
+   // ------------------------------- sequence point
+   int y = x; // y = 11;
+ #+END_SRC
+ Reusing an object affected by a side effect before any sequence point is undefined behavior but some rules are different between C and C++.
+ This code has an undefined behaviour:
+ #+BEGIN_SRC C++
+   int x = 10;
+   int y = ++x + x; // This is UB, because ++x has a side effect and we use x again in the same expression before any sequence point.
+ #+END_SRC
+ 
+*** List of sequence points
+ Sequence points in the C language:
+  - End of the statement
+     #+BEGIN_SRC C++
+       int x = 10;
+       ++x;
+       int y = x;
+     #+END_SRC
+  - Comma in declarations
+     #+BEGIN_SRC C++
+       int x = 5, y = ++x, z = y + x; // x = 5, y = 6, z = 6 + 6
+     #+END_SRC
+  - After the expressions in ~if (expr)~, ~while (expr)~, ~do while (expr)~, ~switch (expr)~
+     #+BEGIN_SRC C++
+       int x = 10;
+       if (x++ > 9)
+       {
+           f(x); // f(x) is guaranteed to be called with 11.
+       }
+     #+END_SRC
+  - After each of the expressions in for-statement (initialization, condition, and increment) ~for (initialization; condition; increment)~
+  - After each argument in function calls
+     #+BEGIN_SRC C++
+       int x = 10;
+       int y = 20;
+       f(x++, x + y); // There are sequence points after the evaluation of each function argument. f(10, 31)
+     #+END_SRC
+  - After some operators:
+    + After the first operand of the logical-and/logical-or operator ~expr1 && expr2~, ~expr1 || expr2~
+       #+BEGIN_SRC C++
+	 int x = 10;
+	 x++ && f(x); // f(x) is guaranteed to be called with 11.
+       #+END_SRC
+    + After comma operator
+       #+BEGIN_SRC C++
+	 int x = 10;
+	 if (++x, f(x) != 0) {} // f(x) is guaranteed to be called with 11.
+       #+END_SRC
+   + After the first operand of the ternary operator ~expr1 ? expr2 : expr3~
+       #+BEGIN_SRC C++
+	 int x = 10;
+	 int y = 20;
+	 int z = x++ > 9 ? x : y; // z = 11;
+       #+END_SRC
