@@ -426,11 +426,11 @@
  #+END_SRC
 
 ** Reference Semantics
- There is an alternative way to represent pointers in C++, which is called ~reference~,, but this is only an alternative at the language layer, the underlying representation does not change once the code is compiled. Everything works with the pointers in assembly level.
+ There is an alternative way to represent pointers in C++, which is called ~reference~, but this is only an alternative at the language layer, the underlying representation does not change once the code is compiled. Everything works with the pointers in assembly level.
 
  There are 3 different reference categories:
   - L-value reference
-  - R-value reference
+  - R-value reference (move semantics, perfect forwarding (generic prog.))
   - Forwarding/universal reference
   An example:
   #+BEGIN_SRC C++
@@ -443,3 +443,83 @@
     auto&& t = 10;
   #+END_SRC
 
+*** L-value references
+  L-value references are similar to ~top-level const pointer objects~:
+  #+BEGIN_SRC C++
+    int x = 10;
+
+    // We cannot change the value of the ptr because it is a const pointer. It will always point to the same object
+    // which is x in this case. Whenever *ptr is used, it means x.
+    int* const ptr = &x;
+    int y = *ptr; // int y = x;
+  #+END_SRC
+
+  L-value references represent their underlying object directly, there is no need for dereferencing like pointers. They cannot be default initialized, cannot be initialized with R-value objects and cannot be reassigned/rebound(like ~top-level const pointer~).
+  #+BEGIN_SRC C++
+       int x = 10;
+
+       // Reference r directly represents x
+       int& r = x;
+       // No need to dereference like a pointer
+       int y = r; // int y = x;
+
+       int& r1; // Syntax error. References cannot be default initialized.
+       int& r2 = 10; // Syntax error. References cannot be initialized with R-value objects.
+
+       int z = 10;
+       int t = 20;
+       int& r3 = z;
+
+       // This is valid but equals to z = t. r3 still represents z, what we did is changing value of z.
+       // References cannot be reassigned.
+       r3 = t; 
+  #+END_SRC
+
+ We can say that when we define a L-value reference we bind it to underlying object and they will stay bound until the end of scope.
+  #+BEGIN_SRC C++
+    int x = 10;
+    // All r1, r2 and r3 bound to x
+    int& r1 = x;
+    int& r2 = r1;
+    int& r3 = r2;
+
+    ++r1;
+    ++r2;
+    ++r3;
+    // x is 13 here
+
+  #+END_SRC
+
+ L-value rereferences can also be bound to arrays and array decay rules do not change:
+  #+BEGIN_SRC C++
+    int a[] = { 1, 3, 5, 7, 9 };
+    // r is bound to a
+    int (&ra)[] = a; // Normally, we do not have to write the type directly. we can use type deduction.
+
+    for (int i = 0; i < 5; ++i)
+    {
+       // ra[i] equals to a[i]
+    }
+
+    // Same rules apply for array decay
+    int* p1 = a;
+    int* p2 = ra;
+  #+END_SRC
+
+  L-value references often used to pass the object to the function (~call by reference~) and to return the object itself from the function.
+  #+BEGIN_SRC C++
+    int& foo(int& r)
+    {
+	++r;
+	return r;
+    }
+
+    int x = 10;
+
+    // Value of x will be 11 after foo() is called
+    // r represents x
+    int& r = foo(x);
+
+  #+END_SRC 
+  
+where we left - c005 - 01:29:35
