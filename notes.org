@@ -506,7 +506,7 @@
     int* p2 = ra;
   #+END_SRC
 
-  L-value references often used to pass the object to the function (~call by reference~) and to return the object itself from the function.
+  L-value references often used to pass the object to the function (~call by reference~) and also to return the object itself from the function.
   #+BEGIN_SRC C++
     int& foo(int& r)
     {
@@ -519,7 +519,95 @@
     // Value of x will be 11 after foo() is called
     // r represents x
     int& r = foo(x);
-
   #+END_SRC 
+   
+*** L-value references and const semantics
+ We said that L-value references are like ~top-level const pointer~ by default but they can also be used like ~low-level const pointer~.
+ Pointer parameters can be used as a mutator or accessor. L-value references also can be used in a similar way:
+  #+BEGIN_SRC C++
+    void f1(int* p); // Mutator
+    void f2(const int* p); // Accessor
+
+    void f3(int& r); // Mutator
+    void f4(const int& r); // Accessor
+  #+END_SRC 
+
+  ~const~ objects can only be bound by ~const~ L-value references similar to pointers:
+  #+BEGIN_SRC C++
+    const int x = 10;
+    int* p = &x; // Invalid. int* p cannot point to const int x.
+    int& r = x; // Also invalid. int& r cannot bind to const int x.
+
+    const int& cr = x; // Valid.
+  #+END_SRC 
+
+ Normally, initializing an L-value reference with a different/mismatching object type is syntax error:
+  #+BEGIN_SRC C++
+    int x = 10;
+    double& r = x; // Syntax error. double& r cannot bind to int object.
+  #+END_SRC
+
+  But, if we try to initialize a ~const~ L-value reference with a different/mismatching object type and there is an implicit conversion from that object type to the type represented by the ~const~ L-value reference, the compiler creates a temporary object and the ~const~ L-value reference is bound to that temporary object:
+  #+BEGIN_SRC C++
+    int x = 10;
+    // This is valid. Normally, double and int types do not match but implicit conversion is allowed from int to double.
+    // So, compiler creates a temporary double object and assign x to it, then cr binds to that temporary object.
+    const double& cr = x; 
+
+    // We can think that compiler generates something like this for above code.
+    // double temporary_object = x;
+    // const double& cr = temporary_object;
+  #+END_SRC
+
+ This also applies, when we try to initialize ~const~ L-value references with R-value objects:
+  #+BEGIN_SRC C++
+     // This is syntax error. L-value references cannot be initialized with R-value objects.
+    int& r = 10;
+
+    // This is valid when we use const L-value reference, because compiler creates a temporary object like the example above.
+    const int& cr = 10;
+
+    // Compiler might generate something like this for above code.
+    // int temporary_object = 10;
+    // const int& cr = temporary_object;
+  #+END_SRC
+
+  This becomes even more important when we call functions that take L-value reference parameters, for example:
+   #+BEGIN_SRC C++
+     // We can only pass an L-value objects to f1(). If we try to pass a R-value object it will be syntax error.
+     void f1(int& x);
+     int x = 10;
+     f1(x); // Valid.
+     f2(10); // Invalid, syntax error.
+
+     // It is not the same for f2() however. We can pass L-value objects to f2() but if we try to pass a R-value object, it will not cause
+     // any syntax error because of the rules above. The temporary object will be passed to f2() instead of R-value object itself. (Assuming there is no type problem)
+     void f2(const int& x);
+     int y = 10;
+     f2(y); // Valid.
+     f2(10); // Also valid.
+   #+END_SRC
+
+*** Differences between pointers and L-value references
+| Pointers                       | References                                                           |
+|--------------------------------+----------------------------------------------------------------------|
+| don't have to be initialized   | have to be initialized                                               |
+| pointer to pointer exists      | reference to reference doesn't exist (ignoring reference collapsing) |
+| arrays can store pointers      | arrays cannot store references                                       |
+| pointers can be null (nullptr) | references cannot be null                                            |
+| pointers can be reassigned     | references cannot be reassigned                                      |
+
+*** R-value references
+ R-value references are mostly about move semantics and perfect forwarding. Details will be discussed in the future. We will just briefly explain the syntax for now.
+ R-value references cannot be default-initialized like L-value references, and can be initialized only with R-value objects.
+  #+BEGIN_SRC C++
+    int&& r = 10; // Valid, R-value reference.
+
+    int x = 10;
+    int&& rr = x; // Invalid. R-value references cannot be initialized with L-value objects.
+  #+END_SRC
+
+  ...
   
-where we left - c005 - 01:29:35
+** Type Deduction
+ where we left - 02:40:54
