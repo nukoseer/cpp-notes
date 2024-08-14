@@ -688,6 +688,24 @@
    auto fp = foo; // int (*fp)(int) = foo;
  #+END_SRC
 
+ ~auto~ initialization and ~std::initializer_list~:
+ #+BEGIN_SRC C++
+   auto x = { 3 }; // std::initializer_list x = { 3 };
+   auto y{ 3 }; // int y{ 3 }; This rule was different before. It was also meaning std::initializer_list y{ 3 };
+ #+END_SRC
+
+ Type deduction is made for ~auto~ keyword not for variable itself:
+ #+BEGIN_SRC C++
+   int x = 10;
+   auto p1 = &x; // int* p1 = &x; auto -> int*
+   auto* p2 = &x; // int* p2 = &x; auto -> int
+
+   int* ptr = &x;
+   auto p1 = &ptr; // int** p1 = &ptr; auto -> int**
+   auto* p2 = &ptr; // int** p2 = &ptr; auto -> int*
+   auto** p3 = &ptr; // int** p3 = &ptr; auto -> int
+ #+END_SRC
+ 
  If declarators and ~auto~ are used together, rules are a bit different:
  In this example there is no difference:
  #+BEGIN_SRC C++
@@ -737,3 +755,106 @@
 | T&             | T&                     | T&                                |
 | T&&            | T&&                    | T&&                               |
 
+*** decltype type deduction
+ ~auto~ type deduction can be used for initialization but ~decltype~ type deduction does not have this limitation. It can be used in any context intead of types. ~decltype~ is also ~unevaluated context~ like ~sizeof~.
+
+ ~decltype~ has quite complex rules. Using paranthesis is necessary while using ~decltype~. There are 2 different rulesets for ~decltype~:
+
+ Rulesets:
+  - If the operand of the ~decltype~ is an ~identifier~, different rules are applied.
+  - If the operand of the ~decltype~ is an ~expression~, different rules are applied.
+
+ Example for rulesets:
+ #+BEGIN_SRC C++
+   struct Data { int a, b, c; };
+   
+   Data my_data{};
+   int x = 10;   
+   
+   // Identifier rules applied here.
+   decltype(my_data);
+   decltype(my_data.a);
+   decltype(x);
+   
+   // But here expression rules are applied.
+   decltype((x));
+   decltype(+x);
+ #+END_SRC
+
+ ~decltype~ can be used in a lot of contexts:
+ #+BEGIN_SRC C++
+   int x = 10;
+
+   decltype(x) foo(); // Function declaration. int foo();
+   using my_type = decltype(x); // using my_type = int;
+
+   const int y = 5;
+   decltype(x) z = 0; // const int z = 0;
+ #+END_SRC
+
+ ~decltype~ and references:
+  #+BEGIN_SRC C++
+    int x{};
+    auto& r{ x };
+
+    decltype(r) r2 = x; // int& r2 = x;
+
+    int y{};
+    const auto& r3 = y;
+    decltype(r3) r4 = y; // const int& r4 = y;
+  #+END_SRC C++
+
+ When the operand of the ~decltype~ is an expression. The type will be determined by the ~primary value category~ of the expression.
+ If the expression is:
+  - L-value deduction will be ~T&~
+  - PR-value deduction will be ~T~
+  - X-value deduction will be ~T&&~
+
+ PR-value expression:
+ #+BEGIN_SRC C++
+   decltype(10); // PR-Value. int
+ #+END_SRC C++
+ 
+ L-value expression:
+ #+BEGIN_SRC C++
+   int x = 10;
+   int* ptr = &x;
+   decltype(*ptr) r = x; // L-value. int& r = x;
+ 
+   int y = 5;
+   decltype((y)) z = y; // L-value. int& z = y;
+ 
+   int t = 10;
+   decltype(t++); // int
+   decltype(++t); // int&
+ #+END_SRC C++
+ 
+ ~decltype~ and arrays:
+ #+BEGIN_SRC C++
+   int a[5]{};
+ 
+   // a is an identifier
+   decltype(a) b; // int b[5]; No array decay.
+   // a[0] is an expression
+   decltype(a[0]) c = a[1]; // int& c = a[1];
+ #+END_SRC C++
+
+ X-value expression:
+ #+BEGIN_SRC C++
+  int f1();
+  int& f2();
+  int&& f3();
+
+  decltype(f1()) x = 5; // PR-value. int x = 5;
+  decltype(f2()) y = x; // L-value. int& y = x;
+  decltype(f3()) z = 5; // X-value. int&& z = 5;
+ #+END_SRC C++
+
+ Other type deduction mechanisms will be discussed later.
+ 
+ ... 
+ 
+** Default Function Arguments
+ Unlike C, C++ supports default function arguments. If a function mostly takes the same value for an argument, default function arguments are very helpful.
+
+where we left - 01:24:00
