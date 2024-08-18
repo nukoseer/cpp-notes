@@ -802,7 +802,7 @@
     int y{};
     const auto& r3 = y;
     decltype(r3) r4 = y; // const int& r4 = y;
-  #+END_SRC C++
+  #+END_SRC
 
  When the operand of the ~decltype~ is an expression. The type will be determined by the ~primary value category~ of the expression.
  If the expression is:
@@ -813,7 +813,7 @@
  PR-value expression:
  #+BEGIN_SRC C++
    decltype(10); // PR-Value. int
- #+END_SRC C++
+ #+END_SRC
  
  L-value expression:
  #+BEGIN_SRC C++
@@ -827,7 +827,7 @@
    int t = 10;
    decltype(t++); // int
    decltype(++t); // int&
- #+END_SRC C++
+ #+END_SRC
  
  ~decltype~ and arrays:
  #+BEGIN_SRC C++
@@ -837,7 +837,7 @@
    decltype(a) b; // int b[5]; No array decay.
    // a[0] is an expression
    decltype(a[0]) c = a[1]; // int& c = a[1];
- #+END_SRC C++
+ #+END_SRC
 
  X-value expression:
  #+BEGIN_SRC C++
@@ -848,7 +848,7 @@
   decltype(f1()) x = 5; // PR-value. int x = 5;
   decltype(f2()) y = x; // L-value. int& y = x;
   decltype(f3()) z = 5; // X-value. int&& z = 5;
- #+END_SRC C++
+ #+END_SRC
 
  Other type deduction mechanisms will be discussed later.
  
@@ -866,7 +866,7 @@
 
    func(x, y, z); // func(x, y, z);
    func(x, y); // func(x, y, 10); The compiler will insert 10 for the 3rd argument because we did not send any argument for the 3rd parameter.
- #+END_SRC C++
+ #+END_SRC
 
  If a parameter of a function takes a ~default argument~, all parameters to the right of it must also take a ~default argument~. This essentially means that the ~default arguments~ are valid for the last function parameters:
  #+BEGIN_SRC C++
@@ -878,7 +878,7 @@
    f3(40); // f3(40, 5, 7);
    f3(40, 50); // f3(40, 50, 7);
    f3(40, 50, 60); // f3(40, 50, 60);
- #+END_SRC C++
+ #+END_SRC
 
  Variables also can be used for ~default function arguments~:
  #+BEGIN_SRC C++
@@ -903,7 +903,7 @@
    foo(); // foo(y++); returns 6;
    foo(); // foo(y++); returns 7;
    // y = 8;
- #+END_SRC C++
+ #+END_SRC
 
  If ~the default function arguments~ are defined both in the function definition and in the declaration, this is a syntax error:
  #+BEGIN_SRC C++
@@ -920,7 +920,7 @@
    {
        //
    }
- #+END_SRC C++
+ #+END_SRC
  
  If a function parameter does not take a ~default argument~, we can redeclare the function so that it takes a ~default argument~. This can, for example, allow us to pass ~default arguments~ to functions coming from external header files:
  #+BEGIN_SRC C++
@@ -931,7 +931,7 @@
    void func(int, int, int = 10); // Valid.
 
    func(1, 5); // func(1, 5, 10);
- #+END_SRC C++
+ #+END_SRC
  
  The compiler takes the ~default arguments~ cumulatively:
  #+BEGIN_SRC C++
@@ -953,7 +953,7 @@
   void f3(int, int, int);
   // Invalid. This is a different case, only last parameters can take default arguments.
   void f3(int, int = 5, int); 
- #+END_SRC C++
+ #+END_SRC
 
 ** Scoped enum / Enum class
  In addition to the ~traditional enum type~, C++ has a new enum type called ~scoped enum~ / ~enum class~. ~Scoped enum~ were introduced to overcome the disadvantages of the ~traditional enum type~.
@@ -963,32 +963,32 @@
   #+BEGIN_SRC C++
     enum Color { Red, Green, Blue }; // Underlying type is int.
     enum MyEnum { Aa, Bb, Cc, Dd = 13024325325 }; // Underlying type is compiler dependent.
-  #+END_SRC C++
+  #+END_SRC
 - Implicit type conversion from ~traditional enum types~ to ~arithmetic types~ is allowed. Unfortunately, this can also lead to many problems.
   #+BEGIN_SRC C++
     enum Color { Red, Green, Blue };
     int x = Red; // Valid.
-  #+END_SRC C++
+  #+END_SRC
 - ~Enumeration constants~ don't have separate scope. This can cause name conflicts, especially with names from external header files.
   #+BEGIN_SRC C++
     // traffic.h
     enum TrafficLight { Red, Yellow, Green };
     // screen.h
     enum ScreenColor { Gray, White, Red };
-  #+END_SRC C++
+  #+END_SRC
 
 *** Advantages of the scoped enum type
  - The ~underlying type~ can be specified. If not specified ~int~ is default.
    #+BEGIN_SRC C++
      enum class Color : unsigned char { White, Black, Gray };
      enum Count : unsigned char { Zero, One, Two, Three }; // C++ also extended the traditional enum types, so that specifying underlying types is possible.
-   #+END_SRC C++
+   #+END_SRC
  - No implicit type conversion from ~scoped enum types~ to ~arithmetic types~.
    #+BEGIN_SRC C++
      enum class Color : unsigned char { White, Black, Gray };
      Color color{ Color::Black };
      int x = color; // Invalid.
-   #+END_SRC C++
+   #+END_SRC
  - ~Enumeration constants~ are no longer in the same scope with the ~enumeration type~. As the name indicates, they have a separate scope. This eliminates the name conflict problems.
    #+BEGIN_SRC C++
      enum class Color : unsigned char { White, Black, Gray };
@@ -999,7 +999,7 @@
      enum class ScreenColor { Gray, White, Red };
      auto sc = ScreenColor::Red;
      auto tl = TrafficLight::Red;
-   #+END_SRC C++
+   #+END_SRC
 
  In C++20, ~using enum declaration~ was added to the language. If we are sure that there is no name conflict, we can use ~using enum declaration~ to use ~enumeration constants~ without specifying them with a namespace.
  #+BEGIN_SRC C++
@@ -1018,7 +1018,7 @@
        auto count1 = Zero; // Valid.
        auto count2 = One; // Invalid.
    }
- #+END_SRC C++
+ #+END_SRC
 
 ** Type Cast Operators
  In C++, there 2 different type conversions: ~implicit type conversion~ and ~explicit type conversion~. In some cases the compiler is free to do ~implicit type conversion~ depending on the rules of the language, but if we want to explicity convert a type, we have to do ~explicit type conversion~ by using ~type cast operators~.

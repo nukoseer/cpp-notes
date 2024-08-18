@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-08-18 Sun 17:54 -->
+<!-- 2024-08-18 Sun 18:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>&lrm;</title>
@@ -199,90 +199,90 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org748fc8b">1. Fundemental Differences Between C and C++</a>
+<li><a href="#orgefa60c0">1. Fundemental Differences Between C and C++</a>
 <ul>
-<li><a href="#orgbb13852">1.1. Syntax Differences</a>
+<li><a href="#org74d1c70">1.1. Syntax Differences</a>
 <ul>
-<li><a href="#orgd0bf6d8">1.1.1. Implicit int</a></li>
-<li><a href="#orgbbea58b">1.1.2. Missing return statement in functions with non-void return type</a></li>
-<li><a href="#orgf56a51a">1.1.3. Implicit/default function declaration</a></li>
-<li><a href="#org4f72f22">1.1.4. Declaration of functions without parameter</a></li>
-<li><a href="#orgd32d58c">1.1.5. Nameless parameters in function definitions</a></li>
-<li><a href="#org1993a0d">1.1.6. Scope of for-statement</a></li>
+<li><a href="#org284ef3a">1.1.1. Implicit int</a></li>
+<li><a href="#org8026dd6">1.1.2. Missing return statement in functions with non-void return type</a></li>
+<li><a href="#orge9ff6e2">1.1.3. Implicit/default function declaration</a></li>
+<li><a href="#orga47c4e2">1.1.4. Declaration of functions without parameter</a></li>
+<li><a href="#orgee4e454">1.1.5. Nameless parameters in function definitions</a></li>
+<li><a href="#orgf22bfeb">1.1.6. Scope of for-statement</a></li>
 </ul>
 </li>
-<li><a href="#org434fdf7">1.2. Differences About Types and Type Conversions</a>
+<li><a href="#org6d45064">1.2. Differences About Types and Type Conversions</a>
 <ul>
-<li><a href="#org181d076">1.2.1. Logic data type (boolean)</a></li>
-<li><a href="#org44841a9">1.2.2. User defined types</a></li>
-<li><a href="#org115e0c3">1.2.3. Empty structs</a></li>
-<li><a href="#org37626ce">1.2.4. Implicit conversion from arithmetic types to pointer types</a></li>
-<li><a href="#org80288c0">1.2.5. Implicit conversion between different pointer types.</a></li>
-<li><a href="#org8641fb4">1.2.6. Implicit conversion from <code>void*</code> to <code>T*</code></a></li>
-<li><a href="#org1a294e7">1.2.7. Underlying enumeration type</a></li>
-<li><a href="#orgbc9e791">1.2.8. Implicit conversion from arithmetic types to enumeration types</a></li>
-<li><a href="#orge713e01">1.2.9. Implicit conversion between different enumeration types</a></li>
-<li><a href="#org79f71b6">1.2.10. Implicit conversion from enumeration types to arithmetic types.</a></li>
-<li><a href="#orge943f95">1.2.11. Character literals</a></li>
-<li><a href="#org6e82b19">1.2.12. String literals</a></li>
+<li><a href="#org96fb28c">1.2.1. Logic data type (boolean)</a></li>
+<li><a href="#org8f1eae1">1.2.2. User defined types</a></li>
+<li><a href="#orgff5df28">1.2.3. Empty structs</a></li>
+<li><a href="#org648c221">1.2.4. Implicit conversion from arithmetic types to pointer types</a></li>
+<li><a href="#org40a10c1">1.2.5. Implicit conversion between different pointer types.</a></li>
+<li><a href="#orgf6b0a9e">1.2.6. Implicit conversion from <code>void*</code> to <code>T*</code></a></li>
+<li><a href="#orga9d8ea1">1.2.7. Underlying enumeration type</a></li>
+<li><a href="#org7a8c68f">1.2.8. Implicit conversion from arithmetic types to enumeration types</a></li>
+<li><a href="#org4e09931">1.2.9. Implicit conversion between different enumeration types</a></li>
+<li><a href="#org0270c36">1.2.10. Implicit conversion from enumeration types to arithmetic types.</a></li>
+<li><a href="#orgc28a82a">1.2.11. Character literals</a></li>
+<li><a href="#org38388ef">1.2.12. String literals</a></li>
 </ul>
 </li>
-<li><a href="#orged68c48">1.3. Differences About const Keyword</a>
+<li><a href="#orgec49dad">1.3. Differences About const Keyword</a>
 <ul>
-<li><a href="#org51887a0">1.3.1. Initialization of const objects</a></li>
-<li><a href="#org632defc">1.3.2. Const expressions</a></li>
-<li><a href="#org0d6a970">1.3.3. Global const objects and linkage</a></li>
-<li><a href="#orga19d8e5">1.3.4. Implicit conversion from <code>const T*</code> to <code>T*</code></a></li>
+<li><a href="#org659b0db">1.3.1. Initialization of const objects</a></li>
+<li><a href="#orgb676910">1.3.2. Const expressions</a></li>
+<li><a href="#org6dbb7ff">1.3.3. Global const objects and linkage</a></li>
+<li><a href="#orgd93b560">1.3.4. Implicit conversion from <code>const T*</code> to <code>T*</code></a></li>
 </ul>
 </li>
-<li><a href="#org4a5d280">1.4. Differences About Value Categories</a>
+<li><a href="#org8c72124">1.4. Differences About Value Categories</a>
 <ul>
-<li><a href="#org69baa14">1.4.1. Primary value categories</a></li>
-<li><a href="#orga3814c3">1.4.2. Prefix increment/decrement operator</a></li>
-<li><a href="#orgfacb85e">1.4.3. Assignment operator</a></li>
-<li><a href="#org15f38c1">1.4.4. Comma operator</a></li>
-<li><a href="#org1a41503">1.4.5. Ternary operator</a></li>
+<li><a href="#org752ce38">1.4.1. Primary value categories</a></li>
+<li><a href="#orgf7417b6">1.4.2. Prefix increment/decrement operator</a></li>
+<li><a href="#org7908e58">1.4.3. Assignment operator</a></li>
+<li><a href="#org8d87771">1.4.4. Comma operator</a></li>
+<li><a href="#org20954d8">1.4.5. Ternary operator</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org3c4b0be">2. C++ Topics</a>
+<li><a href="#org4b466ae">2. C++ Topics</a>
 <ul>
-<li><a href="#org120792c">2.1. Initialization</a>
+<li><a href="#org112cf2b">2.1. Initialization</a>
 <ul>
-<li><a href="#org06c5465">2.1.1. Default initialization</a></li>
-<li><a href="#orgd9f91e5">2.1.2. Zero initialization</a></li>
-<li><a href="#org09a2e6d">2.1.3. Copy initialization</a></li>
-<li><a href="#org7635574">2.1.4. Direct initialization</a></li>
-<li><a href="#org9775da7">2.1.5. Direct-list / brace initialization (uniform initialization)</a></li>
-<li><a href="#org7537f4d">2.1.6. Value initialization</a></li>
+<li><a href="#org3f06ec8">2.1.1. Default initialization</a></li>
+<li><a href="#orgee1e1dd">2.1.2. Zero initialization</a></li>
+<li><a href="#org464e144">2.1.3. Copy initialization</a></li>
+<li><a href="#orgf522740">2.1.4. Direct initialization</a></li>
+<li><a href="#orgc9e1922">2.1.5. Direct-list / brace initialization (uniform initialization)</a></li>
+<li><a href="#org30540e4">2.1.6. Value initialization</a></li>
 </ul>
 </li>
-<li><a href="#orge493a1e">2.2. nullptr</a></li>
-<li><a href="#org789d33a">2.3. Reference Semantics</a>
+<li><a href="#org42f8dc7">2.2. nullptr</a></li>
+<li><a href="#org76f82f1">2.3. Reference Semantics</a>
 <ul>
-<li><a href="#orgdb703e2">2.3.1. L-value references</a></li>
-<li><a href="#orgd92f159">2.3.2. L-value references and const semantics</a></li>
-<li><a href="#org5a5a11a">2.3.3. Differences between pointers and L-value references</a></li>
-<li><a href="#org3646d74">2.3.4. R-value references</a></li>
+<li><a href="#org8e6259c">2.3.1. L-value references</a></li>
+<li><a href="#org8136d8d">2.3.2. L-value references and const semantics</a></li>
+<li><a href="#orga8db414">2.3.3. Differences between pointers and L-value references</a></li>
+<li><a href="#org4e84881">2.3.4. R-value references</a></li>
 </ul>
 </li>
-<li><a href="#org04d163e">2.4. Type Deduction</a>
+<li><a href="#org13157e4">2.4. Type Deduction</a>
 <ul>
-<li><a href="#orgf4688ee">2.4.1. auto type deduction</a></li>
-<li><a href="#org4085b9c">2.4.2. decltype type deduction</a></li>
+<li><a href="#org4097b87">2.4.1. auto type deduction</a></li>
+<li><a href="#org922c0a5">2.4.2. decltype type deduction</a></li>
 </ul>
 </li>
-<li><a href="#org5da547b">2.5. Default Function Arguments</a></li>
-<li><a href="#org99e3911">2.6. Scoped enum / Enum class</a>
+<li><a href="#orgd340ef9">2.5. Default Function Arguments</a></li>
+<li><a href="#org4146f06">2.6. Scoped enum / Enum class</a>
 <ul>
-<li><a href="#org35319b9">2.6.1. Disadvantages of the traditional enum type</a></li>
-<li><a href="#orga313e46">2.6.2. Advantages of the scoped enum type</a></li>
+<li><a href="#org2996017">2.6.1. Disadvantages of the traditional enum type</a></li>
+<li><a href="#orgac0f2c9">2.6.2. Advantages of the scoped enum type</a></li>
 </ul>
 </li>
-<li><a href="#orgbeb9069">2.7. Type Cast Operators</a>
+<li><a href="#orga9a1046">2.7. Type Cast Operators</a>
 <ul>
-<li><a href="#org516cc32">2.7.1. Why C-style type cast is not enough?</a></li>
+<li><a href="#org3c066e8">2.7.1. Why C-style type cast is not enough?</a></li>
 </ul>
 </li>
 </ul>
@@ -290,19 +290,19 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-org748fc8b" class="outline-2">
-<h2 id="org748fc8b"><span class="section-number-2">1.</span> Fundemental Differences Between C and C++</h2>
+<div id="outline-container-orgefa60c0" class="outline-2">
+<h2 id="orgefa60c0"><span class="section-number-2">1.</span> Fundemental Differences Between C and C++</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Main purpose of this section is to point out the differences between C and C++. It isn't about how code should or should not be written in C or C++. It is only about validity of the code.
 </p>
 </div>
-<div id="outline-container-orgbb13852" class="outline-3">
-<h3 id="orgbb13852"><span class="section-number-3">1.1.</span> Syntax Differences</h3>
+<div id="outline-container-org74d1c70" class="outline-3">
+<h3 id="org74d1c70"><span class="section-number-3">1.1.</span> Syntax Differences</h3>
 <div class="outline-text-3" id="text-1-1">
 </div>
-<div id="outline-container-orgd0bf6d8" class="outline-4">
-<h4 id="orgd0bf6d8"><span class="section-number-4">1.1.1.</span> Implicit int</h4>
+<div id="outline-container-org284ef3a" class="outline-4">
+<h4 id="org284ef3a"><span class="section-number-4">1.1.1.</span> Implicit int</h4>
 <div class="outline-text-4" id="text-1-1-1">
 <p>
 If a function does not have a return type:
@@ -324,8 +324,8 @@ This code is valid in C and invalid in C++:
 </div>
 </div>
 
-<div id="outline-container-orgbbea58b" class="outline-4">
-<h4 id="orgbbea58b"><span class="section-number-4">1.1.2.</span> Missing return statement in functions with non-void return type</h4>
+<div id="outline-container-org8026dd6" class="outline-4">
+<h4 id="org8026dd6"><span class="section-number-4">1.1.2.</span> Missing return statement in functions with non-void return type</h4>
 <div class="outline-text-4" id="text-1-1-2">
 <p>
 If a function has return type but does not return anything:
@@ -344,8 +344,8 @@ This code is valid in C and invalid in C++:
 </div>
 </div>
 
-<div id="outline-container-orgf56a51a" class="outline-4">
-<h4 id="orgf56a51a"><span class="section-number-4">1.1.3.</span> Implicit/default function declaration</h4>
+<div id="outline-container-orge9ff6e2" class="outline-4">
+<h4 id="orge9ff6e2"><span class="section-number-4">1.1.3.</span> Implicit/default function declaration</h4>
 <div class="outline-text-4" id="text-1-1-3">
 <p>
 If name lookup fails for a function:
@@ -367,8 +367,8 @@ This code will compile in C and compiler will assume <code>bar()</code> function
 </div>
 </div>
 
-<div id="outline-container-org4f72f22" class="outline-4">
-<h4 id="org4f72f22"><span class="section-number-4">1.1.4.</span> Declaration of functions without parameter</h4>
+<div id="outline-container-orga47c4e2" class="outline-4">
+<h4 id="orga47c4e2"><span class="section-number-4">1.1.4.</span> Declaration of functions without parameter</h4>
 <div class="outline-text-4" id="text-1-1-4">
 <p>
 There are different rules for C and C++.
@@ -396,8 +396,8 @@ According to the declarations above, this code is valid in C. Invalid in C++, be
 </div>
 </div>
 
-<div id="outline-container-orgd32d58c" class="outline-4">
-<h4 id="orgd32d58c"><span class="section-number-4">1.1.5.</span> Nameless parameters in function definitions</h4>
+<div id="outline-container-orgee4e454" class="outline-4">
+<h4 id="orgee4e454"><span class="section-number-4">1.1.5.</span> Nameless parameters in function definitions</h4>
 <div class="outline-text-4" id="text-1-1-5">
 <p>
 Caution! This is about function definitions not declarations.
@@ -416,8 +416,8 @@ This code is invalid for C (before C20) and valid for C++:
 </div>
 </div>
 
-<div id="outline-container-org1993a0d" class="outline-4">
-<h4 id="org1993a0d"><span class="section-number-4">1.1.6.</span> Scope of for-statement</h4>
+<div id="outline-container-orgf22bfeb" class="outline-4">
+<h4 id="orgf22bfeb"><span class="section-number-4">1.1.6.</span> Scope of for-statement</h4>
 <div class="outline-text-4" id="text-1-1-6">
 <ul class="org-ul">
 <li>In C, inside of the for loop has a different block scope than for-statement itself.</li>
@@ -452,12 +452,12 @@ We can say above code looks like this for C compiler:
 </div>
 </div>
 
-<div id="outline-container-org434fdf7" class="outline-3">
-<h3 id="org434fdf7"><span class="section-number-3">1.2.</span> Differences About Types and Type Conversions</h3>
+<div id="outline-container-org6d45064" class="outline-3">
+<h3 id="org6d45064"><span class="section-number-3">1.2.</span> Differences About Types and Type Conversions</h3>
 <div class="outline-text-3" id="text-1-2">
 </div>
-<div id="outline-container-org181d076" class="outline-4">
-<h4 id="org181d076"><span class="section-number-4">1.2.1.</span> Logic data type (boolean)</h4>
+<div id="outline-container-org96fb28c" class="outline-4">
+<h4 id="org96fb28c"><span class="section-number-4">1.2.1.</span> Logic data type (boolean)</h4>
 <div class="outline-text-4" id="text-1-2-1">
 <p>
 In C:
@@ -510,8 +510,8 @@ int* ptr = b5;
 </div>
 </div>
 
-<div id="outline-container-org44841a9" class="outline-4">
-<h4 id="org44841a9"><span class="section-number-4">1.2.2.</span> User defined types</h4>
+<div id="outline-container-org8f1eae1" class="outline-4">
+<h4 id="org8f1eae1"><span class="section-number-4">1.2.2.</span> User defined types</h4>
 <div class="outline-text-4" id="text-1-2-2">
 <ul class="org-ul">
 <li>In C, <code>struct</code>, <code>enum</code> and <code>union</code> tags don't represent type itself. A keyword (<code>struct</code>, <code>enum</code> or <code>union</code>) must be used before a tag name to represent a type. A <code>typedef</code> declaration can be used too.</li>
@@ -544,8 +544,8 @@ Example example0;
 </div>
 </div>
 
-<div id="outline-container-org115e0c3" class="outline-4">
-<h4 id="org115e0c3"><span class="section-number-4">1.2.3.</span> Empty structs</h4>
+<div id="outline-container-orgff5df28" class="outline-4">
+<h4 id="orgff5df28"><span class="section-number-4">1.2.3.</span> Empty structs</h4>
 <div class="outline-text-4" id="text-1-2-3">
 <ul class="org-ul">
 <li>In C, empty structs are invalid.</li>
@@ -563,8 +563,8 @@ An example:
 </div>
 </div>
 
-<div id="outline-container-org37626ce" class="outline-4">
-<h4 id="org37626ce"><span class="section-number-4">1.2.4.</span> Implicit conversion from arithmetic types to pointer types</h4>
+<div id="outline-container-org648c221" class="outline-4">
+<h4 id="org648c221"><span class="section-number-4">1.2.4.</span> Implicit conversion from arithmetic types to pointer types</h4>
 <div class="outline-text-4" id="text-1-2-4">
 <ul class="org-ul">
 <li>In C, implicit conversion from arithmetic types to pointer types is allowed. Compilers might show a warning.</li>
@@ -581,8 +581,8 @@ int* p = x;
 </div>
 </div>
 
-<div id="outline-container-org80288c0" class="outline-4">
-<h4 id="org80288c0"><span class="section-number-4">1.2.5.</span> Implicit conversion between different pointer types.</h4>
+<div id="outline-container-org40a10c1" class="outline-4">
+<h4 id="org40a10c1"><span class="section-number-4">1.2.5.</span> Implicit conversion between different pointer types.</h4>
 <div class="outline-text-4" id="text-1-2-5">
 <ul class="org-ul">
 <li>In C, implicit conversion between different pointer is allowed. Compilers might show a warning.</li>
@@ -599,8 +599,8 @@ char* ptr = &amp;d;
 </div>
 </div>
 
-<div id="outline-container-org8641fb4" class="outline-4">
-<h4 id="org8641fb4"><span class="section-number-4">1.2.6.</span> Implicit conversion from <code>void*</code> to <code>T*</code></h4>
+<div id="outline-container-orgf6b0a9e" class="outline-4">
+<h4 id="orgf6b0a9e"><span class="section-number-4">1.2.6.</span> Implicit conversion from <code>void*</code> to <code>T*</code></h4>
 <div class="outline-text-4" id="text-1-2-6">
 <ul class="org-ul">
 <li>In C, implicit conversion from <code>void*</code> to <code>T*</code> is allowed.</li>
@@ -616,8 +616,8 @@ This code is valid in C but invalid in C++:
 </div>
 </div>
 
-<div id="outline-container-org1a294e7" class="outline-4">
-<h4 id="org1a294e7"><span class="section-number-4">1.2.7.</span> Underlying enumeration type</h4>
+<div id="outline-container-orga9d8ea1" class="outline-4">
+<h4 id="orga9d8ea1"><span class="section-number-4">1.2.7.</span> Underlying enumeration type</h4>
 <div class="outline-text-4" id="text-1-2-7">
 <ul class="org-ul">
 <li>In C, underlying enumeration type has to be <code>int</code>.</li>
@@ -626,8 +626,8 @@ This code is valid in C but invalid in C++:
 </div>
 </div>
 
-<div id="outline-container-orgbc9e791" class="outline-4">
-<h4 id="orgbc9e791"><span class="section-number-4">1.2.8.</span> Implicit conversion from arithmetic types to enumeration types</h4>
+<div id="outline-container-org7a8c68f" class="outline-4">
+<h4 id="org7a8c68f"><span class="section-number-4">1.2.8.</span> Implicit conversion from arithmetic types to enumeration types</h4>
 <div class="outline-text-4" id="text-1-2-8">
 <ul class="org-ul">
 <li>In C, it is allowed.</li>
@@ -645,8 +645,8 @@ color = 3;
 </div>
 </div>
 
-<div id="outline-container-orge713e01" class="outline-4">
-<h4 id="orge713e01"><span class="section-number-4">1.2.9.</span> Implicit conversion between different enumeration types</h4>
+<div id="outline-container-org4e09931" class="outline-4">
+<h4 id="org4e09931"><span class="section-number-4">1.2.9.</span> Implicit conversion between different enumeration types</h4>
 <div class="outline-text-4" id="text-1-2-9">
 <ul class="org-ul">
 <li>In C, it is allowed.</li>
@@ -666,8 +666,8 @@ color = count;
 </div>
 </div>
 
-<div id="outline-container-org79f71b6" class="outline-4">
-<h4 id="org79f71b6"><span class="section-number-4">1.2.10.</span> Implicit conversion from enumeration types to arithmetic types.</h4>
+<div id="outline-container-org0270c36" class="outline-4">
+<h4 id="org0270c36"><span class="section-number-4">1.2.10.</span> Implicit conversion from enumeration types to arithmetic types.</h4>
 <div class="outline-text-4" id="text-1-2-10">
 <ul class="org-ul">
 <li>In C, it is allowed.</li>
@@ -685,8 +685,8 @@ int x = color;
 </div>
 </div>
 
-<div id="outline-container-orge943f95" class="outline-4">
-<h4 id="orge943f95"><span class="section-number-4">1.2.11.</span> Character literals</h4>
+<div id="outline-container-orgc28a82a" class="outline-4">
+<h4 id="orgc28a82a"><span class="section-number-4">1.2.11.</span> Character literals</h4>
 <div class="outline-text-4" id="text-1-2-11">
 <ul class="org-ul">
 <li>In C, character literals are <code>int</code>.</li>
@@ -702,8 +702,8 @@ This code prints 4 in C and 1 in C++:
 </div>
 </div>
 
-<div id="outline-container-org6e82b19" class="outline-4">
-<h4 id="org6e82b19"><span class="section-number-4">1.2.12.</span> String literals</h4>
+<div id="outline-container-org38388ef" class="outline-4">
+<h4 id="org38388ef"><span class="section-number-4">1.2.12.</span> String literals</h4>
 <div class="outline-text-4" id="text-1-2-12">
 <ul class="org-ul">
 <li>In C, the type of string literals is <code>char[n]</code>. When string literals are used in an expression they are converted to address of the first element (array decay - array to pointer conversion). The type after array decay is <code>char*</code>.</li>
@@ -728,12 +728,12 @@ char* s = "example";
 </div>
 </div>
 
-<div id="outline-container-orged68c48" class="outline-3">
-<h3 id="orged68c48"><span class="section-number-3">1.3.</span> Differences About const Keyword</h3>
+<div id="outline-container-orgec49dad" class="outline-3">
+<h3 id="orgec49dad"><span class="section-number-3">1.3.</span> Differences About const Keyword</h3>
 <div class="outline-text-3" id="text-1-3">
 </div>
-<div id="outline-container-org51887a0" class="outline-4">
-<h4 id="org51887a0"><span class="section-number-4">1.3.1.</span> Initialization of const objects</h4>
+<div id="outline-container-org659b0db" class="outline-4">
+<h4 id="org659b0db"><span class="section-number-4">1.3.1.</span> Initialization of const objects</h4>
 <div class="outline-text-4" id="text-1-3-1">
 <ul class="org-ul">
 <li>In C, <code>const</code> objects don't have to be initialized.</li>
@@ -765,8 +765,8 @@ int* const ptr;
 </div>
 </div>
 
-<div id="outline-container-org632defc" class="outline-4">
-<h4 id="org632defc"><span class="section-number-4">1.3.2.</span> Const expressions</h4>
+<div id="outline-container-orgb676910" class="outline-4">
+<h4 id="orgb676910"><span class="section-number-4">1.3.2.</span> Const expressions</h4>
 <div class="outline-text-4" id="text-1-3-2">
 <ul class="org-ul">
 <li>In C, expressions generated by const variables are not counted as const expressions.</li>
@@ -783,8 +783,8 @@ int arr[x] = { 0 };
 </div>
 </div>
 
-<div id="outline-container-org0d6a970" class="outline-4">
-<h4 id="org0d6a970"><span class="section-number-4">1.3.3.</span> Global const objects and linkage</h4>
+<div id="outline-container-org6dbb7ff" class="outline-4">
+<h4 id="org6dbb7ff"><span class="section-number-4">1.3.3.</span> Global const objects and linkage</h4>
 <div class="outline-text-4" id="text-1-3-3">
 <ul class="org-ul">
 <li>In C, global const objects are in external linkage.</li>
@@ -801,8 +801,8 @@ const int x = 10;
 </div>
 </div>
 
-<div id="outline-container-orga19d8e5" class="outline-4">
-<h4 id="orga19d8e5"><span class="section-number-4">1.3.4.</span> Implicit conversion from <code>const T*</code> to <code>T*</code></h4>
+<div id="outline-container-orgd93b560" class="outline-4">
+<h4 id="orgd93b560"><span class="section-number-4">1.3.4.</span> Implicit conversion from <code>const T*</code> to <code>T*</code></h4>
 <div class="outline-text-4" id="text-1-3-4">
 <ul class="org-ul">
 <li>In C, implicit conversion from <code>const T*</code> to <code>T*</code> is allowed. Compilers might show a warning.</li>
@@ -820,12 +820,12 @@ int* p = &amp;x;
 </div>
 </div>
 
-<div id="outline-container-org4a5d280" class="outline-3">
-<h3 id="org4a5d280"><span class="section-number-3">1.4.</span> Differences About Value Categories</h3>
+<div id="outline-container-org8c72124" class="outline-3">
+<h3 id="org8c72124"><span class="section-number-3">1.4.</span> Differences About Value Categories</h3>
 <div class="outline-text-3" id="text-1-4">
 </div>
-<div id="outline-container-org69baa14" class="outline-4">
-<h4 id="org69baa14"><span class="section-number-4">1.4.1.</span> Primary value categories</h4>
+<div id="outline-container-org752ce38" class="outline-4">
+<h4 id="org752ce38"><span class="section-number-4">1.4.1.</span> Primary value categories</h4>
 <div class="outline-text-4" id="text-1-4-1">
 <ul class="org-ul">
 <li>In C, there are 2 primary value categories.
@@ -854,8 +854,8 @@ The <code>GL-value</code> and <code>R-value</code> categories are not <code>prim
 </div>
 </div>
 
-<div id="outline-container-orga3814c3" class="outline-4">
-<h4 id="orga3814c3"><span class="section-number-4">1.4.2.</span> Prefix increment/decrement operator</h4>
+<div id="outline-container-orgf7417b6" class="outline-4">
+<h4 id="orgf7417b6"><span class="section-number-4">1.4.2.</span> Prefix increment/decrement operator</h4>
 <div class="outline-text-4" id="text-1-4-2">
 <ul class="org-ul">
 <li>In C, expressions generated by prefix increment/decrement operator are R-value expressions.</li>
@@ -874,8 +874,8 @@ This code is valid in C++ and invalid in C:
 </div>
 </div>
 
-<div id="outline-container-orgfacb85e" class="outline-4">
-<h4 id="orgfacb85e"><span class="section-number-4">1.4.3.</span> Assignment operator</h4>
+<div id="outline-container-org7908e58" class="outline-4">
+<h4 id="org7908e58"><span class="section-number-4">1.4.3.</span> Assignment operator</h4>
 <div class="outline-text-4" id="text-1-4-3">
 <ul class="org-ul">
 <li>In C, expressions generated by assignment operator are R-value expressions.</li>
@@ -892,8 +892,8 @@ This code is valid in C++ and invalid in C:
 </div>
 </div>
 
-<div id="outline-container-org15f38c1" class="outline-4">
-<h4 id="org15f38c1"><span class="section-number-4">1.4.4.</span> Comma operator</h4>
+<div id="outline-container-org8d87771" class="outline-4">
+<h4 id="org8d87771"><span class="section-number-4">1.4.4.</span> Comma operator</h4>
 <div class="outline-text-4" id="text-1-4-4">
 <ul class="org-ul">
 <li>In C, expressions generated by comma operator are R-value expressions.</li>
@@ -911,8 +911,8 @@ int y = 20;
 </div>
 </div>
 
-<div id="outline-container-org1a41503" class="outline-4">
-<h4 id="org1a41503"><span class="section-number-4">1.4.5.</span> Ternary operator</h4>
+<div id="outline-container-org20954d8" class="outline-4">
+<h4 id="org20954d8"><span class="section-number-4">1.4.5.</span> Ternary operator</h4>
 <div class="outline-text-4" id="text-1-4-5">
 <ul class="org-ul">
 <li>In C, expressions generated by ternary operator are R-value expressions.</li>
@@ -933,19 +933,19 @@ int z = 30;
 </div>
 </div>
 
-<div id="outline-container-org3c4b0be" class="outline-2">
-<h2 id="org3c4b0be"><span class="section-number-2">2.</span> C++ Topics</h2>
+<div id="outline-container-org4b466ae" class="outline-2">
+<h2 id="org4b466ae"><span class="section-number-2">2.</span> C++ Topics</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org120792c" class="outline-3">
-<h3 id="org120792c"><span class="section-number-3">2.1.</span> Initialization</h3>
+<div id="outline-container-org112cf2b" class="outline-3">
+<h3 id="org112cf2b"><span class="section-number-3">2.1.</span> Initialization</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 There are very different ways to initialize objects in C++.
 </p>
 </div>
-<div id="outline-container-org06c5465" class="outline-4">
-<h4 id="org06c5465"><span class="section-number-4">2.1.1.</span> Default initialization</h4>
+<div id="outline-container-org3f06ec8" class="outline-4">
+<h4 id="org3f06ec8"><span class="section-number-4">2.1.1.</span> Default initialization</h4>
 <div class="outline-text-4" id="text-2-1-1">
 <p>
 Default initialized objects are created with a garbage value.
@@ -957,8 +957,8 @@ Default initialized objects are created with a garbage value.
 </div>
 </div>
 
-<div id="outline-container-orgd9f91e5" class="outline-4">
-<h4 id="orgd9f91e5"><span class="section-number-4">2.1.2.</span> Zero initialization</h4>
+<div id="outline-container-orgee1e1dd" class="outline-4">
+<h4 id="orgee1e1dd"><span class="section-number-4">2.1.2.</span> Zero initialization</h4>
 <div class="outline-text-4" id="text-2-1-2">
 <p>
 Compilers zero initialize objects in the global scope. <code>Zero initialization</code> is not a way to initialize objects it is more like a compiler process.
@@ -973,8 +973,8 @@ int* p; // p = nullptr;
 </div>
 </div>
 
-<div id="outline-container-org09a2e6d" class="outline-4">
-<h4 id="org09a2e6d"><span class="section-number-4">2.1.3.</span> Copy initialization</h4>
+<div id="outline-container-org464e144" class="outline-4">
+<h4 id="org464e144"><span class="section-number-4">2.1.3.</span> Copy initialization</h4>
 <div class="outline-text-4" id="text-2-1-3">
 <p>
 If objects are initialized like in the C language, it is called <code>copy initialization</code>.
@@ -986,8 +986,8 @@ If objects are initialized like in the C language, it is called <code>copy initi
 </div>
 </div>
 
-<div id="outline-container-org7635574" class="outline-4">
-<h4 id="org7635574"><span class="section-number-4">2.1.4.</span> Direct initialization</h4>
+<div id="outline-container-orgf522740" class="outline-4">
+<h4 id="orgf522740"><span class="section-number-4">2.1.4.</span> Direct initialization</h4>
 <div class="outline-text-4" id="text-2-1-4">
 <p>
 If objects are initialized by using paranthesis, it is called <code>direct initialization</code>.
@@ -999,8 +999,8 @@ If objects are initialized by using paranthesis, it is called <code>direct initi
 </div>
 </div>
 
-<div id="outline-container-org9775da7" class="outline-4">
-<h4 id="org9775da7"><span class="section-number-4">2.1.5.</span> Direct-list / brace initialization (uniform initialization)</h4>
+<div id="outline-container-orgc9e1922" class="outline-4">
+<h4 id="orgc9e1922"><span class="section-number-4">2.1.5.</span> Direct-list / brace initialization (uniform initialization)</h4>
 <div class="outline-text-4" id="text-2-1-5">
 <p>
 If objects are initialized by using braces, it is called <code>direct-list initialization</code>. <code>direct-list/brace initialization</code> is added to the language to have a uniform way to initialize objects. This is why it is also called <code>uniform initialization</code>. It can be used to initialize any object.
@@ -1052,8 +1052,8 @@ B bz(A{});
 </div>
 </div>
 
-<div id="outline-container-org7537f4d" class="outline-4">
-<h4 id="org7537f4d"><span class="section-number-4">2.1.6.</span> Value initialization</h4>
+<div id="outline-container-org30540e4" class="outline-4">
+<h4 id="org30540e4"><span class="section-number-4">2.1.6.</span> Value initialization</h4>
 <div class="outline-text-4" id="text-2-1-6">
 <p>
 If objects are initialized by using braces but inside of the braces are empty, it is called <code>value initialization</code>. Value initialized objects are first initialized to zero, if any additional initialization steps are required, this is done after <code>zero initialization</code>.
@@ -1066,8 +1066,8 @@ If objects are initialized by using braces but inside of the braces are empty, i
 </div>
 </div>
 
-<div id="outline-container-orge493a1e" class="outline-3">
-<h3 id="orge493a1e"><span class="section-number-3">2.2.</span> nullptr</h3>
+<div id="outline-container-org42f8dc7" class="outline-3">
+<h3 id="org42f8dc7"><span class="section-number-3">2.2.</span> nullptr</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 In C++, there is a keyword that represents a null pointer, and it is called <code>nullptr</code>. It is not a macro like in C. It is a keyword, a constant and its type is <code>nullptr_t</code>.
@@ -1088,8 +1088,8 @@ double* z = nullptr;
 </div>
 </div>
 
-<div id="outline-container-org789d33a" class="outline-3">
-<h3 id="org789d33a"><span class="section-number-3">2.3.</span> Reference Semantics</h3>
+<div id="outline-container-org76f82f1" class="outline-3">
+<h3 id="org76f82f1"><span class="section-number-3">2.3.</span> Reference Semantics</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 There is an alternative way to represent pointers in C++, which is called <code>reference</code>, but this is only an alternative at the language layer, the underlying representation does not change once the code is compiled. Everything works with the pointers in assembly level.
@@ -1118,8 +1118,8 @@ auto&amp;&amp; t = 10;
 </div>
 </div>
 
-<div id="outline-container-orgdb703e2" class="outline-4">
-<h4 id="orgdb703e2"><span class="section-number-4">2.3.1.</span> L-value references</h4>
+<div id="outline-container-org8e6259c" class="outline-4">
+<h4 id="org8e6259c"><span class="section-number-4">2.3.1.</span> L-value references</h4>
 <div class="outline-text-4" id="text-2-3-1">
 <p>
 L-value references are similar to <code>top-level const pointer objects</code>:
@@ -1215,8 +1215,8 @@ int&amp; r = foo(x);
 </div>
 </div>
 
-<div id="outline-container-orgd92f159" class="outline-4">
-<h4 id="orgd92f159"><span class="section-number-4">2.3.2.</span> L-value references and const semantics</h4>
+<div id="outline-container-org8136d8d" class="outline-4">
+<h4 id="org8136d8d"><span class="section-number-4">2.3.2.</span> L-value references and const semantics</h4>
 <div class="outline-text-4" id="text-2-3-2">
 <p>
 We said that L-value references are like <code>top-level const pointer</code> by default but they can also be used like <code>low-level const pointer</code>.
@@ -1304,8 +1304,8 @@ f2(10); // Also valid.
 </div>
 </div>
 
-<div id="outline-container-org5a5a11a" class="outline-4">
-<h4 id="org5a5a11a"><span class="section-number-4">2.3.3.</span> Differences between pointers and L-value references</h4>
+<div id="outline-container-orga8db414" class="outline-4">
+<h4 id="orga8db414"><span class="section-number-4">2.3.3.</span> Differences between pointers and L-value references</h4>
 <div class="outline-text-4" id="text-2-3-3">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -1351,8 +1351,8 @@ f2(10); // Also valid.
 </div>
 </div>
 
-<div id="outline-container-org3646d74" class="outline-4">
-<h4 id="org3646d74"><span class="section-number-4">2.3.4.</span> R-value references</h4>
+<div id="outline-container-org4e84881" class="outline-4">
+<h4 id="org4e84881"><span class="section-number-4">2.3.4.</span> R-value references</h4>
 <div class="outline-text-4" id="text-2-3-4">
 <p>
 R-value references are mostly about move semantics and perfect forwarding. Details will be discussed in the future. We will just briefly explain the syntax for now.
@@ -1373,8 +1373,8 @@ int&amp;&amp; rr = x; // Invalid. R-value references cannot be initialized with 
 </div>
 </div>
 
-<div id="outline-container-org04d163e" class="outline-3">
-<h3 id="org04d163e"><span class="section-number-3">2.4.</span> Type Deduction</h3>
+<div id="outline-container-org13157e4" class="outline-3">
+<h3 id="org13157e4"><span class="section-number-3">2.4.</span> Type Deduction</h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 In C++, we don't need to write the type explicitly in some contexts. We can use one of the type deduction mechanisms to have the compiler determine the type for us by looking at the code.
@@ -1388,8 +1388,8 @@ There are several different mechanisms for type deduction:
 </ul>
 </div>
 
-<div id="outline-container-orgf4688ee" class="outline-4">
-<h4 id="orgf4688ee"><span class="section-number-4">2.4.1.</span> auto type deduction</h4>
+<div id="outline-container-org4097b87" class="outline-4">
+<h4 id="org4097b87"><span class="section-number-4">2.4.1.</span> auto type deduction</h4>
 <div class="outline-text-4" id="text-2-4-1">
 <p>
 The <code>auto</code> keyword can be used to determine the type of the variable during initialization. A very important point is that the type deduction is made for <code>auto</code> keyword not for the variable itself.
@@ -1610,8 +1610,8 @@ Reference collapsing rules:
 </div>
 </div>
 
-<div id="outline-container-org4085b9c" class="outline-4">
-<h4 id="org4085b9c"><span class="section-number-4">2.4.2.</span> decltype type deduction</h4>
+<div id="outline-container-org922c0a5" class="outline-4">
+<h4 id="org922c0a5"><span class="section-number-4">2.4.2.</span> decltype type deduction</h4>
 <div class="outline-text-4" id="text-2-4-2">
 <p>
 <code>auto</code> type deduction can be used for initialization but <code>decltype</code> type deduction does not have this limitation. It can be used in any context intead of types. <code>decltype</code> is also <code>unevaluated context</code> like <code>sizeof</code>.
@@ -1665,21 +1665,18 @@ decltype(x) z = 0; // const int z = 0;
 
 <p>
 <code>decltype</code> and references:
- #+BEGIN<sub>SRC</sub> C++
-   int x{};
-   auto&amp; r{ x };
 </p>
+<div class="org-src-container">
+<pre class="src src-C++">int x{};
+auto&amp; r{ x };
 
-<p>
 decltype(r) r2 = x; // int&amp; r2 = x;
-</p>
 
-<p>
-  int y{};
-  const auto&amp; r3 = y;
-  decltype(r3) r4 = y; // const int&amp; r4 = y;
-#+END<sub>SRC</sub> C++
-</p>
+int y{};
+const auto&amp; r3 = y;
+decltype(r3) r4 = y; // const int&amp; r4 = y;
+</pre>
+</div>
 
 <p>
 When the operand of the <code>decltype</code> is an expression. The type will be determined by the <code>primary value category</code> of the expression.
@@ -1693,59 +1690,55 @@ If the expression is:
 
 <p>
 PR-value expression:
-#+BEGIN<sub>SRC</sub> C++
-  decltype(10); // PR-Value. int
-#+END<sub>SRC</sub> C++
 </p>
+<div class="org-src-container">
+<pre class="src src-C++">decltype(10); // PR-Value. int
+</pre>
+</div>
 
 <p>
 L-value expression:
-#+BEGIN<sub>SRC</sub> C++
-  int x = 10;
-  int* ptr = &amp;x;
-  decltype(*ptr) r = x; // L-value. int&amp; r = x;
 </p>
+<div class="org-src-container">
+<pre class="src src-C++">int x = 10;
+int* ptr = &amp;x;
+decltype(*ptr) r = x; // L-value. int&amp; r = x;
 
-<p>
 int y = 5;
 decltype((y)) z = y; // L-value. int&amp; z = y;
-</p>
 
-<p>
-  int t = 10;
-  decltype(t++); <i>/ int
-  decltype(++t); /</i> int&amp;
-#+END<sub>SRC</sub> C++
-</p>
+int t = 10;
+decltype(t++); // int
+decltype(++t); // int&amp;
+</pre>
+</div>
 
 <p>
 <code>decltype</code> and arrays:
-#+BEGIN<sub>SRC</sub> C++
-  int a[5]{};
 </p>
+<div class="org-src-container">
+<pre class="src src-C++">int a[5]{};
 
-<p>
-  <i>/ a is an identifier
-  decltype(a) b; /</i> int b[5]; No array decay.
-  <i>/ a[0] is an expression
-  decltype(a[0]) c = a[1]; /</i> int&amp; c = a[1];
-#+END<sub>SRC</sub> C++
-</p>
+// a is an identifier
+decltype(a) b; // int b[5]; No array decay.
+// a[0] is an expression
+decltype(a[0]) c = a[1]; // int&amp; c = a[1];
+</pre>
+</div>
 
 <p>
 X-value expression:
-#+BEGIN<sub>SRC</sub> C++
- int f1();
- int&amp; f2();
- int&amp;&amp; f3();
 </p>
+<div class="org-src-container">
+<pre class="src src-C++">int f1();
+int&amp; f2();
+int&amp;&amp; f3();
 
-<p>
- decltype(f1()) x = 5; <i>/ PR-value. int x = 5;
- decltype(f2()) y = x; /</i> L-value. int&amp; y = x;
- decltype(f3()) z = 5; // X-value. int&amp;&amp; z = 5;
-#+END<sub>SRC</sub> C++
-</p>
+decltype(f1()) x = 5; // PR-value. int x = 5;
+decltype(f2()) y = x; // L-value. int&amp; y = x;
+decltype(f3()) z = 5; // X-value. int&amp;&amp; z = 5;
+</pre>
+</div>
 
 <p>
 Other type deduction mechanisms will be discussed later.
@@ -1758,256 +1751,243 @@ Other type deduction mechanisms will be discussed later.
 </div>
 </div>
 
-<div id="outline-container-org5da547b" class="outline-3">
-<h3 id="org5da547b"><span class="section-number-3">2.5.</span> Default Function Arguments</h3>
+<div id="outline-container-orgd340ef9" class="outline-3">
+<h3 id="orgd340ef9"><span class="section-number-3">2.5.</span> Default Function Arguments</h3>
 <div class="outline-text-3" id="text-2-5">
 <p>
 Unlike C, C++ supports default function arguments. If a function mostly takes the same value for an argument, default function arguments are very helpful.
 When the <code>default function argument</code> is used, we do not need to pass a value to that argument when calling the function. The compiler will insert the value that we specified:
-#+BEGIN<sub>SRC</sub> C++
-  void func(int, int, int = 10);
 </p>
+<div class="org-src-container">
+<pre class="src src-C++">void func(int, int, int = 10);
 
-<p>
 int x = 1;
 int y = 2;
 int z = 3;
-</p>
 
-<p>
-  func(x, y, z); <i>/ func(x, y, z);
-  func(x, y); /</i> func(x, y, 10); The compiler will insert 10 for the 3rd argument because we did not send any argument for the 3rd parameter.
-#+END<sub>SRC</sub> C++
-</p>
+func(x, y, z); // func(x, y, z);
+func(x, y); // func(x, y, 10); The compiler will insert 10 for the 3rd argument because we did not send any argument for the 3rd parameter.
+</pre>
+</div>
 
 <p>
 If a parameter of a function takes a <code>default argument</code>, all parameters to the right of it must also take a <code>default argument</code>. This essentially means that the <code>default arguments</code> are valid for the last function parameters:
-#+BEGIN<sub>SRC</sub> C++
-  void f1(int x, int y = 5, int z); <i>/ Invalid.
-  void f2(int x, int y = 5, int z = 7); /</i> Valid.
-  void f3(int x = 3, int y = 5, int z = 7); // Valid.
 </p>
+<div class="org-src-container">
+<pre class="src src-C++">void f1(int x, int y = 5, int z); // Invalid.
+void f2(int x, int y = 5, int z = 7); // Valid.
+void f3(int x = 3, int y = 5, int z = 7); // Valid.
 
-<p>
-  f3(); <i>/ f3(3, 5, 7);
-  f3(40); /</i> f3(40, 5, 7);
-  f3(40, 50); <i>/ f3(40, 50, 7);
-  f3(40, 50, 60); /</i> f3(40, 50, 60);
-#+END<sub>SRC</sub> C++
-</p>
+f3(); // f3(3, 5, 7);
+f3(40); // f3(40, 5, 7);
+f3(40, 50); // f3(40, 50, 7);
+f3(40, 50, 60); // f3(40, 50, 60);
+</pre>
+</div>
 
 <p>
 Variables also can be used for <code>default function arguments</code>:
-#+BEGIN<sub>SRC</sub> C++
-  int x{ 5 };
-  void func(int = x); // Valid.
 </p>
+<div class="org-src-container">
+<pre class="src src-C++">int x{ 5 };
+void func(int = x); // Valid.
 
-<p>
 func(); // func(x);
-</p>
 
-<p>
 int f1(int x = 0);
 void f2(int y = f1());
-</p>
 
-<p>
 f2(); // f2(f1(0));
-</p>
 
-<p>
 int y{ 5 };
 int foo(int n = y++)
 {
     return n;
 }
-</p>
 
-<p>
-  <i>/ y = 5;
-  foo(); /</i> foo(y++); returns 5;
-  foo(); <i>/ foo(y++); returns 6;
-  foo(); /</i> foo(y++); returns 7;
-  // y = 8;
-#+END<sub>SRC</sub> C++
-</p>
+// y = 5;
+foo(); // foo(y++); returns 5;
+foo(); // foo(y++); returns 6;
+foo(); // foo(y++); returns 7;
+// y = 8;
+</pre>
+</div>
 
 <p>
 If <code>the default function arguments</code> are defined both in the function definition and in the declaration, this is a syntax error:
-#+BEGIN<sub>SRC</sub> C++
-  // Invalid.
-  void f2(int x = 10);
-  void f2(int x = 10)
-  {
-      //
-  }
 </p>
+<div class="org-src-container">
+<pre class="src src-C++">// Invalid.
+void f2(int x = 10);
+void f2(int x = 10)
+{
+    //
+}
 
-<p>
-  // Valid.
-  void f3(int x = 10);
-  void f3(int x)
-  {
-      //
-  }
-#+END<sub>SRC</sub> C++
-</p>
+// Valid.
+void f3(int x = 10);
+void f3(int x)
+{
+    //
+}
+</pre>
+</div>
 
 <p>
 If a function parameter does not take a <code>default argument</code>, we can redeclare the function so that it takes a <code>default argument</code>. This can, for example, allow us to pass <code>default arguments</code> to functions coming from external header files:
-#+BEGIN<sub>SRC</sub> C++
-  <i>/ external.h
-  void func(int, int, int); /</i> Function without any default arguments.
 </p>
+<div class="org-src-container">
+<pre class="src src-C++">// external.h
+void func(int, int, int); // Function without any default arguments.
 
-<p>
-<i>/ #include "external.h"
-void func(int, int, int = 10); /</i> Valid.
-</p>
+// #include "external.h"
+void func(int, int, int = 10); // Valid.
 
-<p>
-  func(1, 5); // func(1, 5, 10);
-#+END<sub>SRC</sub> C++
-</p>
+func(1, 5); // func(1, 5, 10);
+</pre>
+</div>
 
 <p>
 The compiler takes the <code>default arguments</code> cumulatively:
-#+BEGIN<sub>SRC</sub> C++
- // Invalid, because there are multiple definitions for the same parameter's default argument.
- void f1(int x = 10);
- void f1(int x = 10);
 </p>
+<div class="org-src-container">
+<pre class="src src-C++">// Invalid, because there are multiple definitions for the same parameter's default argument.
+void f1(int x = 10);
+void f1(int x = 10);
 
-<p>
 // f2 does not take any default arguments. 
 void f2(int, int, int);
 // f2 takes a default argument for the 3rd parameter.
 void f2(int, int, int = 10);
-<i>/ f2 takes default arguments for the 2nd and 3rd parameters. This equals to void f2(int, int = 5, int = 10);
-/</i> because the compiler takes the default arguments cumulatively.
+// f2 takes default arguments for the 2nd and 3rd parameters. This equals to void f2(int, int = 5, int = 10);
+// because the compiler takes the default arguments cumulatively.
 void f2(int, int = 5, int);
-</p>
 
-<p>
 f2(1) // f2(1, 5, 10);
-</p>
 
-<p>
- // f3 does not take any default arguments. 
- void f3(int, int, int);
- // Invalid. This is a different case, only last parameters can take default arguments.
- void f3(int, int = 5, int); 
-#+END<sub>SRC</sub> C++
-</p>
+// f3 does not take any default arguments. 
+void f3(int, int, int);
+// Invalid. This is a different case, only last parameters can take default arguments.
+void f3(int, int = 5, int); 
+</pre>
+</div>
 </div>
 </div>
 
-<div id="outline-container-org99e3911" class="outline-3">
-<h3 id="org99e3911"><span class="section-number-3">2.6.</span> Scoped enum / Enum class</h3>
+<div id="outline-container-org4146f06" class="outline-3">
+<h3 id="org4146f06"><span class="section-number-3">2.6.</span> Scoped enum / Enum class</h3>
 <div class="outline-text-3" id="text-2-6">
 <p>
 In addition to the <code>traditional enum type</code>, C++ has a new enum type called <code>scoped enum</code> / <code>enum class</code>. <code>Scoped enum</code> were introduced to overcome the disadvantages of the <code>traditional enum type</code>.
 </p>
 </div>
 
-<div id="outline-container-org35319b9" class="outline-4">
-<h4 id="org35319b9"><span class="section-number-4">2.6.1.</span> Disadvantages of the traditional enum type</h4>
+<div id="outline-container-org2996017" class="outline-4">
+<h4 id="org2996017"><span class="section-number-4">2.6.1.</span> Disadvantages of the traditional enum type</h4>
 <div class="outline-text-4" id="text-2-6-1">
 <ul class="org-ul">
-<li><code>Underlying type</code> depends to the compiler. The compiler chooses <code>int</code> as default type but if <code>int</code> isn't big enough to store the <code>enumeration constants</code>, the type choosen is compiler dependent. This is why <code>traditional enum types</code> cannot be used as <code>incomplete types</code>. The compiler cannot know the size when used as an <code>incomplete type</code>, because it may be larger than <code>int</code>.
-#+BEGIN<sub>SRC</sub> C++
-  enum Color { Red, Green, Blue }; <i>/ Underlying type is int.
-  enum MyEnum { Aa, Bb, Cc, Dd = 13024325325 }; /</i> Underlying type is compiler dependent.
-#+END<sub>SRC</sub> C++</li>
-<li>Implicit type conversion from <code>traditional enum types</code> to <code>arithmetic types</code> is allowed. Unfortunately, this can also lead to many problems.
-#+BEGIN<sub>SRC</sub> C++
-  enum Color { Red, Green, Blue };
-  int x = Red; // Valid.
-#+END<sub>SRC</sub> C++</li>
-<li><code>Enumeration constants</code> don't have separate scope. This can cause name conflicts, especially with names from external header files.
-#+BEGIN<sub>SRC</sub> C++
-  // traffic.h
-  enum TrafficLight { Red, Yellow, Green };
-  // screen.h
-  enum ScreenColor { Gray, White, Red };
-#+END<sub>SRC</sub> C++</li>
+<li><p>
+<code>Underlying type</code> depends to the compiler. The compiler chooses <code>int</code> as default type but if <code>int</code> isn't big enough to store the <code>enumeration constants</code>, the type choosen is compiler dependent. This is why <code>traditional enum types</code> cannot be used as <code>incomplete types</code>. The compiler cannot know the size when used as an <code>incomplete type</code>, because it may be larger than <code>int</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">enum Color { Red, Green, Blue }; // Underlying type is int.
+enum MyEnum { Aa, Bb, Cc, Dd = 13024325325 }; // Underlying type is compiler dependent.
+</pre>
+</div></li>
+<li><p>
+Implicit type conversion from <code>traditional enum types</code> to <code>arithmetic types</code> is allowed. Unfortunately, this can also lead to many problems.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">enum Color { Red, Green, Blue };
+int x = Red; // Valid.
+</pre>
+</div></li>
+<li><p>
+<code>Enumeration constants</code> don't have separate scope. This can cause name conflicts, especially with names from external header files.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">// traffic.h
+enum TrafficLight { Red, Yellow, Green };
+// screen.h
+enum ScreenColor { Gray, White, Red };
+</pre>
+</div></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orga313e46" class="outline-4">
-<h4 id="orga313e46"><span class="section-number-4">2.6.2.</span> Advantages of the scoped enum type</h4>
+<div id="outline-container-orgac0f2c9" class="outline-4">
+<h4 id="orgac0f2c9"><span class="section-number-4">2.6.2.</span> Advantages of the scoped enum type</h4>
 <div class="outline-text-4" id="text-2-6-2">
 <ul class="org-ul">
-<li>The <code>underlying type</code> can be specified. If not specified <code>int</code> is default.
-#+BEGIN<sub>SRC</sub> C++
-  enum class Color : unsigned char { White, Black, Gray };
-  enum Count : unsigned char { Zero, One, Two, Three }; // C++ also extended the traditional enum types, so that specifying underlying types is possible.
-#+END<sub>SRC</sub> C++</li>
-<li>No implicit type conversion from <code>scoped enum types</code> to <code>arithmetic types</code>.
-#+BEGIN<sub>SRC</sub> C++
-  enum class Color : unsigned char { White, Black, Gray };
-  Color color{ Color::Black };
-  int x = color; // Invalid.
-#+END<sub>SRC</sub> C++</li>
+<li><p>
+The <code>underlying type</code> can be specified. If not specified <code>int</code> is default.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">enum class Color : unsigned char { White, Black, Gray };
+enum Count : unsigned char { Zero, One, Two, Three }; // C++ also extended the traditional enum types, so that specifying underlying types is possible.
+</pre>
+</div></li>
+<li><p>
+No implicit type conversion from <code>scoped enum types</code> to <code>arithmetic types</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">enum class Color : unsigned char { White, Black, Gray };
+Color color{ Color::Black };
+int x = color; // Invalid.
+</pre>
+</div></li>
 <li><p>
 <code>Enumeration constants</code> are no longer in the same scope with the <code>enumeration type</code>. As the name indicates, they have a separate scope. This eliminates the name conflict problems.
-#+BEGIN<sub>SRC</sub> C++
-  enum class Color : unsigned char { White, Black, Gray };
-  Color color1 = White; <i>/ Invalid.
-  Color color2 = Color::White; /</i> Valid.
 </p>
+<div class="org-src-container">
+<pre class="src src-C++">enum class Color : unsigned char { White, Black, Gray };
+Color color1 = White; // Invalid.
+Color color2 = Color::White; // Valid.
 
-<p>
-  enum class TrafficLight { Red, Yellow, Green };
-  enum class ScreenColor { Gray, White, Red };
-  auto sc = ScreenColor::Red;
-  auto tl = TrafficLight::Red;
-#+END<sub>SRC</sub> C++
-</p></li>
+enum class TrafficLight { Red, Yellow, Green };
+enum class ScreenColor { Gray, White, Red };
+auto sc = ScreenColor::Red;
+auto tl = TrafficLight::Red;
+</pre>
+</div></li>
 </ul>
 
 <p>
 In C++20, <code>using enum declaration</code> was added to the language. If we are sure that there is no name conflict, we can use <code>using enum declaration</code> to use <code>enumeration constants</code> without specifying them with a namespace.
-#+BEGIN<sub>SRC</sub> C++
-  enum class Color : unsigned char { White, Black, Gray };
-  enum class Count : unsigned char { Zero, One, Two };
 </p>
+<div class="org-src-container">
+<pre class="src src-C++">enum class Color : unsigned char { White, Black, Gray };
+enum class Count : unsigned char { Zero, One, Two };
 
-<p>
 void func()
 {
     // C++20, using enum declaration
     using enum Color;
     using enum Count::Zero;
-</p>
 
-<p>
-auto color1 = White; <i>/ Valid.
-auto color2 = Black; /</i> Valid.
-</p>
+    auto color1 = White; // Valid.
+    auto color2 = Black; // Valid.
 
-<p>
-      auto count1 = Zero; <i>/ Valid.
-      auto count2 = One; /</i> Invalid.
-  }
-#+END<sub>SRC</sub> C++
-</p>
+    auto count1 = Zero; // Valid.
+    auto count2 = One; // Invalid.
+}
+</pre>
+</div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgbeb9069" class="outline-3">
-<h3 id="orgbeb9069"><span class="section-number-3">2.7.</span> Type Cast Operators</h3>
+<div id="outline-container-orga9a1046" class="outline-3">
+<h3 id="orga9a1046"><span class="section-number-3">2.7.</span> Type Cast Operators</h3>
 <div class="outline-text-3" id="text-2-7">
 <p>
 In C++, there 2 different type conversions: <code>implicit type conversion</code> and <code>explicit type conversion</code>. In some cases the compiler is free to do <code>implicit type conversion</code> depending on the rules of the language, but if we want to explicity convert a type, we have to do <code>explicit type conversion</code> by using <code>type cast operators</code>.
 </p>
 </div>
 
-<div id="outline-container-org516cc32" class="outline-4">
-<h4 id="org516cc32"><span class="section-number-4">2.7.1.</span> Why C-style type cast is not enough?</h4>
+<div id="outline-container-org3c066e8" class="outline-4">
+<h4 id="org3c066e8"><span class="section-number-4">2.7.1.</span> Why C-style type cast is not enough?</h4>
 <div class="outline-text-4" id="text-2-7-1">
 <p>
 Different <code>explicit type conversions</code> can have different intentions and meanings. There can be many different reasons for converting one type to another type:
@@ -2027,7 +2007,7 @@ The list can be extended with different examples, but the point is that not ever
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Created: 2024-08-18 Sun 17:54</p>
+<p class="date">Created: 2024-08-18 Sun 18:07</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
