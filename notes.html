@@ -1,0 +1,2034 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-08-18 Sun 17:54 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+</head>
+<body>
+<div id="content" class="content">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org748fc8b">1. Fundemental Differences Between C and C++</a>
+<ul>
+<li><a href="#orgbb13852">1.1. Syntax Differences</a>
+<ul>
+<li><a href="#orgd0bf6d8">1.1.1. Implicit int</a></li>
+<li><a href="#orgbbea58b">1.1.2. Missing return statement in functions with non-void return type</a></li>
+<li><a href="#orgf56a51a">1.1.3. Implicit/default function declaration</a></li>
+<li><a href="#org4f72f22">1.1.4. Declaration of functions without parameter</a></li>
+<li><a href="#orgd32d58c">1.1.5. Nameless parameters in function definitions</a></li>
+<li><a href="#org1993a0d">1.1.6. Scope of for-statement</a></li>
+</ul>
+</li>
+<li><a href="#org434fdf7">1.2. Differences About Types and Type Conversions</a>
+<ul>
+<li><a href="#org181d076">1.2.1. Logic data type (boolean)</a></li>
+<li><a href="#org44841a9">1.2.2. User defined types</a></li>
+<li><a href="#org115e0c3">1.2.3. Empty structs</a></li>
+<li><a href="#org37626ce">1.2.4. Implicit conversion from arithmetic types to pointer types</a></li>
+<li><a href="#org80288c0">1.2.5. Implicit conversion between different pointer types.</a></li>
+<li><a href="#org8641fb4">1.2.6. Implicit conversion from <code>void*</code> to <code>T*</code></a></li>
+<li><a href="#org1a294e7">1.2.7. Underlying enumeration type</a></li>
+<li><a href="#orgbc9e791">1.2.8. Implicit conversion from arithmetic types to enumeration types</a></li>
+<li><a href="#orge713e01">1.2.9. Implicit conversion between different enumeration types</a></li>
+<li><a href="#org79f71b6">1.2.10. Implicit conversion from enumeration types to arithmetic types.</a></li>
+<li><a href="#orge943f95">1.2.11. Character literals</a></li>
+<li><a href="#org6e82b19">1.2.12. String literals</a></li>
+</ul>
+</li>
+<li><a href="#orged68c48">1.3. Differences About const Keyword</a>
+<ul>
+<li><a href="#org51887a0">1.3.1. Initialization of const objects</a></li>
+<li><a href="#org632defc">1.3.2. Const expressions</a></li>
+<li><a href="#org0d6a970">1.3.3. Global const objects and linkage</a></li>
+<li><a href="#orga19d8e5">1.3.4. Implicit conversion from <code>const T*</code> to <code>T*</code></a></li>
+</ul>
+</li>
+<li><a href="#org4a5d280">1.4. Differences About Value Categories</a>
+<ul>
+<li><a href="#org69baa14">1.4.1. Primary value categories</a></li>
+<li><a href="#orga3814c3">1.4.2. Prefix increment/decrement operator</a></li>
+<li><a href="#orgfacb85e">1.4.3. Assignment operator</a></li>
+<li><a href="#org15f38c1">1.4.4. Comma operator</a></li>
+<li><a href="#org1a41503">1.4.5. Ternary operator</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org3c4b0be">2. C++ Topics</a>
+<ul>
+<li><a href="#org120792c">2.1. Initialization</a>
+<ul>
+<li><a href="#org06c5465">2.1.1. Default initialization</a></li>
+<li><a href="#orgd9f91e5">2.1.2. Zero initialization</a></li>
+<li><a href="#org09a2e6d">2.1.3. Copy initialization</a></li>
+<li><a href="#org7635574">2.1.4. Direct initialization</a></li>
+<li><a href="#org9775da7">2.1.5. Direct-list / brace initialization (uniform initialization)</a></li>
+<li><a href="#org7537f4d">2.1.6. Value initialization</a></li>
+</ul>
+</li>
+<li><a href="#orge493a1e">2.2. nullptr</a></li>
+<li><a href="#org789d33a">2.3. Reference Semantics</a>
+<ul>
+<li><a href="#orgdb703e2">2.3.1. L-value references</a></li>
+<li><a href="#orgd92f159">2.3.2. L-value references and const semantics</a></li>
+<li><a href="#org5a5a11a">2.3.3. Differences between pointers and L-value references</a></li>
+<li><a href="#org3646d74">2.3.4. R-value references</a></li>
+</ul>
+</li>
+<li><a href="#org04d163e">2.4. Type Deduction</a>
+<ul>
+<li><a href="#orgf4688ee">2.4.1. auto type deduction</a></li>
+<li><a href="#org4085b9c">2.4.2. decltype type deduction</a></li>
+</ul>
+</li>
+<li><a href="#org5da547b">2.5. Default Function Arguments</a></li>
+<li><a href="#org99e3911">2.6. Scoped enum / Enum class</a>
+<ul>
+<li><a href="#org35319b9">2.6.1. Disadvantages of the traditional enum type</a></li>
+<li><a href="#orga313e46">2.6.2. Advantages of the scoped enum type</a></li>
+</ul>
+</li>
+<li><a href="#orgbeb9069">2.7. Type Cast Operators</a>
+<ul>
+<li><a href="#org516cc32">2.7.1. Why C-style type cast is not enough?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org748fc8b" class="outline-2">
+<h2 id="org748fc8b"><span class="section-number-2">1.</span> Fundemental Differences Between C and C++</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Main purpose of this section is to point out the differences between C and C++. It isn't about how code should or should not be written in C or C++. It is only about validity of the code.
+</p>
+</div>
+<div id="outline-container-orgbb13852" class="outline-3">
+<h3 id="orgbb13852"><span class="section-number-3">1.1.</span> Syntax Differences</h3>
+<div class="outline-text-3" id="text-1-1">
+</div>
+<div id="outline-container-orgd0bf6d8" class="outline-4">
+<h4 id="orgd0bf6d8"><span class="section-number-4">1.1.1.</span> Implicit int</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<p>
+If a function does not have a return type:
+</p>
+<ul class="org-ul">
+<li>In C, it is allowed and compilers assume it returns <code>int</code>. It is also allowed in function declarations.</li>
+<li>In C++, it is syntax error.</li>
+</ul>
+<p>
+This code is valid in C and invalid in C++:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">func(int x)
+{
+    return x + 1;
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbbea58b" class="outline-4">
+<h4 id="orgbbea58b"><span class="section-number-4">1.1.2.</span> Missing return statement in functions with non-void return type</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<p>
+If a function has return type but does not return anything:
+</p>
+<ul class="org-ul">
+<li>In C, it is allowed. Compilers can show a warning but they don't have to.</li>
+<li>In C++, it is syntax error.</li>
+</ul>
+<p>
+This code is valid in C and invalid in C++:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int func() {}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf56a51a" class="outline-4">
+<h4 id="orgf56a51a"><span class="section-number-4">1.1.3.</span> Implicit/default function declaration</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<p>
+If name lookup fails for a function:
+</p>
+<ul class="org-ul">
+<li>In C, compilers will assume it is an external function with the default declaration: <code>int func();</code></li>
+<li>In C++, it is syntax error.</li>
+</ul>
+<p>
+This code will compile in C and compiler will assume <code>bar()</code> function has <code>int bar();</code> declaration:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">void foo()
+{
+    bar();
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4f72f22" class="outline-4">
+<h4 id="org4f72f22"><span class="section-number-4">1.1.4.</span> Declaration of functions without parameter</h4>
+<div class="outline-text-4" id="text-1-1-4">
+<p>
+There are different rules for C and C++.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int foo();
+int bar(void);
+</pre>
+</div>
+<ul class="org-ul">
+<li>In C, these 2 function declarations have different meaning.
+<ul class="org-ul">
+<li><code>int foo();</code> means, we don't have any information about parameters so we can pass what ever we want.</li>
+<li><code>int bar(void);</code> means, function does not take any parameters.</li>
+</ul></li>
+<li>In C++, both of the declarations have the same meaning. Functions do not take any parameters.</li>
+</ul>
+<p>
+According to the declarations above, this code is valid in C. Invalid in C++, because <code>int foo();</code> does not take any parameters.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">foo(1, 2);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd32d58c" class="outline-4">
+<h4 id="orgd32d58c"><span class="section-number-4">1.1.5.</span> Nameless parameters in function definitions</h4>
+<div class="outline-text-4" id="text-1-1-5">
+<p>
+Caution! This is about function definitions not declarations.
+</p>
+<ul class="org-ul">
+<li>In C, it is not allowed. (Since C20, it is also allowed in C.)</li>
+<li>In C++, it is allowed.</li>
+</ul>
+<p>
+This code is invalid for C (before C20) and valid for C++:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">void func(int) {}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1993a0d" class="outline-4">
+<h4 id="org1993a0d"><span class="section-number-4">1.1.6.</span> Scope of for-statement</h4>
+<div class="outline-text-4" id="text-1-1-6">
+<ul class="org-ul">
+<li>In C, inside of the for loop has a different block scope than for-statement itself.</li>
+<li>In C++, inside of the for loop and for-statement itself are in same block scope.</li>
+</ul>
+<p>
+Because of this difference, name shadowing inside a for loop is valid in C, but invalid in C++:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">for (int i = 0; i &lt; 10 ++i;)
+{
+    int i = 99;
+}
+</pre>
+</div>
+<p>
+We can say above code looks like this for C compiler:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">for (int i = 0; i &lt; 10 ++i;)
+{
+    {
+	int i = 99;
+    }
+}
+</pre>
+</div>
+<p>
+<i>Note: For C and C++, name shadowing is only valid between different scopes.</i>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org434fdf7" class="outline-3">
+<h3 id="org434fdf7"><span class="section-number-3">1.2.</span> Differences About Types and Type Conversions</h3>
+<div class="outline-text-3" id="text-1-2">
+</div>
+<div id="outline-container-org181d076" class="outline-4">
+<h4 id="org181d076"><span class="section-number-4">1.2.1.</span> Logic data type (boolean)</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+In C:
+</p>
+<ul class="org-ul">
+<li><code>int</code> is used instead of logic data type.</li>
+<li><code>_Bool</code> type is added in C99, but it is not widely used.</li>
+<li>C doesn't have <code>false</code>, <code>true</code> constants. <code>stdbool.h</code> defines macros for them.</li>
+</ul>
+
+<p>
+In C++:
+</p>
+<ul class="org-ul">
+<li><code>bool</code> type, <code>false</code> and <code>true</code> constants are build-in to the language. No need to include anything.</li>
+<li>Implicit type conversion from arithmetic types and pointer types to <code>bool</code> is allowed.</li>
+<li>Implicit type conversion from <code>bool</code> to arithmetic types is allowed.</li>
+</ul>
+<p>
+These are valid in C++:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">// Implicit conversion from arithmetic types to bool
+int x = 45;
+bool b1 = x;
+
+double y = 33.11;
+bool b2 = y;
+
+// Implicit conversion from pointer types to bool
+int z = 100;
+int* p = &amp;z;
+bool b3 = p;
+
+// Implicit conversion from bool to arithmetic types
+bool b4 = true;
+int t = b4;
+</pre>
+</div>
+
+<p>
+But, this is invalid:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">// No implicit conversion from bool to pointer types
+bool b5 = false;
+int* ptr = b5;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org44841a9" class="outline-4">
+<h4 id="org44841a9"><span class="section-number-4">1.2.2.</span> User defined types</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>In C, <code>struct</code>, <code>enum</code> and <code>union</code> tags don't represent type itself. A keyword (<code>struct</code>, <code>enum</code> or <code>union</code>) must be used before a tag name to represent a type. A <code>typedef</code> declaration can be used too.</li>
+<li>In C++, tag names directly represent type names.</li>
+</ul>
+<p>
+Here are some examples:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">struct Data
+{
+    int a, b, c;
+};
+
+// Invalid in C. Valid in C++. There is no need to use struct keyword or typedef declaration in C++.
+Data data0;
+
+// Valid in C and C++.
+struct Data data1;
+
+typedef struct Example
+{
+    int a, b, c;
+} Example;
+
+// Valid in C and C++.
+Example example0;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org115e0c3" class="outline-4">
+<h4 id="org115e0c3"><span class="section-number-4">1.2.3.</span> Empty structs</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<ul class="org-ul">
+<li>In C, empty structs are invalid.</li>
+<li>In C++, empty structs are valid.</li>
+</ul>
+<p>
+An example:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">struct Data
+{
+};
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org37626ce" class="outline-4">
+<h4 id="org37626ce"><span class="section-number-4">1.2.4.</span> Implicit conversion from arithmetic types to pointer types</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<ul class="org-ul">
+<li>In C, implicit conversion from arithmetic types to pointer types is allowed. Compilers might show a warning.</li>
+<li>In C++, there is no implicit conversion from arithmetic types to pointer types.</li>
+</ul>
+<p>
+This is valid in C and invalid in C++:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int x = 20;
+int* p = x;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org80288c0" class="outline-4">
+<h4 id="org80288c0"><span class="section-number-4">1.2.5.</span> Implicit conversion between different pointer types.</h4>
+<div class="outline-text-4" id="text-1-2-5">
+<ul class="org-ul">
+<li>In C, implicit conversion between different pointer is allowed. Compilers might show a warning.</li>
+<li>In C++, there is no implicit conversion between different pointer types.</li>
+</ul>
+<p>
+This is valid in C and invalid in C++:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">double d = 33.11;
+char* ptr = &amp;d;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8641fb4" class="outline-4">
+<h4 id="org8641fb4"><span class="section-number-4">1.2.6.</span> Implicit conversion from <code>void*</code> to <code>T*</code></h4>
+<div class="outline-text-4" id="text-1-2-6">
+<ul class="org-ul">
+<li>In C, implicit conversion from <code>void*</code> to <code>T*</code> is allowed.</li>
+<li>In C++, implicit conversion from <code>void*</code> to <code>T*</code> is not allowed.</li>
+</ul>
+<p>
+This code is valid in C but invalid in C++:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int* p = malloc(1000 * sizeof(int));
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1a294e7" class="outline-4">
+<h4 id="org1a294e7"><span class="section-number-4">1.2.7.</span> Underlying enumeration type</h4>
+<div class="outline-text-4" id="text-1-2-7">
+<ul class="org-ul">
+<li>In C, underlying enumeration type has to be <code>int</code>.</li>
+<li>In C++, it does not have to be <code>int</code> and can be specified with special syntax.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbc9e791" class="outline-4">
+<h4 id="orgbc9e791"><span class="section-number-4">1.2.8.</span> Implicit conversion from arithmetic types to enumeration types</h4>
+<div class="outline-text-4" id="text-1-2-8">
+<ul class="org-ul">
+<li>In C, it is allowed.</li>
+<li>In C++, it is not.</li>
+</ul>
+<p>
+This code is valid in C but invalid in C++:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">enum Color { Red, Green, Blue };
+enum Color color;
+color = 3;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge713e01" class="outline-4">
+<h4 id="orge713e01"><span class="section-number-4">1.2.9.</span> Implicit conversion between different enumeration types</h4>
+<div class="outline-text-4" id="text-1-2-9">
+<ul class="org-ul">
+<li>In C, it is allowed.</li>
+<li>In C++, it is not.</li>
+</ul>
+<p>
+This code is valid in C but invalid in C++:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">enum Color { Red, Green, Blue };
+enum Count { Zero, One, Two };
+enum Color color = Red;
+enum Count count = Zero;
+color = count;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org79f71b6" class="outline-4">
+<h4 id="org79f71b6"><span class="section-number-4">1.2.10.</span> Implicit conversion from enumeration types to arithmetic types.</h4>
+<div class="outline-text-4" id="text-1-2-10">
+<ul class="org-ul">
+<li>In C, it is allowed.</li>
+<li>In C++, it is also allowed. Scoped enums can be used to prevent this.</li>
+</ul>
+<p>
+This code is valid in C and C++:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">enum Color { Red, Green, Blue };
+enum Color color = Red;
+int x = color;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge943f95" class="outline-4">
+<h4 id="orge943f95"><span class="section-number-4">1.2.11.</span> Character literals</h4>
+<div class="outline-text-4" id="text-1-2-11">
+<ul class="org-ul">
+<li>In C, character literals are <code>int</code>.</li>
+<li>In C++, character literals are <code>char</code>.</li>
+</ul>
+<p>
+This code prints 4 in C and 1 in C++:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">printf("%zu\n", sizeof('A'));
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6e82b19" class="outline-4">
+<h4 id="org6e82b19"><span class="section-number-4">1.2.12.</span> String literals</h4>
+<div class="outline-text-4" id="text-1-2-12">
+<ul class="org-ul">
+<li>In C, the type of string literals is <code>char[n]</code>. When string literals are used in an expression they are converted to address of the first element (array decay - array to pointer conversion). The type after array decay is <code>char*</code>.</li>
+<li>In C++, the type of string literals is <code>const char[n]</code>. Array decay also applies to C++ but the type after array decay is <code>const char*</code>.</li>
+</ul>
+<p>
+This string literal is <code>char[8]</code> in C and <code>const char[8]</code> in C++:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">"example"
+</pre>
+</div>
+<p>
+This is valid in C but invalid in C++:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">// In C++, it is decayed to const char* and there is no implicit conversion from const T* to T*.
+char* s = "example";
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orged68c48" class="outline-3">
+<h3 id="orged68c48"><span class="section-number-3">1.3.</span> Differences About const Keyword</h3>
+<div class="outline-text-3" id="text-1-3">
+</div>
+<div id="outline-container-org51887a0" class="outline-4">
+<h4 id="org51887a0"><span class="section-number-4">1.3.1.</span> Initialization of const objects</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ul class="org-ul">
+<li>In C, <code>const</code> objects don't have to be initialized.</li>
+<li>In C++, <code>const</code> objects have to be initialized.</li>
+</ul>
+<p>
+This is code is valid in C and invalid in C++:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">const int x;
+</pre>
+</div>
+<p>
+Might be a bit tricky to understand at first but this is also valid in C++:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">// This is a pointer to const int. Object/variable itself is not const here it just points to const int
+const int* ptr;
+</pre>
+</div>
+<p>
+But this is invalid:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">// This is a const pointer to int. Object/variable itself is const
+int* const ptr;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org632defc" class="outline-4">
+<h4 id="org632defc"><span class="section-number-4">1.3.2.</span> Const expressions</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<ul class="org-ul">
+<li>In C, expressions generated by const variables are not counted as const expressions.</li>
+<li>In C++, they count as const expressions.</li>
+</ul>
+<p>
+This is invalid in C (assuming no VLA) but valid in C++:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">const int x = 10;
+int arr[x] = { 0 };
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0d6a970" class="outline-4">
+<h4 id="org0d6a970"><span class="section-number-4">1.3.3.</span> Global const objects and linkage</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<ul class="org-ul">
+<li>In C, global const objects are in external linkage.</li>
+<li>In C++, global const objects are in internal linkage like <code>static</code> objects.</li>
+</ul>
+<p>
+<code>x</code> is in external linkage in C and internal linkage in C++:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">// In global scope
+const int x = 10;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga19d8e5" class="outline-4">
+<h4 id="orga19d8e5"><span class="section-number-4">1.3.4.</span> Implicit conversion from <code>const T*</code> to <code>T*</code></h4>
+<div class="outline-text-4" id="text-1-3-4">
+<ul class="org-ul">
+<li>In C, implicit conversion from <code>const T*</code> to <code>T*</code> is allowed. Compilers might show a warning.</li>
+<li>In C++, there is no implicit conversion from <code>const T*</code> to <code>T*</code>.</li>
+</ul>
+<p>
+This is valid in C and invalid in C++:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">const int x = 10;
+int* p = &amp;x;
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4a5d280" class="outline-3">
+<h3 id="org4a5d280"><span class="section-number-3">1.4.</span> Differences About Value Categories</h3>
+<div class="outline-text-3" id="text-1-4">
+</div>
+<div id="outline-container-org69baa14" class="outline-4">
+<h4 id="org69baa14"><span class="section-number-4">1.4.1.</span> Primary value categories</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<ul class="org-ul">
+<li>In C, there are 2 primary value categories.
+<ul class="org-ul">
+<li>L-value</li>
+<li>R-value</li>
+</ul></li>
+<li>In C++, there are 3 primary value categories.
+<ul class="org-ul">
+<li>L-value</li>
+<li>PR-value (pure R-value)</li>
+<li>X-value (expired value)</li>
+</ul></li>
+</ul>
+<p>
+The combination of the <code>PR-value</code> and <code>X-value</code> categories is called the <code>R-value</code> category. (<code>PR-value</code> &cup; <code>X-value</code> = <code>R-value</code>). When we say an expression is <code>R-value</code> it means it may be an <code>PR-value</code> or <code>X-value</code> in C++.
+</p>
+
+<p>
+The combination of the <code>L-value</code> and <code>X-value</code> categories is called the <code>GL-value</code> category. (<code>L-value</code> &cup; <code>X-value</code> = <code>GL-value</code>). When we say an expression is <code>GL-value</code> it means it may be an <code>L-value</code> or <code>X-value</code> in C++.
+</p>
+
+<p>
+The <code>GL-value</code> and <code>R-value</code> categories are not <code>primary value categories</code>. They are called <code>combined value categories</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga3814c3" class="outline-4">
+<h4 id="orga3814c3"><span class="section-number-4">1.4.2.</span> Prefix increment/decrement operator</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<ul class="org-ul">
+<li>In C, expressions generated by prefix increment/decrement operator are R-value expressions.</li>
+<li>In C++, they are L-value expressions.</li>
+</ul>
+<p>
+This code is valid in C++ and invalid in C:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int x = 10;
+// These are invalid in C, because R-value expressions cannot be an operand of the address(&amp;) operator.
+&amp;++x;
+&amp;--x;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfacb85e" class="outline-4">
+<h4 id="orgfacb85e"><span class="section-number-4">1.4.3.</span> Assignment operator</h4>
+<div class="outline-text-4" id="text-1-4-3">
+<ul class="org-ul">
+<li>In C, expressions generated by assignment operator are R-value expressions.</li>
+<li>In C++, they are L-value expressions.</li>
+</ul>
+<p>
+This code is valid in C++ and invalid in C:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int x = 10;
+&amp;(x = 5);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org15f38c1" class="outline-4">
+<h4 id="org15f38c1"><span class="section-number-4">1.4.4.</span> Comma operator</h4>
+<div class="outline-text-4" id="text-1-4-4">
+<ul class="org-ul">
+<li>In C, expressions generated by comma operator are R-value expressions.</li>
+<li>In C++, they can be L-value or R-value expressions.</li>
+</ul>
+<p>
+This code is valid in C++ and invalid in C:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int x = 10;
+int y = 20;
+(x, y) = 30; // y = 30;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1a41503" class="outline-4">
+<h4 id="org1a41503"><span class="section-number-4">1.4.5.</span> Ternary operator</h4>
+<div class="outline-text-4" id="text-1-4-5">
+<ul class="org-ul">
+<li>In C, expressions generated by ternary operator are R-value expressions.</li>
+<li>In C++, they can be L-value or R-value expressions.</li>
+</ul>
+<p>
+This code is valid in C++ and invalid in C:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int x = 10;
+int y = 20;
+int z = 30;
+(x == 10 ? y : z) = 40; // y = 40;
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3c4b0be" class="outline-2">
+<h2 id="org3c4b0be"><span class="section-number-2">2.</span> C++ Topics</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org120792c" class="outline-3">
+<h3 id="org120792c"><span class="section-number-3">2.1.</span> Initialization</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+There are very different ways to initialize objects in C++.
+</p>
+</div>
+<div id="outline-container-org06c5465" class="outline-4">
+<h4 id="org06c5465"><span class="section-number-4">2.1.1.</span> Default initialization</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+Default initialized objects are created with a garbage value.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int x; // Default initialization.
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd9f91e5" class="outline-4">
+<h4 id="orgd9f91e5"><span class="section-number-4">2.1.2.</span> Zero initialization</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<p>
+Compilers zero initialize objects in the global scope. <code>Zero initialization</code> is not a way to initialize objects it is more like a compiler process.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">// Global scope
+int x;  // x = 0;
+bool b; // b = false;
+int* p; // p = nullptr;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org09a2e6d" class="outline-4">
+<h4 id="org09a2e6d"><span class="section-number-4">2.1.3.</span> Copy initialization</h4>
+<div class="outline-text-4" id="text-2-1-3">
+<p>
+If objects are initialized like in the C language, it is called <code>copy initialization</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int x = 10; // Copy initialization.
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7635574" class="outline-4">
+<h4 id="org7635574"><span class="section-number-4">2.1.4.</span> Direct initialization</h4>
+<div class="outline-text-4" id="text-2-1-4">
+<p>
+If objects are initialized by using paranthesis, it is called <code>direct initialization</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int x(98); // Direct initialization.
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9775da7" class="outline-4">
+<h4 id="org9775da7"><span class="section-number-4">2.1.5.</span> Direct-list / brace initialization (uniform initialization)</h4>
+<div class="outline-text-4" id="text-2-1-5">
+<p>
+If objects are initialized by using braces, it is called <code>direct-list initialization</code>. <code>direct-list/brace initialization</code> is added to the language to have a uniform way to initialize objects. This is why it is also called <code>uniform initialization</code>. It can be used to initialize any object.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int x{ 10 }; // Direct-list initialization.
+</pre>
+</div>
+
+<p>
+Unlike other initialization methods, if an implicit narrowing conversion occurs during <code>direct-list initialization</code>, it is a syntax error.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">double dval = 5.6;
+
+// Implicit narrowing conversion does not cause any error but compilers might show a warning.
+int i1 = dval;
+int i2(dval);
+
+// Invalid. Implicit narrowing conversion causes a syntax error. Explicit cast is needed.
+int i3{dval};
+</pre>
+</div>
+
+<p>
+In C++, there are such declarations that can be interpreted as both <code>object instantiation</code> and <code>function declaration</code> at the same time. In such cases, <code>function declaration</code> has the priority. This is called <code>most vexing parse</code> and sometimes it leads to problems.
+Example:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">struct A
+{
+};
+
+struct B
+{
+    B(A);
+};
+
+// Here, we wanted to create a bx object from class B type by calling its constructor with a temporary object with class A type.
+// C++ understands this as a function declaration. It is a function named bx and it has a return type of class B,
+// and takes a function pointer as a parameter. Sigh..
+B bx(A());
+
+// This can be prevented by using direct-list initialization.
+B by{A()};
+B bz(A{});
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7537f4d" class="outline-4">
+<h4 id="org7537f4d"><span class="section-number-4">2.1.6.</span> Value initialization</h4>
+<div class="outline-text-4" id="text-2-1-6">
+<p>
+If objects are initialized by using braces but inside of the braces are empty, it is called <code>value initialization</code>. Value initialized objects are first initialized to zero, if any additional initialization steps are required, this is done after <code>zero initialization</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int x{}; // Value initialization.
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge493a1e" class="outline-3">
+<h3 id="orge493a1e"><span class="section-number-3">2.2.</span> nullptr</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+In C++, there is a keyword that represents a null pointer, and it is called <code>nullptr</code>. It is not a macro like in C. It is a keyword, a constant and its type is <code>nullptr_t</code>.
+</p>
+
+<p>
+You can assign <code>nullptr</code> to other pointer types but there is no implicit conversion from <code>nullptr_t</code> type to arithmetic types.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">// Invalid
+int x = nullptr;
+
+// Valid
+int* y = nullptr;
+double* z = nullptr;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org789d33a" class="outline-3">
+<h3 id="org789d33a"><span class="section-number-3">2.3.</span> Reference Semantics</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+There is an alternative way to represent pointers in C++, which is called <code>reference</code>, but this is only an alternative at the language layer, the underlying representation does not change once the code is compiled. Everything works with the pointers in assembly level.
+</p>
+
+<p>
+There are 3 different reference categories:
+</p>
+<ul class="org-ul">
+<li>L-value reference</li>
+<li>R-value reference (move semantics, perfect forwarding (generic prog.))</li>
+<li>Forwarding/universal reference</li>
+</ul>
+<p>
+An example:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int x = 10;
+// L-value reference
+int&amp; y = x;
+// R-value reference
+int&amp;&amp; z = 10;
+// Forwarding/universal reference
+auto&amp;&amp; t = 10;
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgdb703e2" class="outline-4">
+<h4 id="orgdb703e2"><span class="section-number-4">2.3.1.</span> L-value references</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<p>
+L-value references are similar to <code>top-level const pointer objects</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int x = 10;
+
+// We cannot change the value of the ptr because it is a const pointer. It will always point to the same object
+// which is x in this case. Whenever *ptr is used, it means x.
+int* const ptr = &amp;x;
+int y = *ptr; // int y = x;
+</pre>
+</div>
+
+<p>
+L-value references represent their underlying object directly, there is no need for dereferencing like pointers. They cannot be default initialized, cannot be initialized with R-value objects and cannot be reassigned/rebound(like <code>top-level const pointer</code>).
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int x = 10;
+
+// Reference r directly represents x
+int&amp; r = x;
+// No need to dereference like a pointer
+int y = r; // int y = x;
+
+int&amp; r1; // Syntax error. References cannot be default initialized.
+int&amp; r2 = 10; // Syntax error. References cannot be initialized with R-value objects.
+
+int z = 10;
+int t = 20;
+int&amp; r3 = z;
+
+// This is valid but equals to z = t. r3 still represents z, what we did is changing value of z.
+// References cannot be reassigned.
+r3 = t; 
+</pre>
+</div>
+
+<p>
+We can say that when we define a L-value reference we bind it to underlying object and they will stay bound until the end of scope.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int x = 10;
+// All r1, r2 and r3 bound to x
+int&amp; r1 = x;
+int&amp; r2 = r1;
+int&amp; r3 = r2;
+
+++r1;
+++r2;
+++r3;
+// x is 13 here
+
+</pre>
+</div>
+
+<p>
+L-value rereferences can also be bound to arrays and array decay rules do not change:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int a[] = { 1, 3, 5, 7, 9 };
+// r is bound to a
+int (&amp;ra)[] = a; // Normally, we do not have to write the type directly. we can use type deduction.
+
+for (int i = 0; i &lt; 5; ++i)
+{
+   // ra[i] equals to a[i]
+}
+
+// Same rules apply for array decay
+int* p1 = a;
+int* p2 = ra;
+</pre>
+</div>
+
+<p>
+L-value references often used to pass the object to the function (<code>call by reference</code>) and also to return the object itself from the function.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int&amp; foo(int&amp; r)
+{
+    ++r;
+    return r;
+}
+
+int x = 10;
+
+// Value of x will be 11 after foo() is called
+// r represents x
+int&amp; r = foo(x);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd92f159" class="outline-4">
+<h4 id="orgd92f159"><span class="section-number-4">2.3.2.</span> L-value references and const semantics</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<p>
+We said that L-value references are like <code>top-level const pointer</code> by default but they can also be used like <code>low-level const pointer</code>.
+Pointer parameters can be used as a mutator or accessor. L-value references also can be used in a similar way:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">void f1(int* p); // Mutator
+void f2(const int* p); // Accessor
+
+void f3(int&amp; r); // Mutator
+void f4(const int&amp; r); // Accessor
+</pre>
+</div>
+
+<p>
+<code>const</code> objects can only be bound by <code>const</code> L-value references similar to pointers:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">const int x = 10;
+int* p = &amp;x; // Invalid. int* p cannot point to const int x.
+int&amp; r = x; // Also invalid. int&amp; r cannot bind to const int x.
+
+const int&amp; cr = x; // Valid.
+</pre>
+</div>
+
+<p>
+Normally, initializing an L-value reference with a different/mismatching object type is syntax error:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int x = 10;
+double&amp; r = x; // Syntax error. double&amp; r cannot bind to int object.
+</pre>
+</div>
+
+<p>
+But, if we try to initialize a <code>const</code> L-value reference with a different/mismatching object type and there is an implicit conversion from that object type to the type represented by the <code>const</code> L-value reference, the compiler creates a temporary object and the <code>const</code> L-value reference is bound to that temporary object:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int x = 10;
+// This is valid. Normally, double and int types do not match but implicit conversion is allowed from int to double.
+// So, compiler creates a temporary double object and assign x to it, then cr binds to that temporary object.
+const double&amp; cr = x; 
+
+// We can think that compiler generates something like this for above code.
+// double temporary_object = x;
+// const double&amp; cr = temporary_object;
+</pre>
+</div>
+
+<p>
+This also applies, when we try to initialize <code>const</code> L-value references with R-value objects:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"> // This is syntax error. L-value references cannot be initialized with R-value objects.
+int&amp; r = 10;
+
+// This is valid when we use const L-value reference, because compiler creates a temporary object like the example above.
+const int&amp; cr = 10;
+
+// Compiler might generate something like this for above code.
+// int temporary_object = 10;
+// const int&amp; cr = temporary_object;
+</pre>
+</div>
+
+<p>
+This becomes even more important when we call functions that take L-value reference parameters, for example:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">// We can only pass an L-value objects to f1(). If we try to pass a R-value object it will be syntax error.
+void f1(int&amp; x);
+int x = 10;
+f1(x); // Valid.
+f2(10); // Invalid, syntax error.
+
+// It is not the same for f2() however. We can pass L-value objects to f2() but if we try to pass a R-value object, it will not cause
+// any syntax error because of the rules above. The temporary object will be passed to f2() instead of R-value object itself. (Assuming there is no type problem)
+void f2(const int&amp; x);
+int y = 10;
+f2(y); // Valid.
+f2(10); // Also valid.
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5a5a11a" class="outline-4">
+<h4 id="org5a5a11a"><span class="section-number-4">2.3.3.</span> Differences between pointers and L-value references</h4>
+<div class="outline-text-4" id="text-2-3-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Pointers</th>
+<th scope="col" class="org-left">References</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">don't have to be initialized</td>
+<td class="org-left">have to be initialized</td>
+</tr>
+
+<tr>
+<td class="org-left">pointer to pointer exists</td>
+<td class="org-left">reference to reference doesn't exist (ignoring reference collapsing)</td>
+</tr>
+
+<tr>
+<td class="org-left">arrays can store pointers</td>
+<td class="org-left">arrays cannot store references</td>
+</tr>
+
+<tr>
+<td class="org-left">pointers can be null (nullptr)</td>
+<td class="org-left">references cannot be null</td>
+</tr>
+
+<tr>
+<td class="org-left">pointers can be reassigned</td>
+<td class="org-left">references cannot be reassigned</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org3646d74" class="outline-4">
+<h4 id="org3646d74"><span class="section-number-4">2.3.4.</span> R-value references</h4>
+<div class="outline-text-4" id="text-2-3-4">
+<p>
+R-value references are mostly about move semantics and perfect forwarding. Details will be discussed in the future. We will just briefly explain the syntax for now.
+R-value references cannot be default-initialized like L-value references, and can be initialized only with R-value objects.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int&amp;&amp; r = 10; // Valid, R-value reference.
+
+int x = 10;
+int&amp;&amp; rr = x; // Invalid. R-value references cannot be initialized with L-value objects.
+</pre>
+</div>
+
+<p>
+&#x2026;
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org04d163e" class="outline-3">
+<h3 id="org04d163e"><span class="section-number-3">2.4.</span> Type Deduction</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+In C++, we don't need to write the type explicitly in some contexts. We can use one of the type deduction mechanisms to have the compiler determine the type for us by looking at the code.
+There are several different mechanisms for type deduction:
+</p>
+<ul class="org-ul">
+<li>auto</li>
+<li>decltype</li>
+<li>decltyoe(auto)</li>
+<li>template</li>
+</ul>
+</div>
+
+<div id="outline-container-orgf4688ee" class="outline-4">
+<h4 id="orgf4688ee"><span class="section-number-4">2.4.1.</span> auto type deduction</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<p>
+The <code>auto</code> keyword can be used to determine the type of the variable during initialization. A very important point is that the type deduction is made for <code>auto</code> keyword not for the variable itself.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">auto x = 10; // int x = 10;
+
+int y = 45;
+auto z = y; // int z = y;
+
+auto t = 0U; // unsigned int t = 0U;
+auto k = 0.; // double k = 0.;
+
+char c = 'a';
+auto a = c; // char a = c;
+auto b = +c; // int b = +c;
+
+auto d = 10 &gt; 5; // bool d = 10 &gt; 5;
+</pre>
+</div>
+
+<p>
+We cannot <code>default initialize</code> an object with <code>auto</code> because in this case the compiler cannot determine its type:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">auto x; // Invalid.
+</pre>
+</div>
+
+<p>
+If an object is <code>auto</code> initialized with a <code>const</code> object and does not have any declarator (such as *, &amp;), <code>const</code> qualifier drops:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">const int cx = 6;
+// This equals to int y = cx;. const qualifier drops.
+auto y = cx;
+
+int* const ptr = 0;
+// ptr is const pointer to int. If the object itself is const, const qualifier drops.
+auto p = ptr; // int* p = ptr;
+
+const int* ptr1 = 0;
+// ptr1 is pointer to const int. The object itself is not const, const qualifier does not drop in this case.
+auto p1 = ptr1; // const int* p1 = ptr1;
+</pre>
+</div>
+
+<p>
+If an object is <code>auto</code> initialized with a <code>reference</code> and does not have any declarator (such as *, &amp;), <code>reference</code> qualifier drops:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int x = 10;
+int&amp; r = x;
+// This equals to int y = r;. reference qualifier drops.
+auto y = r;
+
+const int&amp; cr = x;
+// This equals to int z = cr;. const and reference qualifiers drop.
+auto z = cr;
+</pre>
+</div>
+
+<p>
+Array decay rules are still valid: 
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int a[] = { 1, 3, 6, 7 };
+auto p = a; // int* p = a;
+
+const int ca[] = { 1, 3, 6, 7 };
+// Here const qualifier does not drop. The object itself 'ca' is not const.
+// It is a pointer to const int after array decay.
+auto cp = ca; // const int* cp = ca;
+
+// The type of the "test" is const char[5], it decays to const char*.
+auto str = "test"; // const char* str = "test";
+</pre>
+</div>
+
+<p>
+<code>auto</code> initialization with functions:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int foo(int);
+// Normally, type of the foo is int(int) but it decays to int (*)(int).
+auto fp = foo; // int (*fp)(int) = foo;
+</pre>
+</div>
+
+<p>
+<code>auto</code> initialization and <code>std::initializer_list</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">auto x = { 3 }; // std::initializer_list x = { 3 };
+auto y{ 3 }; // int y{ 3 }; This rule was different before. It was also meaning std::initializer_list y{ 3 };
+</pre>
+</div>
+
+<p>
+Type deduction is made for <code>auto</code> keyword not for variable itself:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int x = 10;
+auto p1 = &amp;x; // int* p1 = &amp;x; auto -&gt; int*
+auto* p2 = &amp;x; // int* p2 = &amp;x; auto -&gt; int
+
+int* ptr = &amp;x;
+auto p1 = &amp;ptr; // int** p1 = &amp;ptr; auto -&gt; int**
+auto* p2 = &amp;ptr; // int** p2 = &amp;ptr; auto -&gt; int*
+auto** p3 = &amp;ptr; // int** p3 = &amp;ptr; auto -&gt; int
+</pre>
+</div>
+
+<p>
+If declarators and <code>auto</code> are used together, rules are a bit different:
+In this example there is no difference:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int x = 10;
+auto&amp; r = x; // int&amp; r = x;
+</pre>
+</div>
+
+<p>
+But when we use a <code>const</code> object:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">const int x = 10;
+// const qualifier does not drop here.
+auto&amp; r = x; // const int&amp; r = x;
+</pre>
+</div>
+
+<p>
+Array and function rules are also different:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int a[3] = { 1, 2, 3 };
+// Array decay does not occur here.
+auto&amp; x = a; // int (&amp;x)[3] = a;
+auto&amp; str = "test"; // const char (&amp;str)[5] = "test";
+
+int foo(int);
+// There is no decay here. Type deduction will be int(int) type for auto.
+auto&amp; f1 = foo; // int (&amp;f1)(int) = foo;   
+</pre>
+</div>
+
+<p>
+If double reference (&amp;&amp;) declarator (forwarding-reference) is used with <code>auto</code>, the rules change significantly. If <code>auto&amp;&amp;</code> is used, the type deduction for the <code>auto</code> keyword depends on the value category of the object used for initialization. Different rules are applied for L-value expressions and R-value expressions (PR-value or X-value).
+</p>
+
+<p>
+If value of category of the initializer is PR-value, the type deduction for <code>auto</code> will be the type of the expression:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">// Type deduction for auto will be int because type of 20 is int.
+auto&amp;&amp; p = 20; // int&amp;&amp; p = 20;
+</pre>
+</div>
+
+<p>
+If value of category of the initializer is L-value, the type deduction for <code>auto</code> will be L-value reference:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int x;
+// Type deduction for auto will be int&amp; but there is no int&amp;&amp;&amp;, so reference collapsing rules apply here.
+auto&amp;&amp; p = x; // After reference collapsing this equals to int&amp; p = x;
+</pre>
+</div>
+
+<p>
+Reference collapsing rules:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">reference type</th>
+<th scope="col" class="org-left">binding reference type</th>
+<th scope="col" class="org-left">result after reference collapsing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">T&amp;</td>
+<td class="org-left">T&amp;&amp;</td>
+<td class="org-left">T&amp;</td>
+</tr>
+
+<tr>
+<td class="org-left">T&amp;&amp;</td>
+<td class="org-left">T&amp;</td>
+<td class="org-left">T&amp;</td>
+</tr>
+
+<tr>
+<td class="org-left">T&amp;</td>
+<td class="org-left">T&amp;</td>
+<td class="org-left">T&amp;</td>
+</tr>
+
+<tr>
+<td class="org-left">T&amp;&amp;</td>
+<td class="org-left">T&amp;&amp;</td>
+<td class="org-left">T&amp;&amp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org4085b9c" class="outline-4">
+<h4 id="org4085b9c"><span class="section-number-4">2.4.2.</span> decltype type deduction</h4>
+<div class="outline-text-4" id="text-2-4-2">
+<p>
+<code>auto</code> type deduction can be used for initialization but <code>decltype</code> type deduction does not have this limitation. It can be used in any context intead of types. <code>decltype</code> is also <code>unevaluated context</code> like <code>sizeof</code>.
+</p>
+
+<p>
+<code>decltype</code> has quite complex rules. Using paranthesis is necessary while using <code>decltype</code>. There are 2 different rulesets for <code>decltype</code>:
+</p>
+
+<p>
+Rulesets:
+</p>
+<ul class="org-ul">
+<li>If the operand of the <code>decltype</code> is an <code>identifier</code>, different rules are applied.</li>
+<li>If the operand of the <code>decltype</code> is an <code>expression</code>, different rules are applied.</li>
+</ul>
+
+<p>
+Example for rulesets:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">struct Data { int a, b, c; };
+
+Data my_data{};
+int x = 10;   
+
+// Identifier rules applied here.
+decltype(my_data);
+decltype(my_data.a);
+decltype(x);
+
+// But here expression rules are applied.
+decltype((x));
+decltype(+x);
+</pre>
+</div>
+
+<p>
+<code>decltype</code> can be used in a lot of contexts:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int x = 10;
+
+decltype(x) foo(); // Function declaration. int foo();
+using my_type = decltype(x); // using my_type = int;
+
+const int y = 5;
+decltype(x) z = 0; // const int z = 0;
+</pre>
+</div>
+
+<p>
+<code>decltype</code> and references:
+ #+BEGIN<sub>SRC</sub> C++
+   int x{};
+   auto&amp; r{ x };
+</p>
+
+<p>
+decltype(r) r2 = x; // int&amp; r2 = x;
+</p>
+
+<p>
+  int y{};
+  const auto&amp; r3 = y;
+  decltype(r3) r4 = y; // const int&amp; r4 = y;
+#+END<sub>SRC</sub> C++
+</p>
+
+<p>
+When the operand of the <code>decltype</code> is an expression. The type will be determined by the <code>primary value category</code> of the expression.
+If the expression is:
+</p>
+<ul class="org-ul">
+<li>L-value deduction will be <code>T&amp;</code></li>
+<li>PR-value deduction will be <code>T</code></li>
+<li>X-value deduction will be <code>T&amp;&amp;</code></li>
+</ul>
+
+<p>
+PR-value expression:
+#+BEGIN<sub>SRC</sub> C++
+  decltype(10); // PR-Value. int
+#+END<sub>SRC</sub> C++
+</p>
+
+<p>
+L-value expression:
+#+BEGIN<sub>SRC</sub> C++
+  int x = 10;
+  int* ptr = &amp;x;
+  decltype(*ptr) r = x; // L-value. int&amp; r = x;
+</p>
+
+<p>
+int y = 5;
+decltype((y)) z = y; // L-value. int&amp; z = y;
+</p>
+
+<p>
+  int t = 10;
+  decltype(t++); <i>/ int
+  decltype(++t); /</i> int&amp;
+#+END<sub>SRC</sub> C++
+</p>
+
+<p>
+<code>decltype</code> and arrays:
+#+BEGIN<sub>SRC</sub> C++
+  int a[5]{};
+</p>
+
+<p>
+  <i>/ a is an identifier
+  decltype(a) b; /</i> int b[5]; No array decay.
+  <i>/ a[0] is an expression
+  decltype(a[0]) c = a[1]; /</i> int&amp; c = a[1];
+#+END<sub>SRC</sub> C++
+</p>
+
+<p>
+X-value expression:
+#+BEGIN<sub>SRC</sub> C++
+ int f1();
+ int&amp; f2();
+ int&amp;&amp; f3();
+</p>
+
+<p>
+ decltype(f1()) x = 5; <i>/ PR-value. int x = 5;
+ decltype(f2()) y = x; /</i> L-value. int&amp; y = x;
+ decltype(f3()) z = 5; // X-value. int&amp;&amp; z = 5;
+#+END<sub>SRC</sub> C++
+</p>
+
+<p>
+Other type deduction mechanisms will be discussed later.
+</p>
+
+<p>
+&#x2026; 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5da547b" class="outline-3">
+<h3 id="org5da547b"><span class="section-number-3">2.5.</span> Default Function Arguments</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+Unlike C, C++ supports default function arguments. If a function mostly takes the same value for an argument, default function arguments are very helpful.
+When the <code>default function argument</code> is used, we do not need to pass a value to that argument when calling the function. The compiler will insert the value that we specified:
+#+BEGIN<sub>SRC</sub> C++
+  void func(int, int, int = 10);
+</p>
+
+<p>
+int x = 1;
+int y = 2;
+int z = 3;
+</p>
+
+<p>
+  func(x, y, z); <i>/ func(x, y, z);
+  func(x, y); /</i> func(x, y, 10); The compiler will insert 10 for the 3rd argument because we did not send any argument for the 3rd parameter.
+#+END<sub>SRC</sub> C++
+</p>
+
+<p>
+If a parameter of a function takes a <code>default argument</code>, all parameters to the right of it must also take a <code>default argument</code>. This essentially means that the <code>default arguments</code> are valid for the last function parameters:
+#+BEGIN<sub>SRC</sub> C++
+  void f1(int x, int y = 5, int z); <i>/ Invalid.
+  void f2(int x, int y = 5, int z = 7); /</i> Valid.
+  void f3(int x = 3, int y = 5, int z = 7); // Valid.
+</p>
+
+<p>
+  f3(); <i>/ f3(3, 5, 7);
+  f3(40); /</i> f3(40, 5, 7);
+  f3(40, 50); <i>/ f3(40, 50, 7);
+  f3(40, 50, 60); /</i> f3(40, 50, 60);
+#+END<sub>SRC</sub> C++
+</p>
+
+<p>
+Variables also can be used for <code>default function arguments</code>:
+#+BEGIN<sub>SRC</sub> C++
+  int x{ 5 };
+  void func(int = x); // Valid.
+</p>
+
+<p>
+func(); // func(x);
+</p>
+
+<p>
+int f1(int x = 0);
+void f2(int y = f1());
+</p>
+
+<p>
+f2(); // f2(f1(0));
+</p>
+
+<p>
+int y{ 5 };
+int foo(int n = y++)
+{
+    return n;
+}
+</p>
+
+<p>
+  <i>/ y = 5;
+  foo(); /</i> foo(y++); returns 5;
+  foo(); <i>/ foo(y++); returns 6;
+  foo(); /</i> foo(y++); returns 7;
+  // y = 8;
+#+END<sub>SRC</sub> C++
+</p>
+
+<p>
+If <code>the default function arguments</code> are defined both in the function definition and in the declaration, this is a syntax error:
+#+BEGIN<sub>SRC</sub> C++
+  // Invalid.
+  void f2(int x = 10);
+  void f2(int x = 10)
+  {
+      //
+  }
+</p>
+
+<p>
+  // Valid.
+  void f3(int x = 10);
+  void f3(int x)
+  {
+      //
+  }
+#+END<sub>SRC</sub> C++
+</p>
+
+<p>
+If a function parameter does not take a <code>default argument</code>, we can redeclare the function so that it takes a <code>default argument</code>. This can, for example, allow us to pass <code>default arguments</code> to functions coming from external header files:
+#+BEGIN<sub>SRC</sub> C++
+  <i>/ external.h
+  void func(int, int, int); /</i> Function without any default arguments.
+</p>
+
+<p>
+<i>/ #include "external.h"
+void func(int, int, int = 10); /</i> Valid.
+</p>
+
+<p>
+  func(1, 5); // func(1, 5, 10);
+#+END<sub>SRC</sub> C++
+</p>
+
+<p>
+The compiler takes the <code>default arguments</code> cumulatively:
+#+BEGIN<sub>SRC</sub> C++
+ // Invalid, because there are multiple definitions for the same parameter's default argument.
+ void f1(int x = 10);
+ void f1(int x = 10);
+</p>
+
+<p>
+// f2 does not take any default arguments. 
+void f2(int, int, int);
+// f2 takes a default argument for the 3rd parameter.
+void f2(int, int, int = 10);
+<i>/ f2 takes default arguments for the 2nd and 3rd parameters. This equals to void f2(int, int = 5, int = 10);
+/</i> because the compiler takes the default arguments cumulatively.
+void f2(int, int = 5, int);
+</p>
+
+<p>
+f2(1) // f2(1, 5, 10);
+</p>
+
+<p>
+ // f3 does not take any default arguments. 
+ void f3(int, int, int);
+ // Invalid. This is a different case, only last parameters can take default arguments.
+ void f3(int, int = 5, int); 
+#+END<sub>SRC</sub> C++
+</p>
+</div>
+</div>
+
+<div id="outline-container-org99e3911" class="outline-3">
+<h3 id="org99e3911"><span class="section-number-3">2.6.</span> Scoped enum / Enum class</h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+In addition to the <code>traditional enum type</code>, C++ has a new enum type called <code>scoped enum</code> / <code>enum class</code>. <code>Scoped enum</code> were introduced to overcome the disadvantages of the <code>traditional enum type</code>.
+</p>
+</div>
+
+<div id="outline-container-org35319b9" class="outline-4">
+<h4 id="org35319b9"><span class="section-number-4">2.6.1.</span> Disadvantages of the traditional enum type</h4>
+<div class="outline-text-4" id="text-2-6-1">
+<ul class="org-ul">
+<li><code>Underlying type</code> depends to the compiler. The compiler chooses <code>int</code> as default type but if <code>int</code> isn't big enough to store the <code>enumeration constants</code>, the type choosen is compiler dependent. This is why <code>traditional enum types</code> cannot be used as <code>incomplete types</code>. The compiler cannot know the size when used as an <code>incomplete type</code>, because it may be larger than <code>int</code>.
+#+BEGIN<sub>SRC</sub> C++
+  enum Color { Red, Green, Blue }; <i>/ Underlying type is int.
+  enum MyEnum { Aa, Bb, Cc, Dd = 13024325325 }; /</i> Underlying type is compiler dependent.
+#+END<sub>SRC</sub> C++</li>
+<li>Implicit type conversion from <code>traditional enum types</code> to <code>arithmetic types</code> is allowed. Unfortunately, this can also lead to many problems.
+#+BEGIN<sub>SRC</sub> C++
+  enum Color { Red, Green, Blue };
+  int x = Red; // Valid.
+#+END<sub>SRC</sub> C++</li>
+<li><code>Enumeration constants</code> don't have separate scope. This can cause name conflicts, especially with names from external header files.
+#+BEGIN<sub>SRC</sub> C++
+  // traffic.h
+  enum TrafficLight { Red, Yellow, Green };
+  // screen.h
+  enum ScreenColor { Gray, White, Red };
+#+END<sub>SRC</sub> C++</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga313e46" class="outline-4">
+<h4 id="orga313e46"><span class="section-number-4">2.6.2.</span> Advantages of the scoped enum type</h4>
+<div class="outline-text-4" id="text-2-6-2">
+<ul class="org-ul">
+<li>The <code>underlying type</code> can be specified. If not specified <code>int</code> is default.
+#+BEGIN<sub>SRC</sub> C++
+  enum class Color : unsigned char { White, Black, Gray };
+  enum Count : unsigned char { Zero, One, Two, Three }; // C++ also extended the traditional enum types, so that specifying underlying types is possible.
+#+END<sub>SRC</sub> C++</li>
+<li>No implicit type conversion from <code>scoped enum types</code> to <code>arithmetic types</code>.
+#+BEGIN<sub>SRC</sub> C++
+  enum class Color : unsigned char { White, Black, Gray };
+  Color color{ Color::Black };
+  int x = color; // Invalid.
+#+END<sub>SRC</sub> C++</li>
+<li><p>
+<code>Enumeration constants</code> are no longer in the same scope with the <code>enumeration type</code>. As the name indicates, they have a separate scope. This eliminates the name conflict problems.
+#+BEGIN<sub>SRC</sub> C++
+  enum class Color : unsigned char { White, Black, Gray };
+  Color color1 = White; <i>/ Invalid.
+  Color color2 = Color::White; /</i> Valid.
+</p>
+
+<p>
+  enum class TrafficLight { Red, Yellow, Green };
+  enum class ScreenColor { Gray, White, Red };
+  auto sc = ScreenColor::Red;
+  auto tl = TrafficLight::Red;
+#+END<sub>SRC</sub> C++
+</p></li>
+</ul>
+
+<p>
+In C++20, <code>using enum declaration</code> was added to the language. If we are sure that there is no name conflict, we can use <code>using enum declaration</code> to use <code>enumeration constants</code> without specifying them with a namespace.
+#+BEGIN<sub>SRC</sub> C++
+  enum class Color : unsigned char { White, Black, Gray };
+  enum class Count : unsigned char { Zero, One, Two };
+</p>
+
+<p>
+void func()
+{
+    // C++20, using enum declaration
+    using enum Color;
+    using enum Count::Zero;
+</p>
+
+<p>
+auto color1 = White; <i>/ Valid.
+auto color2 = Black; /</i> Valid.
+</p>
+
+<p>
+      auto count1 = Zero; <i>/ Valid.
+      auto count2 = One; /</i> Invalid.
+  }
+#+END<sub>SRC</sub> C++
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbeb9069" class="outline-3">
+<h3 id="orgbeb9069"><span class="section-number-3">2.7.</span> Type Cast Operators</h3>
+<div class="outline-text-3" id="text-2-7">
+<p>
+In C++, there 2 different type conversions: <code>implicit type conversion</code> and <code>explicit type conversion</code>. In some cases the compiler is free to do <code>implicit type conversion</code> depending on the rules of the language, but if we want to explicity convert a type, we have to do <code>explicit type conversion</code> by using <code>type cast operators</code>.
+</p>
+</div>
+
+<div id="outline-container-org516cc32" class="outline-4">
+<h4 id="org516cc32"><span class="section-number-4">2.7.1.</span> Why C-style type cast is not enough?</h4>
+<div class="outline-text-4" id="text-2-7-1">
+<p>
+Different <code>explicit type conversions</code> can have different intentions and meanings. There can be many different reasons for converting one type to another type:
+</p>
+<ul class="org-ul">
+<li><code>Explicit type conversion</code> can be used to indicate that there will be data loss and that this is not a problem.</li>
+<li><code>Explicit type conversion</code> can be used to convert <code>const T*</code> to <code>T*</code>, if we know the actual object is not a <code>const</code> object.</li>
+<li><code>Explicit type conversion</code> can be used to convert <code>T*</code> to <code>char*</code>, to use the actual object as a char array.</li>
+</ul>
+
+<p>
+The list can be extended with different examples, but the point is that not every <code>explicit type conversion</code> has the same intention/meaning. The syntax of <code>C-style type cast</code> is very simple, but it is not sufficient to explain the intention of the conversion.
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2024-08-18 Sun 17:54</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
