@@ -1023,6 +1023,64 @@
 ** Type Cast Operators
  In C++, there 2 different type conversions: ~implicit type conversion~ and ~explicit type conversion~. In some cases the compiler is free to do ~implicit type conversion~ depending on the rules of the language, but if we want to explicity convert a type, we have to do ~explicit type conversion~ by using ~type cast operators~.
 
+ There are 4-different type cast operators in C++ (excluding ~C-style cast~):
+  - ~static_cast<target_type>(operand)~
+     + Mostly used casting between different arithmetic and enumeration types, also can be used to cast from ~void*~ to another pointer type.
+  - ~const_cast<target_type>(operand)~
+     + Used for casting ~const T*~ to ~T*~.
+  - ~reinterpret_cast<target_type>(operand)~
+     + Used for casting between different pointer and reference types. Ex. ~int*~ to ~char*~.
+  - ~dynamic_cast<target_type>(operand)~
+     + This cast is about runtime polymorphism, can be used to cast from ~base class~ to ~derived class~.
+
+ Example for ~static_cast~:
+ #+BEGIN_SRC C++
+   int x = 10;
+   int y = 3;
+
+   double dval = static_cast<double>(x) / y;
+   int ival = static_cast<int>(dval);
+
+   enum class Pos { off, on, hold };
+   Pos pos = Pos::off;
+   ival = static_cast<int>(pos);
+ #+END_SRC
+
+ Example for ~const_cast~:
+ #+BEGIN_SRC C++
+   char* mystrchr(const char* p, int c)
+   {
+       while (*p)
+       {
+	   if (*p == c)
+	   {
+	       return const_cast<char*>(p);
+	   }
+	   ++p;
+       }
+
+       if (c == '\0')
+	   return const_cast<char*>(p);
+
+       return nullptr;
+   }
+ #+END_SRC
+
+ Example for ~reinterpret_cast~:
+ #+BEGIN_SRC C++
+   double dval = 451.2356;
+   char* p = reinterpret_cast<char*>(&dval);
+
+   for (std::size_t i{}; i < sizeof(double); ++i)
+   {
+       std::cout << p[i] << '\n';
+   }
+ #+END_SRC
+
+Example for ~dynamic_cast~:
+ Will be explained later.
+ ...
+
 *** Why C-style type cast is not enough?
  Different ~explicit type conversions~ can have different intentions and meanings. There can be many different reasons for converting one type to another type:
  - ~Explicit type conversion~ can be used to indicate that there will be data loss and that this is not a problem.
@@ -1030,3 +1088,8 @@
  - ~Explicit type conversion~ can be used to convert ~T*~ to ~char*~, to use the actual object as a char array.
 
  The list can be extended with different examples, but the point is that not every ~explicit type conversion~ has the same intention/meaning. The syntax of ~C-style type cast~ is very simple, but it is not sufficient to explain the intention of the conversion.
+
+** Function Overloading
+ In C++, multiple functions can have the same name but with different parameters. These functions can perform different tasks based on the parameters passed to them. The compiler differentiates between the overloaded functions by their number of parameters, types of parameters, and the order of parameters.
+
+ cpp 007 - 01:04:00
