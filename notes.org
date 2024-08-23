@@ -1090,6 +1090,138 @@ Example for ~dynamic_cast~:
  The list can be extended with different examples, but the point is that not every ~explicit type conversion~ has the same intention/meaning. The syntax of ~C-style type cast~ is very simple, but it is not sufficient to explain the intention of the conversion.
 
 ** Function Overloading
- In C++, multiple functions can have the same name but with different parameters. These functions can perform different tasks based on the parameters passed to them. The compiler differentiates between the overloaded functions by their number of parameters, types of parameters, and the order of parameters.
+ In C++, multiple functions can have the same name but with different parameters. These functions can perform different tasks based on the parameters passed to them. The compiler differentiates between the overloaded functions by their number of parameters, types of parameters, and the order of parameters. When the compiler encounters a call to an overloaded function, it uses the argument types and number of arguments to determine which version of the overloaded function to invoke. This process, called ~static/early binding~ or ~compile-time polymorphism~, happens at compile-time, meaning the function to be executed is determined before the program runs. Function overloading is all about compile-time, it has no run-time overhead. For function overloading, there are 2 different and important points for the compiler to decide. Is there a function overloading for the particular function and if so, which function to choose. The process by the compiler to decide which function to choose is called ~function overload resolution~.
 
- cpp 007 - 01:04:00
+ To talk about function overloading, there are 3 different things to consider:
+  - Function names have to be the same.
+  - Function signatures have to be different.
+  - Functions have to be in the same scope.
+    + namespace scope
+    + class scope
+    + block scope
+
+If one function is in ~namespace scope~ and the other is in ~block scope~, even if they have the same name, it will not cause function overloading. It causes ~name shadowing~ instead:
+ #+BEGIN_SRC C++
+   int foo(int);
+
+   int main()
+   {
+       int foo(double);
+
+       foo(5); // There is no funcion overloading. foo(double) will be called due to name shadowing.
+   }
+ #+END_SRC
+
+ In order to do function overloading, functions must have different signatures. ~return~ type is not part of the signature:
+ #+BEGIN_SRC C++
+   int foo(int);
+   double foo(int); // This is invalid, syntax error.
+ #+END_SRC
+
+ This is valid function overloading. Same function names, in the same scope and different signatures.
+ #+BEGIN_SRC C++
+   int foo(int);
+   int foo(int, int);
+ #+END_SRC
+
+ ~Default function arguments~ do not effect ~function signature~. These functions still have different signatures and this is valid ~function overloading~. We don't talk about what happens when we call the function ~foo()~ with only one argument. It is about ~function overload resolution~.
+ #+BEGIN_SRC C++
+   int foo(int);
+   int foo(int, int = 0);
+ #+END_SRC
+
+ If the parameter itself is ~const~ (~top-level const~) it doesn't effect ~function signature~. No ~function overloading~ here, it is ~function redeclaration~;
+ #+BEGIN_SRC C++
+   int foo(int);
+   int foo(const int); // Valid, no overload. Function redeclaration.
+
+   int func(double* const p);
+   int func(double* p); // Valid, no overload. Function redeclaration
+ #+END_SRC
+
+ ~const T*~ is a different type than ~T*~. ~Low-level const~ changes ~function signature~. This is valid ~function overloading~ and mostly called ~const overload~:
+ #+BEGIN_SRC C++
+   int foo(int*);
+   int foo(const int*);
+ #+END_SRC
+
+ ~const T&~ is a different type than ~T&~. This is valid ~function overloading~ and it is commonly used:
+ #+BEGIN_SRC C++
+   int foo(int&);
+   int foo(const int&);
+ #+END_SRC
+
+ A Type alias doesn't mean a different type than the underlying type. No ~function oveloading~ here:
+ #+BEGIN_SRC C++
+   typedef double flt_type;
+
+   void foo(double);
+   void foo(flt_type); // Valid, no overload. Function redeclaration.
+ #+END_SRC
+
+ ~char~, ~unsigned char~ and ~signed char~ are 3 different distinct types. There are 3 ~function overload~ here:
+ #+BEGIN_SRC C++
+   void foo(char);
+   void foo(signed char);
+   void foo(unsigned char);
+ #+END_SRC
+
+ There are 3 ~function overloads~ here:
+ #+BEGIN_SRC C++
+   void foo(int*);
+   void foo(int**);
+   void foo(int***);
+ #+END_SRC
+
+ L-value reference and R-value reference. This is valid ~function overloading~:
+ #+BEGIN_SRC C++
+   void foo(int&);
+   void foo(int&&);
+ #+END_SRC
+
+ There are 3 overloads:
+ #+BEGIN_SRC C++
+   void foo(int&);
+   void foo(const int&);
+   void foo(int&&);
+ #+END_SRC
+
+ We can't say there is ~function overload~ or not. This is ~implementation defined~, ~std::int32_t~ is not a distinct type but a type alias and underlying type is dependent to the compiler:
+ #+BEGIN_SRC C++
+   void foo(int);
+   // If std::int32_t is alias to int. This is function redeclaration.
+   // If std::int32_t is alias to long. This is valid function overload.
+   void foo(std::int32_t);
+
+   // This is valid function overload. std::int32_t and std::int16_t cannot be alias of the same type.
+   void func(std::int32_t);
+   void func(std::int16_t);
+ #+END_SRC
+
+ If array notation used in function declaration, array decay happens. There is no ~function overloading~ here:
+ #+BEGIN_SRC C++
+   void foo(int p[]); // Decays to foo(int*);
+   void foo(int p[20]); // Decays to foo(int*); Function redeclaration.
+   void foo(int* p); // foo(int*); Function redeclaration.
+ #+END_SRC
+ 
+ If a function takes function as a parameter. It decays to function pointer. No ~function overloading~ here:
+ #+BEGIN_SRC C++
+   void foo(int(int)); // Decays to foo(int (*)(int));
+   void foo(int(*)(int)); // Function redeclaration.
+ #+END_SRC
+
+ There are 4 different ~function overloads~ here:
+ #+BEGIN_SRC C++
+   void foo(int (*)[5]); // int(*)[5]; a pointer to int[5]
+   void foo(int (*)[6]); // int(*)[6]; a pointer to int[6]
+   void foo(int (*)[7]); // int(*)[7]; a pointer to int[7]
+   void foo(int (*)[8]); // int(*)[8]; a pointer to int[8]
+ #+END_SRC
+ 
+*** Function overload resolution
+ ~Function overload resolution~ is handled by the compiler as a 3 step process. Actually, 3 steps is the maximum, it may take fewer steps:
+ - Choosing ~candidate functions~.
+   + In this step, the compiler doesn't check function arguments but marks the visible functions in the same scope which has the same name.
+
+c++007 - where we left: 02:10:00
