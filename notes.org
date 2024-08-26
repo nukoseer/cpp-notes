@@ -1223,5 +1223,60 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
  ~Function overload resolution~ is handled by the compiler as a 3 step process. Actually, 3 steps is the maximum, it may take fewer steps:
  - Choosing ~candidate functions~.
    + In this step, the compiler doesn't check function arguments but marks the visible functions in the same scope which has the same name.
+ - Choosing ~viable functions~.
+   + The compiler checks each ~candidate function~ too see if it can be called with the arguments we passed it without syntax errors. If there are no syntax errors, the compiler marks that function. These marked functions are called ~viable functions~. After this step, all functions that are not suitable for calling are eliminated and only those functions that can be called legally remain.
+   + In this step, the compiler determines the ~viable functions~ depending on passed arguments. The number of arguments, the types of arguments, the default function arguments and the implicit conversion rules between types all are very important in this step.
+   + More than one function overload does not guarantee that a call with this name is valid. None of the function overloads may be ~viable functions~, this is called ~no match~. 
+ - Choosing the ~best viable function~.
+   + If there are more than one ~viable function~, the compiler will decide which one is the ~best match~ based on the rules of the language.
+   + There may be more than one ~viable function~ among which the compiler cannot decide which one to choose, because there are no selection criteria in terms of the rules of the language, this is called ~ambiguity~.
 
-c++007 - where we left: 02:10:00
+ Rules for choosing the ~best viable function~ / ~best match~:
+  - ~variadic conversion~ always loses if there are any other alternatives.
+  - ~user-defined conversion~ always loses except when the alternative is ~variadic conversion~.
+    + If there are more than one ~viable function~ with ~user-defined conversion~, this might cause an ~ambiguity~ error, if there is no better alternative (~standard converion~).
+  - ~standard/implicit conversion~ always wins except when the other alternatives are also ~standart conversion~. There are different rules for this case.
+    + ~exact match~ always wins over ~promotion~.
+      * When the function parameters and the arguments are the same.
+      * ~implicit conversion~ from ~T*~ to ~const T*~.
+      * ~array to pointer conversion~ / ~Array decay~.
+      * ~function to pointer conversion~.
+    + ~promotion~ always wins over ~conversion~.
+      * ~integral promotion~ (types which have lower rank than ~int~ are promoted to ~int~),
+      * ~float to double promotion~
+    + ~conversion~ always wins over ~user-defined conversion~.
+      * ~conversion~ between different types which is not ~promotion~. (~char~ to ~double~, ~double~ to ~int~ etc.)
+
+ From weaker ~viable function~ to stronger:
+  ~variadic conversion~ < ~user-defined conversion~ < ~standard conversion~ < ~standard promotion~ < ~exact match~
+
+ #+BEGIN_SRC C++
+   void f(int);
+   void f(double);
+   void f(long);
+
+   f(3.4); // f(double) will be called, exact match.
+   f(12); // f(int) will be called, exact match.
+   f(12u); // unsigned int can be converted to int, double and long. Three different standard conversion causes ambiguity.
+   f(true); // f(int) will be called, bool to int is integral promotion and promotion wins over conversion.
+   f(2.3L); // long double can be converted to int, double and long. Three different standard conversion causes ambiguity.
+   f(2.3f); // f(double) will be called, float to double promotion.
+   f('A'); // f(int) will be called, integral promotion from char to int.
+ #+END_SRC
+
+ If one of the ~viable functions~ takes ~T*~ and the other one takes ~const T*~, this means both of them are ~exact match~. If the argument type is ~const T*~, ~const T*~ will be called, otherwise ~T*~ will be called. This is also valid for references.
+ #+BEGIN_SRC C++
+   void f1(int*);
+   void f1(const int*);
+   void f2(int&);
+   void f2(const int&);
+
+   const int cx = 5;
+   int x = 5;
+
+   f1(&cx); // f1(const int*) will be called.
+   f1(&x); // f1(int*) will be called.
+
+   f2(&cx); // f2(const int&) will be called.
+   f2(&x); // f2(int&) will be called.
+ #+END_SRC
