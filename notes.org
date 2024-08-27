@@ -1247,6 +1247,8 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
     + ~conversion~ always wins over ~user-defined conversion~.
       * ~conversion~ between different types which is not ~promotion~. (~char~ to ~double~, ~double~ to ~int~ etc.)
 
+ Functions with multiple parameters can also be overloaded. In this case, one of the ~function overloads~ must be win over to the others in at least one parameter and must be at least equal (shouldn't be weaker) in the other parameters.
+
  From weaker ~viable function~ to stronger:
   ~variadic conversion~ < ~user-defined conversion~ < ~standard conversion~ < ~standard promotion~ < ~exact match~
 
@@ -1264,7 +1266,7 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
    f('A'); // f(int) will be called, integral promotion from char to int.
  #+END_SRC
 
- If one of the ~viable functions~ takes ~T*~ and the other one takes ~const T*~, this means both of them are ~exact match~. If the argument type is ~const T*~, ~const T*~ will be called, otherwise ~T*~ will be called. This is also valid for references.
+ If one of the ~viable functions~ takes ~T*~ and the other one takes ~const T*~, this is called ~const overloading~ and means both of them are ~exact match~. If the argument type is ~const T*~, ~const T*~ will be called, otherwise ~T*~ will be called. This is also valid for references.
  #+BEGIN_SRC C++
    void f1(int*);
    void f1(const int*);
@@ -1280,3 +1282,173 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
    f2(&cx); // f2(const int&) will be called.
    f2(&x); // f2(int&) will be called.
  #+END_SRC
+
+ Default function arguments can cause ~ambiguity~:
+ #+BEGIN_SRC C++
+   void func(int x, int y = 0);
+   void func(int x);
+
+   func(12); // There are 2 valid oveloads of func but the compiler cannot decide between them. Ambiguity error.
+ #+END_SRC
+
+ Having 2 different ~function overloads~ for ~call by value~ and ~call by reference~ can cause ~ambiguity~:
+ #+BEGIN_SRC C++
+   void f1(int& x);
+   void f1(int x);
+
+   void f2(const int& x);
+   void f2(int x);
+
+   int x = 10;
+
+   f1(x); // Invalid, ambigious call.
+   f1(10); // Valid, func(x) will be called.
+   f2(x); // Invalid, ambigious call.
+   f2(10); // Invalid, ambigious call.
+ #+END_SRC
+
+ Using C-style null pointer can cause ~ambiguity~:
+ #+BEGIN_SRC C++
+   void func(double*);
+   void func(int);
+
+   // Let's say the intention was to call func(double*) with null pointer and then we added a new overload func(int). This code will not give any error and call to func(int), because it will be exact match. If we really want to call func(double*) with null pointer we should use nullptr.
+   func(0); // Valid, func(int) will be called.
+   func(nullptr); // Valid, func(double*) will be called.
+ #+END_SRC
+
+ We can choose the overload we want to call by using ~explicit cast~. We can also use ~name shadowing~ to call the function we want by ~redeclaring~ it in the current scope.
+ #+BEGIN_SRC C++
+   void func(int);
+   void func(double);
+   void func(long);
+
+   int main()
+   {
+       int x = 10;
+
+       func(static_cast<double>(x)); // func(double) will be called.
+
+	// This function redeclaration causes name shadowing. From this point on, every call to func in this scope will be call to func(long).
+       void func(long);
+
+       func(x); // func(long) will be called.
+       func(2.3); // func(long) will be called.
+   }
+ #+END_SRC
+
+ When one of the overloads is ~bool~ and the other is ~void*~, this should normally cause ~ambiguity~ when called with pointer types, but this is an exception and the ~void*~ one will be called:
+ #+BEGIN_SRC C++
+   void func(bool);
+   void func(void*);
+
+   int x{};
+
+   // Implicit conversion from int* to bool and from int* to void* exist. Normally, this should cause ambiguity but this is a special case and func(void*) will be called.
+   func(&x);
+ #+END_SRC
+
+ We can call ~L-value reference~ overloads with ~L-value expressions~, and ~R-value reference~ overloads with ~R-value expressions~. Normally, ~const L-value reference~ and ~R-value reference~ both can be called with ~R-value expressions~ but this doesn't cause ~ambiguity~. The function which takes an ~R-value reference~ will be called in this case:
+ #+BEGIN_SRC C++
+     void f1(int&);
+     void f1(int&&);
+
+     void f2(const int&);
+     void f2(int&&);
+
+     int x{};
+
+     f1(10); // Valid, 10 is R-value expression, f1(int&&) will be called.
+     f1(x); // Valid, x is L-value expression, f1(int&) will be called.
+
+     f2(x); // Valid, x is L-value expression, f2(const int&) will be called.
+     // Valid, 10 is R-value expression, normally f2(const int&) and f2(int&&) both
+     // can be called with a R-value expression but this does not cause ambiguity. f2(int&&) will be called.
+     f2(10);
+ #+END_SRC
+
+ ~Data type~ (~declaration type~) and ~value category~ are not the same thing. Variables/declarations don't have a ~value category~ but ~data type~, we need to have an ~expression~ to talk about ~value category~. We can observe it in this example:
+ #+BEGIN_SRC C++
+   #include <iostream>
+
+   void bar(int& x)
+   {
+       std::cout << 3;
+   }
+
+   void bar(int&& x)
+   {
+       std::cout << 4;
+   }
+
+   void func(int& x)
+   {
+       std::cout << 1;
+       bar(x);
+   }
+
+   void func(int&& x)
+   {
+       std::cout << 2;
+       // The data/declaration type of x is int&& but the value category of x when used in an expression is L-value
+       // so bar(int&) will be called.
+       bar(x);
+   }
+
+   int main()
+   {
+       int x = 10;
+
+       func(x); // Output: 13
+       func(10); // Output: 23
+   }
+ #+END_SRC
+
+ We were always using one paramater for ~function oveloads~, but functions with multiple parameters can also be overloaded. In this case, one of the ~function overloads~ must win over to the others in at least one parameter and must be at least equal in the other parameters.
+ #+BEGIN_SRC C++
+   void f1(int, double, long); // 1
+   void f1(char, int, double); // 2
+   void f1(long, unsigned int, float); // 3
+
+   // Function 1 will be chosen. The 1st parameter of function 1 wins over the 1st parameter of function 2 and 3, because it is exact match. 2nd and 3rd parameter is equal for functions 1, 2 and 3, because all of them are standart conversion.
+   f(12, 4L, 1);
+   // Function 2 will be chosen. The 2nd parameter of function 2 wins over the 2nd parameter of function 1 and 3, because it is standard promotion. 1st and 3rd parameter is equal for functions 1, 2 and 3, because all of them are standart conversion.
+   f(2.3, true, 12);
+   // Function 3 will be chosen. The 1st parameter of function 3 wins over the 1st parameter of function 1 and 2, because it is exact match. 2nd and 3rd parameter is equal for functions 1, 2 and 3, because all of them are standart conversion.
+   f(34L, 3.5L, 12);
+   // This causes ambiguity. The 1st parameter of function 1 has exact match, but the 2nd parameter of the function 2 also has exact match. The 3rd parameters have standard conversion. There are 2 exact matches for different function overloads, in this case the compiler cannot decide. One of the overloads must win over others at least on one parameter, and at least be equal on the other parameters.
+   f(12, 12, 12);
+ #+END_SRC
+
+** Name Mangling
+ ~Name mangling~ is a process used by C++ compilers to generate unique names for functions, variables, and other entities to support features like ~function overloading~, ~namespaces~, and ~template instantiation~. Since C++ allows multiple functions with the same name (through ~function overloading~), the compiler needs a way to differentiate between these functions at the binary level. ~Name mangling~ achieves this by encoding additional information, such as the function's ~parameter types~, ~return type~, and the ~namespace~ or ~class~ it belongs to, into the function's name. 
+
+ ~Name mangling~ can cause some problems when we call a C function from a C++ source. An example of a problem caused by ~name mangling~:
+ #+BEGIN_SRC C++
+   // test.h
+   int func(int);
+
+   // test.c
+   int func(int x)
+   {
+       return x + 1;
+   }
+
+   // main.cpp
+   #include "test.h"
+
+   int main()
+   {
+       // This code will be built successfully but will not be linked. The
+       // linker program will not find func(int) because the C++ compiler
+       // will produce a mangled/decorated name for func(int), but it is a
+       // C function. The name produced by the C compiler will not match
+       // the name produced by the C++ compiler, because there is no name
+       // mangling in C.
+       auto x = func(20);
+   }
+ #+END_SRC
+
+ To solve this kind of problems we typically use ~extern "C"~ declaration with ~conditional compiling~. By doing this we can use the same ~header file~ for both C and C++.
+
+cpp008 - where we left - 01:32:00
