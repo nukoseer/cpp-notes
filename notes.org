@@ -1451,4 +1451,84 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
 
  To solve this kind of problems we typically use ~extern "C"~ declaration with ~conditional compiling~. By doing this we can use the same ~header file~ for both C and C++.
 
-cpp008 - where we left - 01:32:00
+ #+BEGIN_SRC C++
+   // test.h
+   #ifdef __cplusplus
+   extern "C" { // open extern "C" block.
+   #endif
+
+   int func(int);
+
+   #ifdef __cplusplus
+   } // close extern "C" block.
+   #endif
+
+   // test.c
+   int func(int x)
+   {
+       return x + 1;
+   }
+
+   // main.cpp
+   #include "test.h"
+
+   int main()
+   {
+       // This code will be built and linked successfully. The
+       // compiler won't generate mangled names for func(int)
+       // because its declaration is inside of an extern "C" block.
+       auto x = func(20);
+   }
+ #+END_SRC
+
+** One Definition Rule (ODR)
+ Objects (variables, functions, templates, classes etc.) in C++ can have multiple declarations but only one definition across the project. This is called ~one definition rule~. If a program has more than one definition of a particular object, the program is ~ill-formed~ and the compiler isn't required to give any diagnostics. The linker program may give some diagnostics but it is also not guaranteed. If the same object has multiple definitions in the same source file, it is a syntax error and diagnostic is required.
+
+ Some examples:
+ #+BEGIN_SRC C++
+   // test.h
+   int x = 10;
+
+   // If test.h is to be included from multiple source files, this is against the ODR because variable x will have multiple definitions.
+ #+END_SRC
+
+#+BEGIN_SRC C++
+  // test.h
+  void func()
+  {
+  }
+  // If test.h is to be included from multiple source files, this is against the ODR because func() will have multiple definitions.
+ #+END_SRC
+
+ When an ~inline function~ in a ~header file~ is included from multiple source files, this isn't against the ~ODR~ and but every source file will have its own definition for that particular function.
+ #+BEGIN_SRC C++
+  // test.h
+  static void func()
+  {
+  }
+  // If test.h is to be included from multiple source files, this is not against the ODR because func() will be in internal linkage. Every source file will have its own func().
+ #+END_SRC
+
+ There are such objects that can have more than one definition in different source files but do not violate the ~ODR~, but their definitions must be the same ~token-by-token~. This is very important because in practice it means that the definitions of these objects can be in ~header files~.
+ Definitions that can coexist in different source files without violating ODR:
+  - ~class definitions~
+  - ~inline function definitions~
+  - ~inline variable definitions~ (C++17)
+  - ~constexpr functions~
+  - ~constexpr variables~
+  - ~class templates~
+  - ~function templates~
+
+*** Inline functions
+ Functions defined with the ~inline~ keyword are called ~inline functions~, meaning that they will not violate the ~ODR~. This means we can define ~inline functions~ in ~header files~. ~inline functions~ are not directly related with the ~inline expansion~. ~inline expansion~ is an old and effective optimization method often used by compilers. In a nutshell, this means that instead of calling a function, the compiler embeds the code for that function directly into the source code, depending on the different parameters. The main purpose of defining an ~inline function~ using the ~inline~ keyword is not to allow the compiler to do ~inline expansion~ but to avoid violating ~ODR~. Unless a special compiler flag is used, it is up to the compiler to decide whether to do ~inline expansion~ or not.
+
+ When an ~inline function~ in a ~header file~ is included from multiple source files, this is not against the ~ODR~ and there will be only one definition from the compiler perspective even it is included in multiple source files unlike ~static~ functions.
+ 
+ #+BEGIN_SRC C++
+  // test.h
+  inline void func()
+  {
+  }
+  // If test.h is to be included from multiple source files, this is not against the ODR. There will be only one func() even it is included in multiple source files.
+ #+END_SRC
+
