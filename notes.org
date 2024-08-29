@@ -1519,7 +1519,7 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
   - ~class templates~
   - ~function templates~
 
-*** Inline functions
+** Inline functions
  Functions defined with the ~inline~ keyword are called ~inline functions~, meaning that they will not violate the ~ODR~. This means we can define ~inline functions~ in ~header files~. ~inline functions~ are not directly related with the ~inline expansion~. ~inline expansion~ is an old and effective optimization method often used by compilers. In a nutshell, this means that instead of calling a function, the compiler embeds the code for that function directly into the source code, depending on the different parameters. The main purpose of defining an ~inline function~ using the ~inline~ keyword is not to allow the compiler to do ~inline expansion~ but to avoid violating ~ODR~. Unless a special compiler flag is used, it is up to the compiler to decide whether to do ~inline expansion~ or not.
 
  When an ~inline function~ in a ~header file~ is included from multiple source files, this is not against the ~ODR~ and there will be only one definition from the compiler perspective even it is included in multiple source files unlike ~static~ functions.
@@ -1532,3 +1532,15 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
   // If test.h is to be included from multiple source files, this is not against the ODR. There will be only one func() even it is included in multiple source files.
  #+END_SRC
 
+** Inline variables 
+ Variables defined with the ~inline~ keyword are called ~inline variables~, meaning that they will not violate the ~ODR~ similar to ~inline functions~. ~Inline variables~ were added in C++17. When an ~inline variable~ in a ~header file~ is included from multiple source files, this is not against the ~ODR~ and there will be only one definition from the compiler perspective even it is included in multiple source files.
+
+ #+BEGIN_SRC C++
+   // test.h
+   inline int x = 10;
+   // If test.h is to be included from multiple source files, this is not against the ODR. There will be only one x even it is included in multiple source files.
+ #+END_SRC
+
+** constexpr
+
+cpp009 - where we left - 00:49:00
