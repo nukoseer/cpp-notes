@@ -50,7 +50,7 @@
   #+END_SRC
 
 *** Nameless parameters in function definitions
- Caution! This is about function definitions not declarations.
+ This is about function definitions not declarations.
   - In C, it is not allowed. (Since C20, it is also allowed in C.)
   - In C++, it is allowed.
   This code is invalid for C (before C20) and valid for C++:
@@ -63,14 +63,14 @@
  - In C++, inside of the for loop and for-statement itself are in same block scope.
  Because of this difference, name shadowing inside a for loop is valid in C, but invalid in C++:
  #+BEGIN_SRC C++
-   for (int i = 0; i < 10 ++i;)
+   for (int i = 0; i < 10; ++i)
    {
        int i = 99;
    }
  #+END_SRC
  We can say above code looks like this for C compiler:
  #+BEGIN_SRC C++
-   for (int i = 0; i < 10 ++i;)
+   for (int i = 0; i < 10; ++i)
    {
        {
 	   int i = 99;
