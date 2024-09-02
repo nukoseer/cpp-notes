@@ -1542,5 +1542,94 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
  #+END_SRC
 
 ** constexpr
+*** constexpr variables
+ In C++, variables defined with the ~const~ keyword can be initialized with const and non-const expressions:
 
-cpp009 - where we left - 00:49:00
+ #+BEGIN_SRC C++
+   int foo();
+
+   // These are valid definitions, const objects can be initialized with const and non-const expressions.
+   const int x = 10;
+   const int y = foo();
+
+   int arr1[x]; // This is valid because x is initialized with a const expression (10) which means expression created by x is also const expression.
+   int arr2[y]; // This is invalid because y is initialized with a non-const expression (foo()) which means expression created by y is also non-const expression.
+ #+END_SRC
+
+ But, variables defined with the ~constexpr~ keyword has to be initialized with a constant expression:
+ #+BEGIN_SRC C++
+   int foo();
+
+   constexpr int x = 10; // This is valid. 10 is constant expression.
+   constexpr int y = foo(); // This is invalid. foo() is non-const expression.
+ #+END_SRC
+
+ Variables defined with the ~constexpr~ keyword has ~const~ declaration type:
+ #+BEGIN_SRC C++
+   constexpr int x = 10;
+
+   x = 5; // This is invalid because x is const.
+   decltype(x); // This equals to const int.
+
+   int g{};
+
+   constexpr int* p = &g;
+   decltype(p); // This equals to int* const p;
+
+   constexpr const int* t = &g;
+   decltype(t); // This equals to const int* const t;
+ #+END_SRC
+
+*** constexpr functions
+ ~constexpr~ functions are functions whose return value is obtained at compile time when certain conditions are met. If ~constexpr~ functions are called with non-const arguments, the return value will be calculated at runtime like normal functions.
+
+ Some restrictions when defining ~constexpr~ functions:
+   - Cannot define ~static~ local variables.
+   - Cannot be a virtual function.
+   - Return type cannot be ~void~.
+   - Return type, types of all local variables and types of arguments must be ~literal type~.
+
+ #+BEGIN_SRC C++
+   constexpr int sum_square(int a, int b)
+   {
+       return a * a + b * b;
+   }
+
+   constexpr int ndigit(int x)
+   {
+       int digit_count = 0;
+
+       if (x == 0)
+	   return 1;
+
+       while (x)
+       {
+	   ++digit_count;
+	   x /= 10;
+       }
+
+      return digit_count;
+   }
+
+   int main()
+   {
+       const int a = 87234;
+       const int b = 7624271;
+
+       // These will be calculated at compile time and the generated return values are also constant expression. 
+       constexpr auto x = sum_square(10, 20); 
+       constexpr auto y = sum_square(ndigit(a) + ndigit(b));
+
+       int j = 1515;
+
+       // This is valid. j is not const and because of that ndigit(j) will be called at runtime.
+       int k = ndigit(j);
+
+       // This is invalid. j is not const and because of that ndigit(j) will be called at runtime. This means generated return value also will be non-const and constexpr variables cannot be initialized with non-const expressions.
+       constexpr int l = ndigit(j);
+   }
+ #+END_SRC
+
+** Classes
+
+cpp009 - where we left - 01:39:00
