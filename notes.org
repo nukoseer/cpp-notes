@@ -1631,5 +1631,148 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
  #+END_SRC
 
 ** Classes
+ The use of classes in C++ is not limited to object-oriented programming. Classes are the main tools for data abstraction also beyond object-oriented programming.
 
-cpp009 - where we left - 01:39:00
+*** Class definition
+ Classes are ~user-defined types~ that can have ~data members~, ~member functions~ and ~type member / member type / nested type~. They are defined/declared with the keywords ~class~ and ~struct~ (note that unlike C, ~struct~ is also a class).
+ A class definition gives the compiler all the information about that class. It is also possible to declare a class without defining it. In this case, the compiler cannot get all the information about the class from the class declaration. All it knows is that the class is declared and that it must get all the necessary information about this class from the definition which can be in another source file. 
+
+ Members of the classes can be taxonomically listed as follows:
+ - ~class members~
+   - ~data members~
+     - ~non-static data members~
+     - ~static data members~
+   - ~member functions~
+     - ~non-static member functions~
+     - ~static member functions~
+   - ~type member / member type / nested type~
+
+ Defining and declaring classes:
+ #+BEGIN_SRC C++
+   // Class declaration / Forwarding declaration. In this point, C1 is incomplete class. The compiler doesn't know anything but just the name of it. 
+   class C1;
+
+   // Class types can be empty. If a class is empty, it is called empty class.
+   class C2 // Class definition
+   {
+
+   };
+
+   // In C++ when we say class we also mean struct because structs are also class type.
+   // Note: Empty structs are invalid in C.
+   struct C3 // Class definition
+   {
+
+   };
+ #+END_SRC
+
+ Classes can have different type of ~class members~ in the ~class scope~.
+ #+BEGIN_SRC C++
+   class C1 
+   {
+       // Data members
+       // Member functions
+       // Type member / Member type / Nested type
+   };
+
+  class C2
+  {
+      int mx; // Data member
+      void f(); // Member function
+      enum Pos{ ON, OFF }; // Member type
+  };
+ #+END_SRC
+
+ If a class will be used also in other source files, the definition can be placed in a header file. It is not against the ODR.
+ #+BEGIN_SRC C++
+   // test.h
+   class C1
+   {
+       int a, b;
+       double d1, d2;
+       void f();
+   };
+
+   // main.cpp
+   // #include "test.h"
+   int main()
+   {
+       C1 c1;
+
+       return 0;
+   }
+ #+END_SRC
+
+*** Access control
+ Normally, when an identifier is used, the compiler performs a name lookup to find out what object that name represents, but in C++ (also in other languages which supports OOP style programming) there is one more step after the name lookup. The compiler must check that the code trying to access an identifier has permission to access that identifier. This is called ~access control~.
+
+ There are 3 different access categories that apply to the members of classes and determine who can and cannot access them. These 3 categories are actually also keywords and are called ~access specifiers~:
+  - ~public~
+    + ~public class members~ can be accessed both within the class itself and by clients using the class, meaning there is no access control for ~public class members~.
+  - ~private~
+    + ~private class members~ can only be accessed within the class itself and cannot be used by external codes.
+  - ~protected~
+    + ~protected class members~ can be accessed within the class itself and from its derived classes. 
+
+ ~access specifiers~ can be used to define ~access rights~ for a group of ~class members~:
+ #+BEGIN_SRC C++
+  class C1
+  {
+  public: // Each class member will have public access right from here until the compiler sees another access specifier.
+      int x;
+      int y;
+      void f1();
+
+  private:
+      int z; // Each class member will have private access right from here until the compiler sees another access specifier.
+      void f2();
+
+  protected: // Same applies here.
+      int t;
+  };
+ #+END_SRC
+ 
+ If a class type is defined with the ~class~ keyword, all of its ~class members~ are ~private~ by default. 
+ #+BEGIN_SRC C++
+   class C1
+   {
+       // If no access specifier is used these class members are private by default.
+       int x;
+       void f1();
+
+   public:
+       int a, b;
+   };
+ #+END_SRC
+ 
+ If a class type is defined with the ~struct~ keyword, all of its ~class members~ are ~public~ by default. 
+ #+BEGIN_SRC C++
+   struct C1
+   {
+       // If no access specifier is used these class members are public by default.
+       int x;
+       void f1();
+
+   private:
+       int a, b;
+   };
+ #+END_SRC
+
+ Same ~access specifier~ can be used multiple times:
+#+BEGIN_SRC C++
+   class C1
+   {
+   public:
+
+   private:
+
+   public:
+
+   private:
+   };
+ #+END_SRC
+
+*** Non-static data members
+ ~non-static data members~ are variables that are actually held within the object of a class, that is, they are variables of the object that is created of that class. 
+
+cpp 009 - where we left - 02:32:00
