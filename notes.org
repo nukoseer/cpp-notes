@@ -1732,7 +1732,7 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
   };
  #+END_SRC
  
- If a class type is defined with the ~class~ keyword, all of its ~class members~ are ~private~ by default. 
+ If a class type is defined with the ~class~ keyword, all of its ~class members~ are ~private~ by default:
  #+BEGIN_SRC C++
    class C1
    {
@@ -1745,7 +1745,7 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
    };
  #+END_SRC
  
- If a class type is defined with the ~struct~ keyword, all of its ~class members~ are ~public~ by default. 
+ If a class type is defined with the ~struct~ keyword, all of its ~class members~ are ~public~ by default: 
  #+BEGIN_SRC C++
    struct C1
    {
@@ -1759,7 +1759,7 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
  #+END_SRC
 
  Same ~access specifier~ can be used multiple times:
-#+BEGIN_SRC C++
+ #+BEGIN_SRC C++
    class C1
    {
    public:
@@ -1775,4 +1775,186 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
 *** Non-static data members
  ~non-static data members~ are variables that are actually held within the object of a class, that is, they are variables of the object that is created of that class. 
 
-cpp 009 - where we left - 02:32:00
+ When ~non-static data members~ are added to an object, the object's storage requirement will increase depending on the added members:
+ #+BEGIN_SRC C++
+   class C1
+   {
+       int x;
+   };
+
+   class C2
+   {
+   };
+
+   int main()
+   {
+       // This will print 4 assuming int is 4 bytes.   
+       std::cout << "sizeof(C1) = " << sizeof(C1) << '\n';
+       // Empty classes are 1 byte.
+       std::cout << "sizeof(C2) = " << sizeof(C2) << '\n';
+   }
+ #+END_SRC
+
+*** Non-static member functions
+ ~non-static member functions~ are no different from normal functions at the assembly level, they are just an abstraction that exists at the language layer. ~non-static member functions~ are functions defined in the ~class definition~. They have an implicit ~this~ pointer that refers to the object on which they are called. ~this~ pointer allows them to access the object's ~non-static data members~ and other ~non-static member functions~.
+
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       void foo(int); // Non-static member functions have implicit this pointer which is the address of the caller object. The compiler sees it like void foo(C1* this, int);
+
+   private:
+       int mx; // Non-static data member
+   };
+
+   int main()
+   {
+       C1 c1;    
+
+       c1.foo(12); // This is similar to foo(&c1, 12);
+   }
+ #+END_SRC
+
+ There are 2 different ways to define ~non-static member functions~.
+
+ A ~non-static member function~ can be declared in the header file and defined it in the source file. If the signatures don't match it is a syntax error:
+ #+BEGIN_SRC C++
+   // fighter.h
+   class Fighter
+   {
+   public:
+       void attack(Fighter&);
+   };
+
+   // fighter.cpp
+   // #include "fighter.h"
+   void Fighter::attack(Fighter& f)
+   {
+
+   }
+ #+END_SRC
+
+ A ~non-static member function~ can be declared and defined directly in the ~class definition~. When a ~non-static member function~ is defined like this, it is implicitly an ~inline function~, meaning including it to multiple source file isn't against the ~ODR~.
+ #+BEGIN_SRC C++
+   // fighter.h
+   class Fighter
+   {
+   public:
+       void attack(Fighter& f) // This equals to inline void attack(Fighter &f);. Using inline explicity doesn't matter in this case.
+       {
+
+       }
+   };
+ #+END_SRC
+
+ In this case, if the ~inline~ keyword is not used explicity in the declaration or definition, it is against the ~ODR~.
+ #+BEGIN_SRC C++
+   // fighter.h
+   class Fighter
+   {
+   public:
+       void attack(Fighter& f); // This is not implicitly inline function because it doesn't have definition.
+   };
+
+   // This is the definition of attack function but it is also in the header file. If we include this header file
+   // from multiple source file it is agains the ODR. We should use the inline keyword explicitly in the declaration or definition
+   // if we want to do this.
+   void Fighter::attack(Fighter& f)
+   {
+   }
+ #+END_SRC
+
+ ~unqualified identifiers~ in the definition of a ~non-static member function~ are searched in this order:
+  - ~block scope~
+  - ~enclosing block scopes~ (there can be multiple ~enclosing blocks~)
+  - ~class scope~
+  - ~namespace scope~
+
+ #+BEGIN_SRC C++
+   // class.h
+   class C1 // 3
+   {
+   public:
+       void foo();
+
+   private:
+       int mx, my;
+       int a;
+   };
+
+   // 4
+
+   // class.c
+   void C1::foo() // 2
+   {
+       int a = 0;
+
+       if (1) // 1
+       {
+	   // 1 - x will be searched in this if block first. From x to beginning of if block.
+	   // 2 - x will be searched in the enclosing block (function block in this case) if it couldn't be found in 1. 
+	   // 3 - x will be searched in the class scope if it couldn't be found in 2.
+	   // 4 - x will be searched in the namespace scope if it couldn't be found in 3.
+	   // If it couldn't be found in 4, name look-up will fail.
+	   x;
+
+	   // mx will be found in 3 (class scope). The compiler will change it to qualified identifier by using implicit this pointer.
+	   mx; // This is equal to this->mx.
+
+           // a will be found in 2 (enclosing block). This will increase the local a inside of the function block, not the a in the class scope.
+           a++;
+       }
+   }
+ #+END_SRC
+
+ The ~non-static data members~ accessed in ~non-static member functions~ are the data members of the object they are called on:
+
+#+BEGIN_SRC C++
+    class Counter
+    {
+    public:
+	void print()
+	{
+	    std::cout << m_c << '\n';
+	}
+
+	void set(int val)
+	{
+	    m_c = val;
+	}
+
+    private:
+	int m_c{};
+    };
+
+    int main()
+    {
+	Counter c1;
+
+	c1.set(78); // Sets c1's m_c to 78.
+	c1.print(); // Prints c1's m_c, which is 78.
+	c1.set(99); // Sets c1's m_c to 99.
+        c1.print(); // Prints 99.
+
+        Counter c2;
+        
+        c2.set(3333); // Sets c2's m_c to 3333.
+        c2.print(); // Prints c2's m_c, which is 3333.
+    }
+ #+END_SRC
+
+
+*** Class scope
+ ~class members~ declared in the ~class definition~ are included in the ~class scope~.
+ In which cases is a identifier searched within a ~class definition~?
+  - If the identifier is the right operand of ~. operator~.
+    + ~object.x~, ~x~ will be searched in the ~class scope~.
+  - If the identifier is the right operand of ~-> operator~.
+    + ~object->x~, ~x~ will be searched in the ~class scope~.
+  - If the identifier is the right operand of ~:: operator~.
+    + ~class::x~, ~x~ will be searched in the ~class scope~.
+
+ All of the ~access specifiers~ are in the same ~class scope~. ~public~, ~private~ and ~protected~ don't create new scope, they share the same ~class scope~.
+      
+cpp10 - where we left - 01:02:00
