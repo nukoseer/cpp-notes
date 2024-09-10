@@ -337,6 +337,7 @@
  #+END_SRC
 
 * C++ Topics
+
 ** Initialization
  There are very different ways to initialize objects in C++.
 *** Default initialization
@@ -1911,39 +1912,38 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
  The ~non-static data members~ accessed in ~non-static member functions~ are the data members of the object they are called on:
 
 #+BEGIN_SRC C++
-    class Counter
-    {
-    public:
-	void print()
-	{
-	    std::cout << m_c << '\n';
-	}
+  class Counter
+  {
+  public:
+      void print()
+      {
+          std::cout << m_c << '\n';
+      }
+      
+      void set(int val)
+      {
+          m_c = val;
+      }
 
-	void set(int val)
-	{
-	    m_c = val;
-	}
+  private:
+      int m_c{};
+  };
 
-    private:
-	int m_c{};
-    };
+  int main()
+  {
+      Counter c1;
 
-    int main()
-    {
-	Counter c1;
+      c1.set(78); // Sets c1's m_c to 78.
+      c1.print(); // Prints c1's m_c, which is 78.
+      c1.set(99); // Sets c1's m_c to 99.
+      c1.print(); // Prints 99.
 
-	c1.set(78); // Sets c1's m_c to 78.
-	c1.print(); // Prints c1's m_c, which is 78.
-	c1.set(99); // Sets c1's m_c to 99.
-        c1.print(); // Prints 99.
-
-        Counter c2;
-        
-        c2.set(3333); // Sets c2's m_c to 3333.
-        c2.print(); // Prints c2's m_c, which is 3333.
-    }
+      Counter c2;
+      
+      c2.set(3333); // Sets c2's m_c to 3333.
+      c2.print(); // Prints c2's m_c, which is 3333.
+  }
  #+END_SRC
-
 
 *** Class scope
  ~class members~ declared in the ~class definition~ are included in the ~class scope~.
@@ -1957,4 +1957,162 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
 
  All of the ~access specifiers~ are in the same ~class scope~. ~public~, ~private~ and ~protected~ don't create new scope, they share the same ~class scope~.
       
-cpp10 - where we left - 01:02:00
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       void foo();
+   private:
+       int x;
+   };
+
+   int x = 3477;
+
+   void C1::foo()
+   {
+       int x = 10;
+
+       x = 56; // This x is defined in the block scope.
+
+       C1::x = 20; // If we want access the x which is in the class scope. We can use qualified name. The compiler will search it only in the class scope.
+       ::x = 22; // This x in the namespace scope.
+   }
+ #+END_SRC
+
+ ~Member functions~ cannot be redeclared:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       void foo(int);
+       void foo(int); // Redeclaration is invalid, syntax error.
+   };
+
+   void foo(int);
+   void foo(int); // Redeclaration is valid.
+ #+END_SRC
+
+ ~Function overloading~ and ~function overload resolution~ rules also apply to ~member functions~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // This is valid function overloading, because they are in the same class scope.
+       void foo(int);
+       void foo(int, int);
+   };
+ #+END_SRC
+
+ ~Access specifiers~ don't effect ~function overloading~ rules because they are not related with scope:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // This is valid function overloading, because they are in the same class scope.
+       void foo(int);
+   private:
+       void foo(int, int);
+   };
+ #+END_SRC
+
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       void foo(int);
+   private:
+       void foo(double);
+   };
+
+   int main()
+   {
+       C1 c;
+       c.func(2.3); // After function overload resolution, foo(double) will be chosen (exact match) but access control will fail because it is a private function.
+   }
+ #+END_SRC
+
+*** this keyword
+ ~this~ is a keyword that can only be used in ~non-static member functions~ of a class. ~this~ represents a pointer and often called ~this pointer~. ~this pointer~ holds the address of the object on which the function is called.
+
+ The use of ~this~ keyword in ~global functions~ or in ~static member functions~ of classes is a syntax error:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       void f1(int)
+       {
+           this; // This is valid.
+       }
+       
+       static void f2(int)
+       {
+           this; // This is invalid.
+       }
+   };
+ #+END_SRC
+
+~this pointer~ holds the address of the caller object:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       void foo()
+       {
+           std::cout << "this: " << this << '\n';
+       }
+
+       int main()
+       {
+           C1 c1;
+           std::cout << "&c1: " << &c1 << '\n';
+           c1.foo(); // The address of the c1 (&c1) and this pointer are same.
+
+           C1 c2;
+           std::cout << "&c2: " << &c2 << '\n';
+           c2.foo(); // The address of the c2 (&c2) and this pointer are same.
+       }
+    };
+ #+END_SRC
+
+ The value category of an expression created by ~this pointer~ is ~PR-value expression~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       void foo()
+       {
+           &this; // This is invalid. ~this~ is a PR-value expression. Only L-value expressions can be the operand of address operator.
+       }
+    };
+ #+END_SRC
+
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       void foo()
+       {
+           &this; // This is invalid. ~this~ is a PR-value expression. Only L-value expressions can be the operand of address operator.
+       }
+    };
+ #+END_SRC
+
+ The ~non-static data members~ can be accessed from ~non-static member functions~ with or without a ~qualifier~, but it is also possible to access them via ~this pointer~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       void foo()
+       {
+           // All of these are same.
+           mx = 20; // Access with unqualified identifier.
+           C1::mx = 20; // Access with qualified identifier.
+           this->mx = 20; // Access through this pointer.
+       }
+
+   private:
+       int mx;
+   };
+ #+END_SRC
+
+cpp010 - where we left - 01:56:00
