@@ -1803,7 +1803,7 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
    class C1
    {
    public:
-       void foo(int); // Non-static member functions have implicit this pointer which is the address of the caller object. The compiler sees it like void foo(C1* this, int);
+       void foo(int); // Non-static member functions have implicit ~this pointer~ which is the address of the caller object. The compiler sees it like void foo(C1* this, int);
 
    private:
        int mx; // Non-static data member
@@ -1900,7 +1900,7 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
 	   // If it couldn't be found in 4, name look-up will fail.
 	   x;
 
-	   // mx will be found in 3 (class scope). The compiler will change it to qualified identifier by using implicit this pointer.
+	   // mx will be found in 3 (class scope). The compiler will change it to qualified identifier by using implicit ~this pointer~.
 	   mx; // This is equal to this->mx.
 
            // a will be found in 2 (enclosing block). This will increase the local a inside of the function block, not the a in the class scope.
@@ -2065,11 +2065,11 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
        {
            C1 c1;
            std::cout << "&c1: " << &c1 << '\n';
-           c1.foo(); // The address of the c1 (&c1) and this pointer are same.
+           c1.foo(); // The address of the c1 (&c1) and ~this pointer~ are same.
 
            C1 c2;
            std::cout << "&c2: " << &c2 << '\n';
-           c2.foo(); // The address of the c2 (&c2) and this pointer are same.
+           c2.foo(); // The address of the c2 (&c2) and ~this pointer~ are same.
        }
     };
  #+END_SRC
@@ -2107,7 +2107,7 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
            // All of these are same.
            mx = 20; // Access with unqualified identifier.
            C1::mx = 20; // Access with qualified identifier.
-           this->mx = 20; // Access through this pointer.
+           this->mx = 20; // Access through ~this pointer~.
        }
 
    private:
@@ -2115,4 +2115,192 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
    };
  #+END_SRC
 
-cpp010 - where we left - 01:56:00
+ There are situations where it is not possible to do what we want without using ~this pointer~. 
+
+ It is not possible to call another function within a ~non-static member function~ for the caller object without ~this pointer~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       void f1();
+   };
+
+   void f2(C1*);
+   void f3(C1);
+   void f4(C1&);
+
+   int C1::f1()
+   {
+       // There is no way to call f2, f3 and f4 with the caller object without ~this pointer~.
+       f2(this);
+       f3(*this);
+       f4(*this);
+   }
+ #+END_SRC
+
+ It is not possible to return the caller object or the address of the caller object without ~this pointer~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1 f1()
+       {
+	   return *this;
+       }
+
+       C1* f2()
+       {
+	   return this;
+       }
+
+       C1& f3()
+       {
+           return *this;
+       }
+   };
+ #+END_SRC
+
+*** Const member functions
+ ~this pointer~ is a hidden parameter that all ~non-static member functions~ have, so we cannot tell whether a function is a mutator or an accessor function. To avoid this confusion, if a function is not a mutator, we can define/declare it as ~const~ to indicate this. When a ~non-static member function~ is defined as ~const~, the hidden ~this pointer~ becomes ~const~.
+
+ So, there are 2 different categories for ~non-static member functions~:
+  - ~const member function~
+  - ~non-const member function~
+
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // Const member function / Accessor function. This equals to void get(const C1*);
+       void get() const;
+
+       // Non-const member function / Mutator function. This equals to void get(C1*);
+       void set();
+   };
+ #+END_SRC
+
+ The compiler performs the same checks for ~const this pointer~ as it does for other ~const objects~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       void f1() const
+       {
+           // This equals to this->mx = 10;
+           mx = 10; // Invalid, because ~this pointer~ is const. Mutating a const object is a syntax error.
+       }
+
+   private:
+       int mx;
+   };
+ #+END_SRC
+
+ ~non-const member functions~ cannot be called within ~const member functions~, because there is no implicit conversion from ~const T*~ to ~T*~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       void f1()
+       {
+           f2(); // Valid. T* can be converted to const T* implicitly.
+       }
+
+       void f2() const
+       {
+           // f2() takes const ~this pointer~ and tries to call f1() which takes non-const ~this pointer~, 
+           // but there is no implicit cast from const T* to T*.
+           f1(); // Invalid. 
+       }
+  };
+ #+END_SRC
+
+ ~non-const/const member functions~ can be called with ~non-const~ class objects:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       void f1()
+       {
+       }
+
+       void f2() const
+       {
+       }
+  };
+
+   int main()
+   {
+       C1 a;
+       
+       a.f1(); // Valid.
+       a.f2(); // Valid.
+    }
+ #+END_SRC
+
+ ~const~ class objects can only call ~const member functions~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       void f1()
+       {
+       }
+
+       void f2() const
+       {
+       }
+  };
+
+   int main()
+   {
+       const C1 a;
+
+       // &a is const C1* but f1() has implicit non-const ~this pointer~ and
+       // there is no implicit conversion from const T* to T*.
+       a.f1(); // Invalid.
+       a.f2(); // Valid.
+    }
+ #+END_SRC
+
+ To define ~const member functions~, the ~const~ keyword must appear in both the declaration and the definition:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       void f1() const;
+   };
+
+   void C1::f1() const
+   {
+   }
+ #+END_SRC
+
+ ~non-const/const member functions~ can be used for ~function overloading~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // These are valid overloads.
+
+       void f1()
+       {
+	   std::cout << "C1::f1()\n";
+       }
+
+       void f1() const
+       {
+	   std::cout << "C1::f1() const\n";
+       }
+   };
+
+   int main()
+   {
+       const C1 a;
+       C1 b;
+
+       a.f1(); // C1::f1() const will be called.
+       b.f1(); // C1::f1() will be called.
+   }
+ #+END_SRC
+
+cpp011 - where we left - 00:00:00
