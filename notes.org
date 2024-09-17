@@ -2161,9 +2161,9 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
  #+END_SRC
 
 *** Const member functions
- ~this pointer~ is a hidden parameter that all ~non-static member functions~ have, so we cannot tell whether a function is a mutator or an accessor function. To avoid this confusion, if a function is not a mutator, we can define/declare it as ~const~ to indicate this. When a ~non-static member function~ is defined as ~const~, the hidden ~this pointer~ becomes ~const~.
+ ~this pointer~ is a hidden parameter that all ~non-static member functions~ have, so we cannot tell whether a function is a mutator or an accessor function. To avoid this confusion, if a function is not a mutator, we can define/declare it as ~const~ to indicate this. When a ~non-static member function~ is defined as ~const~, the hidden ~this pointer~ becomes ~const~. The ~const member functions~ basically tell us that they will not change the value/state of the object.
 
- So, there are 2 different categories for ~non-static member functions~:
+ There are 2 different categories for ~non-static member functions~:
   - ~const member function~
   - ~non-const member function~
 
@@ -2303,4 +2303,59 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
    }
  #+END_SRC
 
-cpp011 - where we left - 00:00:00
+*** mutable keyword
+ Normally, the ~const member functions~ and ~const objects~ of the class cannot change the value of the object's ~non-static data members~, but the ~non-static data members~ declared with the ~mutable~ keyword can be changed by the ~const member functions~.
+
+ If the reason for the existence of ~const member functions~ is to prevent modification of ~non-static data members~, why do we want to allow changes by using ~mutable~ keyword? Not every ~non-static data member~ of an object has to directly represent the state of the object. For example, some ~data members~ can be used for debugging and caching purposes and have no direct effect on the ~observable state~ of the object. The ~mutable~ keyword is particularly useful in these cases.
+
+ Assume there is a ~Date~ class with some ~non-static data members~ to represent the day, month and year. If we want to know how many times the month was accessed, we can put an additional ~data member~ to count it and increment it in the month's ~getter~, but this is not directly related to the state of the object. It is just additional data that is needed for some reason. If there was no ~mutable~ keyword, we would have to change ~getter~ to ~non-const member function~ just to have some debug information. Example:
+ #+BEGIN_SRC C++
+   class Date
+   {
+   public:
+       int get_month() const
+       {
+           // ...
+           ++m_debug_month_hit_count;
+           return m_month; 
+       }
+   private:
+       int m_day, m_month, m_year;
+       // This data member is not directly related with the value/state of the object. It is just a debug information.
+       // It is declared as mutable so it is allowed to be changed even from const member functions.
+       mutable int m_debug_month_hit_count;
+   };
+ #+END_SRC
+ 
+ ~const objects~ can also change the ~mutable~ data members:
+ #+BEGIN_SRC C++
+   class Date
+   {
+   public:
+       int get_month() const
+       {
+           return m_month; 
+       }
+
+   private:
+       int m_day, m_month, m_year;
+
+   public:   
+       mutable int m_debug_cache_value;
+  };
+
+   int main()
+   {
+       const Date date{};
+       date.m_debug_cache_value = 365;
+   }
+ #+END_SRC
+
+*** Constructor and destructor of classes
+ The ~constructor~ and ~destructor~ are in the category of ~member functions~ of classes. The instantiation of a class object is performed by the ~constructor~ of the class, while the end of life of the object is performed by the ~destructor~ of the class.
+
+ If any class object, regardless of its type, is alive, it was brought to life by a ~constructor~. There is no exception to this rule in C++. Every object is instantiated by a call to a ~constructor~ function. After the ~constructor~ is called, the class object becomes available, which means that the memory space allocated for that class object is no longer a pile of garbage, but is now filled with values that can be used by the class. This typically means initializing the ~non-static data members~ of the class.
+
+ Every class object that is instantiated has a lifespan/lifetime, and its lifetime will end at some point in the program's runtime. End-of-life class objects are deleted with a call to a ~destructor~ function. There is also no exception to this rule in C++. After the call to the ~destructor~, the object's life is completely over and all memory allocated for the object is freed.
+
+cpp011 - where we left - 00:36:00
