@@ -2352,10 +2352,637 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
  #+END_SRC
 
 *** Constructor and destructor of classes
- The ~constructor~ and ~destructor~ are in the category of ~member functions~ of classes. The instantiation of a class object is performed by the ~constructor~ of the class, while the end of life of the object is performed by the ~destructor~ of the class.
+ The ~constructor~ and ~destructor~ are in the category of ~non-static member functions~. The instantiation of a class object is performed by the ~constructor~ of the class, while the end of life of the object is performed by the ~destructor~ of the class.
 
+**** Constructor
  If any class object, regardless of its type, is alive, it was brought to life by a ~constructor~. There is no exception to this rule in C++. Every object is instantiated by a call to a ~constructor~ function. After the ~constructor~ is called, the class object becomes available, which means that the memory space allocated for that class object is no longer a pile of garbage, but is now filled with values that can be used by the class. This typically means initializing the ~non-static data members~ of the class.
 
+ There is a special type of ~constructor~ called ~default constructor~. For a ~constructor~ to be the ~default constructor~, it must either take no parameters or all its parameters must take default arguments. In other words, a ~constructor~ is the ~default constructor~ if it can be called without passing any arguments. The ~default constructor~ is one of the ~special member functions~.
+
+ ~Constructor~:
+ - is ~non-static member function~ (not allowed to be ~static~). 
+ - is ~non-const member functions~ (not allowed to be ~const~). 
+ - has ~this pointer~.
+ - cannot be ~global function~.
+ - must have the same name with the class.
+ - doesn't have concept of a return value.
+ - can be ~overloaded~.
+ - can be ~public~, ~private~ and ~protected~.  
+ - cannot be called by objects using ~.~ and ~->~ operators.
+ - is a ~special member function~ if it is the ~default constructor~.
+
+ Declaration of a ~constructor~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1(); // Has to have the same name with the class.
+   };
+ #+END_SRC
+
+ A class can have multiple ~constructors~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // These are valid function overloads.
+       C1();
+       C1(int);
+   };
+ #+END_SRC
+
+ ~Constructors~ cannot be ~static~ or ~const~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       static C1(); // Invalid.
+       C1(int) const; // Invalid.
+   };
+ #+END_SRC
+
+ ~Constructors~ don't have to be ~public~ they can also be ~private~ or ~protected~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   // This is valid, but when we try to create an instance of the class,
+   // access control will fail and we will get a syntax error.
+   private:
+       C1();
+       C1(int);
+       C1(int);
+   };
+ #+END_SRC
+
+ Definition and declaration of a ~constructor~ can be in ~class definition~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1()
+       {
+           // These are valid.
+           mx = 10;
+           this->mx = 10;
+           C1::mx = 10;
+       }
+   private:
+       int mx, my;
+   };
+ #+END_SRC
+
+ Definition and declaration of a ~constructor~ can also be separate:
+ #+BEGIN_SRC C++
+   // c1.h
+   class C1
+   {
+   public:
+       C1(int);
+
+   private:
+       int mx, my;
+   };
+  
+   // c1.cpp
+   // #include "c1.h"
+   C1::C1(int x)
+   {
+       mx = x;
+       this->mx = x;
+       C1::mx = x;
+   }
+ #+END_SRC
+
+ ~Constructors~ can't be called by objects using ~.~ and ~->~ operators:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1();
+   };
+
+   int main()
+   {
+       C1 c1;
+
+       c1.C1(); // This is invalid.
+   }
+ #+END_SRC
+
+Example for ~default constructor~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1(); // Default constructor.
+   };
+
+   class C2
+   {
+   public:
+       C2(int = 0); // Default constructor.
+   };
+#+END_SRC
+
+**** Destructor
  Every class object that is instantiated has a lifespan/lifetime, and its lifetime will end at some point in the program's runtime. End-of-life class objects are deleted with a call to a ~destructor~ function. There is also no exception to this rule in C++. After the call to the ~destructor~, the object's life is completely over and all memory allocated for the object is freed.
 
-cpp011 - where we left - 00:36:00
+ ~Destructor~:
+ - is ~non-static member functions~ (not allowed to be ~static~). 
+ - is ~non-const member functions~ (not allowed to be ~const~). 
+ - has ~this pointer~.
+ - cannot be ~global function~.
+ - must have the same name with the class and have the prefix ~~~.
+ - don't have concept of a return value.
+ - cannot have parameters, so it cannot be ~overloaded~.
+ - can be ~public~, ~private~ and ~protected~.  
+ - can be called manually by objects using ~.~ and ~->~ operators.
+ - is a ~special member function~.
+
+ Declaration of a ~destructor~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       ~C1(); // Has to have the same name with the class prefixed by ~.
+   };
+ #+END_SRC
+  
+ A class cannot have multiple ~destructors~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       ~C1(); // Valid.
+        // Invalid. Destructors cannot have parameters and cannot be overloaded.
+       // This means there is no way to have more than one destructor.
+       ~C1(int);
+   };
+ #+END_SRC
+
+~Destructor~ cannot be ~static~ or ~const~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       static ~C1(); // Invalid.
+   };
+
+   class C2
+   {
+   public:
+       ~C2() const; // Invalid.
+   };
+ #+END_SRC
+
+ ~Destructor~ can be ~public~, ~private~ and ~protected~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   // This is valid, but access control will fail
+   // when destructor is called and we will get a syntax error.
+   private:
+       ~C1();
+   };
+ #+END_SRC
+
+Definition and declaration of a ~destructor~ can be in ~class definition~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       ~C1()
+       {
+           // These are valid.
+           mx = 0;
+           this->mx = 0;
+           C1::mx = 0;
+       }
+   private:
+       int mx, my;
+   };
+ #+END_SRC
+
+ Definition and declaration of a ~destructor~ can also be separate:
+ #+BEGIN_SRC C++
+   // c1.h
+   class C1
+   {
+   public:
+       ~C1();
+
+   private:
+       int mx, my;
+   };
+  
+   // c1.cpp
+   // #include "c1.h"
+   C1::~C1()
+   {
+       mx = 0;
+       this->mx = 0;
+       C1::mx = 0;
+   }
+ #+END_SRC
+
+ ~Destructor~ can be called manually by objects using ~.~ and ~->~ operators:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1();
+   };
+
+   int main()
+   {
+       C1 c1;
+
+       // This is valid, but the cases where this is needed are very rare.
+       // There is almost only one case and it is about ~placement new~ operator.
+       c1.~C1(); 
+   }
+ #+END_SRC
+
+**** When are the constructor and the destructor called?
+ For a ~global class object~:
+ - The ~constructor~ is called before the ~main~ function.
+ - The ~destructor~ is called after the ~main~ function.
+
+ If there is more than one ~global class object~, the calling order of its ~constructors~ must be the same as the order of object declarations, and the order in which their ~destructors~ are called must be the reverse order of the order in which ~contructors~ are called. This is only valid in the same source file. The order of instantiation of ~global class objects~ defined in different source files is not specified. The term used for this situation is ~static initilization fiasco~.
+
+ Example for a ~global class object~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1()
+       {
+           std::cout << "C1 default constructor this: " << this << '\n';
+       }
+
+       ~C1()
+       {
+           std::cout << "C1 destructor this: " << this << '\n';
+       }
+   };
+
+   C1 c1;
+
+   int main()
+   {
+       std::cout << "main begins\n";
+       std::cout << "&c1: " << &c1 << '\n';
+       std::cout << "main ends\n";
+   }
+
+   /*
+       Output: 
+       C1 default constructor this: <c1 address>
+       main begins
+       &c1: <c1 address>
+       main ends
+       C1 destructor this: <c1 address>
+   */
+ #+END_SRC
+
+ Example for multiple ~global class object~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1()
+       {
+           std::cout << "C1 default constructor this: " << this << '\n';
+       }
+
+       ~C1()
+       {
+           std::cout << "C1 destructor this: " << this << '\n';
+       }
+   };
+
+   C1 c1a;
+   C1 c1b;
+
+   int main()
+   {
+       std::cout << "main begins\n";
+       std::cout << "main ends\n";
+   }
+
+   /*
+       Output: 
+       C1 default constructor this: <c1a address>
+       C1 default constructor this: <c1b address>
+       main begins
+       main ends
+       C1 destructor this: <c1b address>
+       C1 destructor this: <c1a address>
+   */
+ #+END_SRC
+
+ Example for multiple ~global class object~ in different source files:
+ #+BEGIN_SRC C++
+   // c1.h
+   class C1
+   {
+   public:
+       C1()
+       {
+           std::cout << "C1 default constructor this: " << this << '\n';
+       }
+
+       ~C1()
+       {
+           std::cout << "C1 destructor this: " << this << '\n';
+       }
+   };
+
+   // main.cpp
+   C1 c1;
+
+   // a.cpp
+   C1 c1a;
+
+   // b.cpp
+   C1 c1b;
+
+   // In this case, we cannot say anything about initilization order.
+   // There is no way to know in which order objects will be created.
+ #+END_SRC
+ 
+For a ~static local class object~:
+ - The ~constructor~ is called the first time when the function containing the object is called.
+ - The ~destructor~ is called after the ~main~ function.
+
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1()
+       {
+	   std::cout << "C1 default constructor this: " << this << '\n';
+       }
+
+       ~C1()
+       {
+	   std::cout << "C1 destructor this: " << this << '\n';
+       }
+   };
+
+   int f1()
+   {
+       std::cout << "f1() is called\n";
+       // When the program reaches this point, the constructor will be called,
+       // and this is the first call to f1(). If f1() gets called more than once,
+       // the constructor will not be called again because the object has alreay been created and
+       // is still alive (because it has static lifetime).
+       static C1 c1;
+   }
+
+   int main()
+   {
+       std::cout << "main begins\n";
+       f1();
+       f1();
+       f1();
+       std::cout << "main ends\n";
+   }
+
+   /*
+       Output: 
+       main begins
+       f1() is called
+       C1 default constructor this: <c1 address>
+       f1() is called
+       f1() is called
+       main ends
+       C1 destructor this: <c1 address>
+   ,*/
+ #+END_SRC
+
+For a ~local/automatic class object~:
+ - The ~constructor~ is called when the the program reaches the point where the object is created.
+ - The ~destructor~ is called when the scope defining the lifetime of the object ends.
+
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1()
+       {
+           std::cout << "C1 default constructor\n";
+       }
+
+       ~C1()
+       {
+           std::cout << "C1 destructor\n";
+       }
+   };
+
+   int main()
+   {
+       std::cout << "main begins\n";
+
+       if (1)
+       {
+           C1 c1; // The constructor will be called when program reaches this point. c1 is alive after this point.
+
+           std::cout << "main continues\n";
+
+           // The destructor will be called here at the end of scope which c1 object is in.
+       }
+       std::cout << "main continues\n";
+
+       std::cout << "main ends\n";
+   }
+
+   /*
+       Output: 
+       main begins
+       C1 default constructor
+       main continues
+       C1 destructor
+       main continues
+       main ends
+   */
+ #+END_SRC
+
+ Unlike ~static local class objects~, ~local/automatic class objects~ are recreated each time the program enters the ~block/scope~ they are in:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1()
+       {
+           std::cout << "C1 default constructor\n";
+       }
+
+       ~C1()
+       {
+           std::cout << "C1 destructor\n";
+       }
+   };
+
+   int main()
+   {
+       std::cout << "main begins\n";
+
+       for (int i = 0; i < 3; ++i)
+       {
+           C1 c1; // In each iteration, the constructor is called and c1 gets created.
+
+           // Each time the scope of the for-loop ends, the destructor is called, and c1 gets destroyed.
+       }
+
+       std::cout << "main ends\n";
+   }
+
+   /*
+       Output: 
+       main begins
+       C1 default constructor
+       C1 destructor
+       C1 default constructor
+       C1 destructor
+       C1 default constructor
+       C1 destructor
+       main ends
+   */
+ #+END_SRC
+
+ For a ~dynamic class objects~:
+ - The ~constructor~ is called when one of the ~new expressions/operators~ is used.
+ - The ~destructor~ is called when one of the ~delete expressions/operators~ is used.
+
+# TODO: Probably we need to put this explanations under a seperate title?
+ The ~new expressions~ and ~delete expressions~ are not equivalents of ~malloc~ and ~free~. The ~malloc~ and ~free~ functions are used to allocate and deallocate a memory space. The ~new expressions~ and ~delete expressions~ are used to create and destroy ~class objects~ with ~dynamic lifetime~. 
+
+ When a ~new expression~ is used (in order):
+  - The function ~void* operator new(std::size_t)~ is called. The ~operator new~ function allocates a memory space (possibly using ~malloc~) for the object. It returns this address if the allocation succeeds, or throws an ~exception~ of type ~std:bad_alloc~ if it fails.
+  - The address returned from ~operator new~ function is then ~casted~ from ~void*~ to the address of the ~class type~ and the ~constructor~ of the class is called for that address.
+  - The allocated address is returned to the caller.
+
+ When a ~delete expression~ is used (in order):
+  - The ~destructor~ of the class is called for the object.
+  - The function ~void operator delete(void*)~ is called with the address of the object (which is allocated by ~operator new~ function). The ~operator delete~ function deallocates the memory space (possibly using ~free~).
+
+ The ~operator new~ and ~operator delete~ functions are part of the C++ standard library.
+    
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1();
+   };
+
+   int main()
+   {
+       //  Memory is allocated for the object.
+       // C1* address_obj = (C1*)operator new(sizeof(C1));
+       // The constructor is called with the allocated address of the object.
+       // Normally, we cannot call the constructor manually but the compiler can do it.
+       // address_obj->constructor(); 
+       // The allocated address is returned to the caller.
+       // c1 = address_obj;
+       C1* c1 = new C1;
+
+       // The destructor is called for the object.
+       // c1->~C1();
+       // The operator delete function is called with the allocated address of the object.
+       // operator delete(c1);
+       delete c1;
+   }
+ #+END_SRC
+
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1()
+       {
+           std::cout << "C1 default constructor this: " << this << '\n';
+       }
+
+       ~C1()
+       {
+           std::cout << "C1 destructor this: " << this << '\n';
+       }
+
+       void f1()
+       {
+           std::cout << "f1() is called\n";
+       }
+   };
+
+   int main()
+   {
+       std::cout << "main begins\n";
+      
+       C1* c1 = new C1;
+       
+       c1->f1();
+
+       delete c1;
+      
+       std::cout << "main ends\n";
+   }
+
+   /*
+       Output: 
+       main begins
+       C1 default constructor this: <c1 address>
+       f1() is called
+       C1 destructor this: <c1 address>
+       main ends
+   */
+ #+END_SRC
+
+ The ~pointer~ and ~reference~ types do not cause the constructor and destructor to be called:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1()
+       {
+           std::cout << "C1 default constructor\n";
+       }
+
+       ~C1()
+       {
+           std::cout << "C1 destructor\n";
+       }
+   };
+
+   int main()
+   {
+       // The constructor will be only called when c1 gets created in the first line.
+       C1 c1;
+       // c1p and c1p are just pointer/reference types, they don't directly represent the class.
+       // No constructor/destructor will be called for c1p and c1r.
+       C1* c1p = &c1; 
+       C1& c1r = c1;
+
+      // The destructor for c1 will be called here. Nothing will happen for c1p and c1r.
+   }
+ #+END_SRC
+ 
+*** Special member functions
+ ~special member functions~ are ~member functions~ related to a very important group of functions of a class. There are 6 different ~special member functions~.
+
+ These ~special member functions~ are:
+ - ~default constructor~
+ - ~destructor~
+ - ~copy constructor~
+ - ~move constructor~ (C++11)
+ - ~copy assignment~
+ - ~move assignment~  (C++11)
+
+ The definitions of these functions can be written by the compiler if certain conditions are met. These functions, which are generated automatically by the compiler are called ~defaulted functions~. 
+
+ ~Defaulted functions~ can be declared/defined in 2 different ways:
+ - The compiler can declare and define these functions ~implicitly~ according to the rules of the language.
+ - We can ~explicitly~ ask the compiler to write the code for these functions.
+
+
+cpp011 - where we left - 02:17:00

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-08-27 Tue 17:21 -->
+<!-- 2024-09-18 Wed 20:46 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>&lrm;</title>
@@ -199,116 +199,139 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orga808604">1. Fundemental Differences Between C and C++</a>
+<li><a href="#orgc876ca4">1. Fundemental Differences Between C and C++</a>
 <ul>
-<li><a href="#org3f0170e">1.1. Syntax Differences</a>
+<li><a href="#org2f5cd5b">1.1. Syntax Differences</a>
 <ul>
-<li><a href="#orgebabf61">1.1.1. Implicit int</a></li>
-<li><a href="#orgac947ba">1.1.2. Missing return statement in functions with non-void return type</a></li>
-<li><a href="#org3b7902b">1.1.3. Implicit/default function declaration</a></li>
-<li><a href="#org0a8c1a0">1.1.4. Declaration of functions without parameter</a></li>
-<li><a href="#orgb3e7032">1.1.5. Nameless parameters in function definitions</a></li>
-<li><a href="#org8e29bc5">1.1.6. Scope of for-statement</a></li>
+<li><a href="#org2de478e">1.1.1. Implicit int</a></li>
+<li><a href="#orgc141b9e">1.1.2. Missing return statement in functions with non-void return type</a></li>
+<li><a href="#org5257d1c">1.1.3. Implicit/default function declaration</a></li>
+<li><a href="#org541d58c">1.1.4. Declaration of functions without parameter</a></li>
+<li><a href="#org8f5d976">1.1.5. Nameless parameters in function definitions</a></li>
+<li><a href="#orgcff2f6a">1.1.6. Scope of for-statement</a></li>
 </ul>
 </li>
-<li><a href="#orgb658ead">1.2. Differences About Types and Type Conversions</a>
+<li><a href="#orgcb136a6">1.2. Differences About Types and Type Conversions</a>
 <ul>
-<li><a href="#org1b7074c">1.2.1. Logic data type (boolean)</a></li>
-<li><a href="#orgb3e03aa">1.2.2. User defined types</a></li>
-<li><a href="#org3563463">1.2.3. Empty structs</a></li>
-<li><a href="#org780fec3">1.2.4. Implicit conversion from arithmetic types to pointer types</a></li>
-<li><a href="#org8808413">1.2.5. Implicit conversion between different pointer types.</a></li>
-<li><a href="#org1236dbc">1.2.6. Implicit conversion from <code>void*</code> to <code>T*</code></a></li>
-<li><a href="#org4198d4d">1.2.7. Underlying enumeration type</a></li>
-<li><a href="#org5f0b637">1.2.8. Implicit conversion from arithmetic types to enumeration types</a></li>
-<li><a href="#org4613945">1.2.9. Implicit conversion between different enumeration types</a></li>
-<li><a href="#orgdc06c60">1.2.10. Implicit conversion from enumeration types to arithmetic types.</a></li>
-<li><a href="#orga27b3ae">1.2.11. Character literals</a></li>
-<li><a href="#orgb887be6">1.2.12. String literals</a></li>
+<li><a href="#orgf070cbd">1.2.1. Logic data type (boolean)</a></li>
+<li><a href="#orga3b50df">1.2.2. User defined types</a></li>
+<li><a href="#org4e6325b">1.2.3. Empty structs</a></li>
+<li><a href="#orgbc4b1e8">1.2.4. Implicit conversion from arithmetic types to pointer types</a></li>
+<li><a href="#org1256028">1.2.5. Implicit conversion between different pointer types.</a></li>
+<li><a href="#orga13cc66">1.2.6. Implicit conversion from <code>void*</code> to <code>T*</code></a></li>
+<li><a href="#org2c270f5">1.2.7. Underlying enumeration type</a></li>
+<li><a href="#org3deebda">1.2.8. Implicit conversion from arithmetic types to enumeration types</a></li>
+<li><a href="#org3b0299a">1.2.9. Implicit conversion between different enumeration types</a></li>
+<li><a href="#orgb01b0e7">1.2.10. Implicit conversion from enumeration types to arithmetic types.</a></li>
+<li><a href="#orgd074cf6">1.2.11. Character literals</a></li>
+<li><a href="#org219ed69">1.2.12. String literals</a></li>
 </ul>
 </li>
-<li><a href="#org0bcbbda">1.3. Differences About const Keyword</a>
+<li><a href="#orge98e71b">1.3. Differences About const Keyword</a>
 <ul>
-<li><a href="#orgf12c8da">1.3.1. Initialization of const objects</a></li>
-<li><a href="#org93b999f">1.3.2. Const expressions</a></li>
-<li><a href="#orga34f09d">1.3.3. Global const objects and linkage</a></li>
-<li><a href="#org950f1b1">1.3.4. Implicit conversion from <code>const T*</code> to <code>T*</code></a></li>
+<li><a href="#orgc589fc5">1.3.1. Initialization of const objects</a></li>
+<li><a href="#orgcff931a">1.3.2. Const expressions</a></li>
+<li><a href="#org297dbab">1.3.3. Global const objects and linkage</a></li>
+<li><a href="#org5a67052">1.3.4. Implicit conversion from <code>const T*</code> to <code>T*</code></a></li>
 </ul>
 </li>
-<li><a href="#org5a19fb7">1.4. Differences About Value Categories</a>
+<li><a href="#orged1e59b">1.4. Differences About Value Categories</a>
 <ul>
-<li><a href="#org3aee114">1.4.1. Primary value categories</a></li>
-<li><a href="#orge78e27d">1.4.2. Prefix increment/decrement operator</a></li>
-<li><a href="#org48fe0e2">1.4.3. Assignment operator</a></li>
-<li><a href="#orge7bd0c2">1.4.4. Comma operator</a></li>
-<li><a href="#org0211554">1.4.5. Ternary operator</a></li>
+<li><a href="#org2629202">1.4.1. Primary value categories</a></li>
+<li><a href="#orgf10c46d">1.4.2. Prefix increment/decrement operator</a></li>
+<li><a href="#org680162e">1.4.3. Assignment operator</a></li>
+<li><a href="#org1a78f6d">1.4.4. Comma operator</a></li>
+<li><a href="#orgd181fc3">1.4.5. Ternary operator</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orgd74b794">2. C++ Topics</a>
+<li><a href="#org0be1dd3">2. C++ Topics</a>
 <ul>
-<li><a href="#org132c2b3">2.1. Initialization</a>
+<li><a href="#org365aba9">2.1. Initialization</a>
 <ul>
-<li><a href="#org76d29f0">2.1.1. Default initialization</a></li>
-<li><a href="#org395c45e">2.1.2. Zero initialization</a></li>
-<li><a href="#org2bc0694">2.1.3. Copy initialization</a></li>
-<li><a href="#org622220c">2.1.4. Direct initialization</a></li>
-<li><a href="#org011a8a6">2.1.5. Direct-list / brace initialization (uniform initialization)</a></li>
-<li><a href="#org3839534">2.1.6. Value initialization</a></li>
+<li><a href="#orgd504c2c">2.1.1. Default initialization</a></li>
+<li><a href="#org0a6405a">2.1.2. Zero initialization</a></li>
+<li><a href="#org289d1e1">2.1.3. Copy initialization</a></li>
+<li><a href="#org33e37d5">2.1.4. Direct initialization</a></li>
+<li><a href="#orgbff24b2">2.1.5. Direct-list / brace initialization (uniform initialization)</a></li>
+<li><a href="#orgbf997ae">2.1.6. Value initialization</a></li>
 </ul>
 </li>
-<li><a href="#orgc1e69ab">2.2. nullptr</a></li>
-<li><a href="#org78a548f">2.3. Reference Semantics</a>
+<li><a href="#org3e148a2">2.2. nullptr</a></li>
+<li><a href="#orgafb652e">2.3. Reference Semantics</a>
 <ul>
-<li><a href="#org4dc9c74">2.3.1. L-value references</a></li>
-<li><a href="#org7f77e29">2.3.2. L-value references and const semantics</a></li>
-<li><a href="#org32cb04b">2.3.3. Differences between pointers and L-value references</a></li>
-<li><a href="#orge5bfb50">2.3.4. R-value references</a></li>
+<li><a href="#org17ea48e">2.3.1. L-value references</a></li>
+<li><a href="#org384e7f1">2.3.2. L-value references and const semantics</a></li>
+<li><a href="#org1fd1c31">2.3.3. Differences between pointers and L-value references</a></li>
+<li><a href="#orgc567623">2.3.4. R-value references</a></li>
 </ul>
 </li>
-<li><a href="#org5fdf535">2.4. Type Deduction</a>
+<li><a href="#orgdcfce9e">2.4. Type Deduction</a>
 <ul>
-<li><a href="#orgd3e33d2">2.4.1. auto type deduction</a></li>
-<li><a href="#org2de667a">2.4.2. decltype type deduction</a></li>
+<li><a href="#org91baedd">2.4.1. auto type deduction</a></li>
+<li><a href="#org5f818af">2.4.2. decltype type deduction</a></li>
 </ul>
 </li>
-<li><a href="#org671ad3d">2.5. Default Function Arguments</a></li>
-<li><a href="#org960260f">2.6. Scoped enum / Enum class</a>
+<li><a href="#org187203b">2.5. Default Function Arguments</a></li>
+<li><a href="#org61e6547">2.6. Scoped enum / Enum class</a>
 <ul>
-<li><a href="#org81146bf">2.6.1. Disadvantages of the traditional enum type</a></li>
-<li><a href="#orgf165259">2.6.2. Advantages of the scoped enum type</a></li>
+<li><a href="#org2540230">2.6.1. Disadvantages of the traditional enum type</a></li>
+<li><a href="#org5c06b1c">2.6.2. Advantages of the scoped enum type</a></li>
 </ul>
 </li>
-<li><a href="#org229a20d">2.7. Type Cast Operators</a>
+<li><a href="#org0740e4a">2.7. Type Cast Operators</a>
 <ul>
-<li><a href="#org65df52d">2.7.1. Why C-style type cast is not enough?</a></li>
+<li><a href="#org4ddf46d">2.7.1. Why C-style type cast is not enough?</a></li>
 </ul>
 </li>
-<li><a href="#org2e0e2bb">2.8. Function Overloading</a>
+<li><a href="#orge7d9e60">2.8. Function Overloading</a>
 <ul>
-<li><a href="#org9a6ec17">2.8.1. Function overload resolution</a></li>
+<li><a href="#org508aef3">2.8.1. Function overload resolution</a></li>
 </ul>
 </li>
-<li><a href="#orgbe7993c">2.9. Name Mangling</a></li>
+<li><a href="#orgcae7972">2.9. Name Mangling</a></li>
+<li><a href="#org9088d57">2.10. One Definition Rule (ODR)</a></li>
+<li><a href="#orgf1bcf5d">2.11. Inline functions</a></li>
+<li><a href="#org3de4a77">2.12. Inline variables</a></li>
+<li><a href="#orgcabc666">2.13. constexpr</a>
+<ul>
+<li><a href="#org0b8c765">2.13.1. constexpr variables</a></li>
+<li><a href="#orgeb433fa">2.13.2. constexpr functions</a></li>
+</ul>
+</li>
+<li><a href="#orgb185dc8">2.14. Classes</a>
+<ul>
+<li><a href="#orgccf01cd">2.14.1. Class definition</a></li>
+<li><a href="#orgf50b7ad">2.14.2. Access control</a></li>
+<li><a href="#org3f28777">2.14.3. Non-static data members</a></li>
+<li><a href="#orgb9b0c79">2.14.4. Non-static member functions</a></li>
+<li><a href="#orgea74ca1">2.14.5. Class scope</a></li>
+<li><a href="#orga5e54ff">2.14.6. this keyword</a></li>
+<li><a href="#org696b314">2.14.7. Const member functions</a></li>
+<li><a href="#org9d6e4a6">2.14.8. mutable keyword</a></li>
+<li><a href="#org86c067a">2.14.9. Constructor and destructor of classes</a></li>
+<li><a href="#orga725cf4">2.14.10. Special member functions</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orga808604" class="outline-2">
-<h2 id="orga808604"><span class="section-number-2">1.</span> Fundemental Differences Between C and C++</h2>
+<div id="outline-container-orgc876ca4" class="outline-2">
+<h2 id="orgc876ca4"><span class="section-number-2">1.</span> Fundemental Differences Between C and C++</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Main purpose of this section is to point out the differences between C and C++. It isn't about how code should or should not be written in C or C++. It is only about validity of the code.
 </p>
 </div>
-<div id="outline-container-org3f0170e" class="outline-3">
-<h3 id="org3f0170e"><span class="section-number-3">1.1.</span> Syntax Differences</h3>
+<div id="outline-container-org2f5cd5b" class="outline-3">
+<h3 id="org2f5cd5b"><span class="section-number-3">1.1.</span> Syntax Differences</h3>
 <div class="outline-text-3" id="text-1-1">
 </div>
-<div id="outline-container-orgebabf61" class="outline-4">
-<h4 id="orgebabf61"><span class="section-number-4">1.1.1.</span> Implicit int</h4>
+<div id="outline-container-org2de478e" class="outline-4">
+<h4 id="org2de478e"><span class="section-number-4">1.1.1.</span> Implicit int</h4>
 <div class="outline-text-4" id="text-1-1-1">
 <p>
 If a function does not have a return type:
@@ -330,8 +353,8 @@ This code is valid in C and invalid in C++:
 </div>
 </div>
 
-<div id="outline-container-orgac947ba" class="outline-4">
-<h4 id="orgac947ba"><span class="section-number-4">1.1.2.</span> Missing return statement in functions with non-void return type</h4>
+<div id="outline-container-orgc141b9e" class="outline-4">
+<h4 id="orgc141b9e"><span class="section-number-4">1.1.2.</span> Missing return statement in functions with non-void return type</h4>
 <div class="outline-text-4" id="text-1-1-2">
 <p>
 If a function has return type but does not return anything:
@@ -350,8 +373,8 @@ This code is valid in C and invalid in C++:
 </div>
 </div>
 
-<div id="outline-container-org3b7902b" class="outline-4">
-<h4 id="org3b7902b"><span class="section-number-4">1.1.3.</span> Implicit/default function declaration</h4>
+<div id="outline-container-org5257d1c" class="outline-4">
+<h4 id="org5257d1c"><span class="section-number-4">1.1.3.</span> Implicit/default function declaration</h4>
 <div class="outline-text-4" id="text-1-1-3">
 <p>
 If name lookup fails for a function:
@@ -373,8 +396,8 @@ This code will compile in C and compiler will assume <code>bar()</code> function
 </div>
 </div>
 
-<div id="outline-container-org0a8c1a0" class="outline-4">
-<h4 id="org0a8c1a0"><span class="section-number-4">1.1.4.</span> Declaration of functions without parameter</h4>
+<div id="outline-container-org541d58c" class="outline-4">
+<h4 id="org541d58c"><span class="section-number-4">1.1.4.</span> Declaration of functions without parameter</h4>
 <div class="outline-text-4" id="text-1-1-4">
 <p>
 There are different rules for C and C++.
@@ -402,11 +425,11 @@ According to the declarations above, this code is valid in C. Invalid in C++, be
 </div>
 </div>
 
-<div id="outline-container-orgb3e7032" class="outline-4">
-<h4 id="orgb3e7032"><span class="section-number-4">1.1.5.</span> Nameless parameters in function definitions</h4>
+<div id="outline-container-org8f5d976" class="outline-4">
+<h4 id="org8f5d976"><span class="section-number-4">1.1.5.</span> Nameless parameters in function definitions</h4>
 <div class="outline-text-4" id="text-1-1-5">
 <p>
-Caution! This is about function definitions not declarations.
+This is about function definitions not declarations.
 </p>
 <ul class="org-ul">
 <li>In C, it is not allowed. (Since C20, it is also allowed in C.)</li>
@@ -422,8 +445,8 @@ This code is invalid for C (before C20) and valid for C++:
 </div>
 </div>
 
-<div id="outline-container-org8e29bc5" class="outline-4">
-<h4 id="org8e29bc5"><span class="section-number-4">1.1.6.</span> Scope of for-statement</h4>
+<div id="outline-container-orgcff2f6a" class="outline-4">
+<h4 id="orgcff2f6a"><span class="section-number-4">1.1.6.</span> Scope of for-statement</h4>
 <div class="outline-text-4" id="text-1-1-6">
 <ul class="org-ul">
 <li>In C, inside of the for loop has a different block scope than for-statement itself.</li>
@@ -433,7 +456,7 @@ This code is invalid for C (before C20) and valid for C++:
 Because of this difference, name shadowing inside a for loop is valid in C, but invalid in C++:
 </p>
 <div class="org-src-container">
-<pre class="src src-C++">for (int i = 0; i &lt; 10 ++i;)
+<pre class="src src-C++">for (int i = 0; i &lt; 10; ++i)
 {
     int i = 99;
 }
@@ -443,7 +466,7 @@ Because of this difference, name shadowing inside a for loop is valid in C, but 
 We can say above code looks like this for C compiler:
 </p>
 <div class="org-src-container">
-<pre class="src src-C++">for (int i = 0; i &lt; 10 ++i;)
+<pre class="src src-C++">for (int i = 0; i &lt; 10; ++i)
 {
     {
 	int i = 99;
@@ -458,12 +481,12 @@ We can say above code looks like this for C compiler:
 </div>
 </div>
 
-<div id="outline-container-orgb658ead" class="outline-3">
-<h3 id="orgb658ead"><span class="section-number-3">1.2.</span> Differences About Types and Type Conversions</h3>
+<div id="outline-container-orgcb136a6" class="outline-3">
+<h3 id="orgcb136a6"><span class="section-number-3">1.2.</span> Differences About Types and Type Conversions</h3>
 <div class="outline-text-3" id="text-1-2">
 </div>
-<div id="outline-container-org1b7074c" class="outline-4">
-<h4 id="org1b7074c"><span class="section-number-4">1.2.1.</span> Logic data type (boolean)</h4>
+<div id="outline-container-orgf070cbd" class="outline-4">
+<h4 id="orgf070cbd"><span class="section-number-4">1.2.1.</span> Logic data type (boolean)</h4>
 <div class="outline-text-4" id="text-1-2-1">
 <p>
 In C:
@@ -516,8 +539,8 @@ int* ptr = b5;
 </div>
 </div>
 
-<div id="outline-container-orgb3e03aa" class="outline-4">
-<h4 id="orgb3e03aa"><span class="section-number-4">1.2.2.</span> User defined types</h4>
+<div id="outline-container-orga3b50df" class="outline-4">
+<h4 id="orga3b50df"><span class="section-number-4">1.2.2.</span> User defined types</h4>
 <div class="outline-text-4" id="text-1-2-2">
 <ul class="org-ul">
 <li>In C, <code>struct</code>, <code>enum</code> and <code>union</code> tags don't represent type itself. A keyword (<code>struct</code>, <code>enum</code> or <code>union</code>) must be used before a tag name to represent a type. A <code>typedef</code> declaration can be used too.</li>
@@ -550,8 +573,8 @@ Example example0;
 </div>
 </div>
 
-<div id="outline-container-org3563463" class="outline-4">
-<h4 id="org3563463"><span class="section-number-4">1.2.3.</span> Empty structs</h4>
+<div id="outline-container-org4e6325b" class="outline-4">
+<h4 id="org4e6325b"><span class="section-number-4">1.2.3.</span> Empty structs</h4>
 <div class="outline-text-4" id="text-1-2-3">
 <ul class="org-ul">
 <li>In C, empty structs are invalid.</li>
@@ -569,8 +592,8 @@ An example:
 </div>
 </div>
 
-<div id="outline-container-org780fec3" class="outline-4">
-<h4 id="org780fec3"><span class="section-number-4">1.2.4.</span> Implicit conversion from arithmetic types to pointer types</h4>
+<div id="outline-container-orgbc4b1e8" class="outline-4">
+<h4 id="orgbc4b1e8"><span class="section-number-4">1.2.4.</span> Implicit conversion from arithmetic types to pointer types</h4>
 <div class="outline-text-4" id="text-1-2-4">
 <ul class="org-ul">
 <li>In C, implicit conversion from arithmetic types to pointer types is allowed. Compilers might show a warning.</li>
@@ -587,8 +610,8 @@ int* p = x;
 </div>
 </div>
 
-<div id="outline-container-org8808413" class="outline-4">
-<h4 id="org8808413"><span class="section-number-4">1.2.5.</span> Implicit conversion between different pointer types.</h4>
+<div id="outline-container-org1256028" class="outline-4">
+<h4 id="org1256028"><span class="section-number-4">1.2.5.</span> Implicit conversion between different pointer types.</h4>
 <div class="outline-text-4" id="text-1-2-5">
 <ul class="org-ul">
 <li>In C, implicit conversion between different pointer is allowed. Compilers might show a warning.</li>
@@ -605,8 +628,8 @@ char* ptr = &amp;d;
 </div>
 </div>
 
-<div id="outline-container-org1236dbc" class="outline-4">
-<h4 id="org1236dbc"><span class="section-number-4">1.2.6.</span> Implicit conversion from <code>void*</code> to <code>T*</code></h4>
+<div id="outline-container-orga13cc66" class="outline-4">
+<h4 id="orga13cc66"><span class="section-number-4">1.2.6.</span> Implicit conversion from <code>void*</code> to <code>T*</code></h4>
 <div class="outline-text-4" id="text-1-2-6">
 <ul class="org-ul">
 <li>In C, implicit conversion from <code>void*</code> to <code>T*</code> is allowed.</li>
@@ -622,8 +645,8 @@ This code is valid in C but invalid in C++:
 </div>
 </div>
 
-<div id="outline-container-org4198d4d" class="outline-4">
-<h4 id="org4198d4d"><span class="section-number-4">1.2.7.</span> Underlying enumeration type</h4>
+<div id="outline-container-org2c270f5" class="outline-4">
+<h4 id="org2c270f5"><span class="section-number-4">1.2.7.</span> Underlying enumeration type</h4>
 <div class="outline-text-4" id="text-1-2-7">
 <ul class="org-ul">
 <li>In C, underlying enumeration type has to be <code>int</code>.</li>
@@ -632,8 +655,8 @@ This code is valid in C but invalid in C++:
 </div>
 </div>
 
-<div id="outline-container-org5f0b637" class="outline-4">
-<h4 id="org5f0b637"><span class="section-number-4">1.2.8.</span> Implicit conversion from arithmetic types to enumeration types</h4>
+<div id="outline-container-org3deebda" class="outline-4">
+<h4 id="org3deebda"><span class="section-number-4">1.2.8.</span> Implicit conversion from arithmetic types to enumeration types</h4>
 <div class="outline-text-4" id="text-1-2-8">
 <ul class="org-ul">
 <li>In C, it is allowed.</li>
@@ -651,8 +674,8 @@ color = 3;
 </div>
 </div>
 
-<div id="outline-container-org4613945" class="outline-4">
-<h4 id="org4613945"><span class="section-number-4">1.2.9.</span> Implicit conversion between different enumeration types</h4>
+<div id="outline-container-org3b0299a" class="outline-4">
+<h4 id="org3b0299a"><span class="section-number-4">1.2.9.</span> Implicit conversion between different enumeration types</h4>
 <div class="outline-text-4" id="text-1-2-9">
 <ul class="org-ul">
 <li>In C, it is allowed.</li>
@@ -672,8 +695,8 @@ color = count;
 </div>
 </div>
 
-<div id="outline-container-orgdc06c60" class="outline-4">
-<h4 id="orgdc06c60"><span class="section-number-4">1.2.10.</span> Implicit conversion from enumeration types to arithmetic types.</h4>
+<div id="outline-container-orgb01b0e7" class="outline-4">
+<h4 id="orgb01b0e7"><span class="section-number-4">1.2.10.</span> Implicit conversion from enumeration types to arithmetic types.</h4>
 <div class="outline-text-4" id="text-1-2-10">
 <ul class="org-ul">
 <li>In C, it is allowed.</li>
@@ -691,8 +714,8 @@ int x = color;
 </div>
 </div>
 
-<div id="outline-container-orga27b3ae" class="outline-4">
-<h4 id="orga27b3ae"><span class="section-number-4">1.2.11.</span> Character literals</h4>
+<div id="outline-container-orgd074cf6" class="outline-4">
+<h4 id="orgd074cf6"><span class="section-number-4">1.2.11.</span> Character literals</h4>
 <div class="outline-text-4" id="text-1-2-11">
 <ul class="org-ul">
 <li>In C, character literals are <code>int</code>.</li>
@@ -708,8 +731,8 @@ This code prints 4 in C and 1 in C++:
 </div>
 </div>
 
-<div id="outline-container-orgb887be6" class="outline-4">
-<h4 id="orgb887be6"><span class="section-number-4">1.2.12.</span> String literals</h4>
+<div id="outline-container-org219ed69" class="outline-4">
+<h4 id="org219ed69"><span class="section-number-4">1.2.12.</span> String literals</h4>
 <div class="outline-text-4" id="text-1-2-12">
 <ul class="org-ul">
 <li>In C, the type of string literals is <code>char[n]</code>. When string literals are used in an expression they are converted to address of the first element (array decay - array to pointer conversion). The type after array decay is <code>char*</code>.</li>
@@ -734,12 +757,12 @@ char* s = "example";
 </div>
 </div>
 
-<div id="outline-container-org0bcbbda" class="outline-3">
-<h3 id="org0bcbbda"><span class="section-number-3">1.3.</span> Differences About const Keyword</h3>
+<div id="outline-container-orge98e71b" class="outline-3">
+<h3 id="orge98e71b"><span class="section-number-3">1.3.</span> Differences About const Keyword</h3>
 <div class="outline-text-3" id="text-1-3">
 </div>
-<div id="outline-container-orgf12c8da" class="outline-4">
-<h4 id="orgf12c8da"><span class="section-number-4">1.3.1.</span> Initialization of const objects</h4>
+<div id="outline-container-orgc589fc5" class="outline-4">
+<h4 id="orgc589fc5"><span class="section-number-4">1.3.1.</span> Initialization of const objects</h4>
 <div class="outline-text-4" id="text-1-3-1">
 <ul class="org-ul">
 <li>In C, <code>const</code> objects don't have to be initialized.</li>
@@ -771,8 +794,8 @@ int* const ptr;
 </div>
 </div>
 
-<div id="outline-container-org93b999f" class="outline-4">
-<h4 id="org93b999f"><span class="section-number-4">1.3.2.</span> Const expressions</h4>
+<div id="outline-container-orgcff931a" class="outline-4">
+<h4 id="orgcff931a"><span class="section-number-4">1.3.2.</span> Const expressions</h4>
 <div class="outline-text-4" id="text-1-3-2">
 <ul class="org-ul">
 <li>In C, expressions generated by const variables are not counted as const expressions.</li>
@@ -789,8 +812,8 @@ int arr[x] = { 0 };
 </div>
 </div>
 
-<div id="outline-container-orga34f09d" class="outline-4">
-<h4 id="orga34f09d"><span class="section-number-4">1.3.3.</span> Global const objects and linkage</h4>
+<div id="outline-container-org297dbab" class="outline-4">
+<h4 id="org297dbab"><span class="section-number-4">1.3.3.</span> Global const objects and linkage</h4>
 <div class="outline-text-4" id="text-1-3-3">
 <ul class="org-ul">
 <li>In C, global const objects are in external linkage.</li>
@@ -807,8 +830,8 @@ const int x = 10;
 </div>
 </div>
 
-<div id="outline-container-org950f1b1" class="outline-4">
-<h4 id="org950f1b1"><span class="section-number-4">1.3.4.</span> Implicit conversion from <code>const T*</code> to <code>T*</code></h4>
+<div id="outline-container-org5a67052" class="outline-4">
+<h4 id="org5a67052"><span class="section-number-4">1.3.4.</span> Implicit conversion from <code>const T*</code> to <code>T*</code></h4>
 <div class="outline-text-4" id="text-1-3-4">
 <ul class="org-ul">
 <li>In C, implicit conversion from <code>const T*</code> to <code>T*</code> is allowed. Compilers might show a warning.</li>
@@ -826,12 +849,12 @@ int* p = &amp;x;
 </div>
 </div>
 
-<div id="outline-container-org5a19fb7" class="outline-3">
-<h3 id="org5a19fb7"><span class="section-number-3">1.4.</span> Differences About Value Categories</h3>
+<div id="outline-container-orged1e59b" class="outline-3">
+<h3 id="orged1e59b"><span class="section-number-3">1.4.</span> Differences About Value Categories</h3>
 <div class="outline-text-3" id="text-1-4">
 </div>
-<div id="outline-container-org3aee114" class="outline-4">
-<h4 id="org3aee114"><span class="section-number-4">1.4.1.</span> Primary value categories</h4>
+<div id="outline-container-org2629202" class="outline-4">
+<h4 id="org2629202"><span class="section-number-4">1.4.1.</span> Primary value categories</h4>
 <div class="outline-text-4" id="text-1-4-1">
 <ul class="org-ul">
 <li>In C, there are 2 primary value categories.
@@ -860,8 +883,8 @@ The <code>GL-value</code> and <code>R-value</code> categories are not <code>prim
 </div>
 </div>
 
-<div id="outline-container-orge78e27d" class="outline-4">
-<h4 id="orge78e27d"><span class="section-number-4">1.4.2.</span> Prefix increment/decrement operator</h4>
+<div id="outline-container-orgf10c46d" class="outline-4">
+<h4 id="orgf10c46d"><span class="section-number-4">1.4.2.</span> Prefix increment/decrement operator</h4>
 <div class="outline-text-4" id="text-1-4-2">
 <ul class="org-ul">
 <li>In C, expressions generated by prefix increment/decrement operator are R-value expressions.</li>
@@ -880,8 +903,8 @@ This code is valid in C++ and invalid in C:
 </div>
 </div>
 
-<div id="outline-container-org48fe0e2" class="outline-4">
-<h4 id="org48fe0e2"><span class="section-number-4">1.4.3.</span> Assignment operator</h4>
+<div id="outline-container-org680162e" class="outline-4">
+<h4 id="org680162e"><span class="section-number-4">1.4.3.</span> Assignment operator</h4>
 <div class="outline-text-4" id="text-1-4-3">
 <ul class="org-ul">
 <li>In C, expressions generated by assignment operator are R-value expressions.</li>
@@ -898,8 +921,8 @@ This code is valid in C++ and invalid in C:
 </div>
 </div>
 
-<div id="outline-container-orge7bd0c2" class="outline-4">
-<h4 id="orge7bd0c2"><span class="section-number-4">1.4.4.</span> Comma operator</h4>
+<div id="outline-container-org1a78f6d" class="outline-4">
+<h4 id="org1a78f6d"><span class="section-number-4">1.4.4.</span> Comma operator</h4>
 <div class="outline-text-4" id="text-1-4-4">
 <ul class="org-ul">
 <li>In C, expressions generated by comma operator are R-value expressions.</li>
@@ -917,8 +940,8 @@ int y = 20;
 </div>
 </div>
 
-<div id="outline-container-org0211554" class="outline-4">
-<h4 id="org0211554"><span class="section-number-4">1.4.5.</span> Ternary operator</h4>
+<div id="outline-container-orgd181fc3" class="outline-4">
+<h4 id="orgd181fc3"><span class="section-number-4">1.4.5.</span> Ternary operator</h4>
 <div class="outline-text-4" id="text-1-4-5">
 <ul class="org-ul">
 <li>In C, expressions generated by ternary operator are R-value expressions.</li>
@@ -939,19 +962,19 @@ int z = 30;
 </div>
 </div>
 
-<div id="outline-container-orgd74b794" class="outline-2">
-<h2 id="orgd74b794"><span class="section-number-2">2.</span> C++ Topics</h2>
+<div id="outline-container-org0be1dd3" class="outline-2">
+<h2 id="org0be1dd3"><span class="section-number-2">2.</span> C++ Topics</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org132c2b3" class="outline-3">
-<h3 id="org132c2b3"><span class="section-number-3">2.1.</span> Initialization</h3>
+<div id="outline-container-org365aba9" class="outline-3">
+<h3 id="org365aba9"><span class="section-number-3">2.1.</span> Initialization</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 There are very different ways to initialize objects in C++.
 </p>
 </div>
-<div id="outline-container-org76d29f0" class="outline-4">
-<h4 id="org76d29f0"><span class="section-number-4">2.1.1.</span> Default initialization</h4>
+<div id="outline-container-orgd504c2c" class="outline-4">
+<h4 id="orgd504c2c"><span class="section-number-4">2.1.1.</span> Default initialization</h4>
 <div class="outline-text-4" id="text-2-1-1">
 <p>
 Default initialized objects are created with a garbage value.
@@ -963,8 +986,8 @@ Default initialized objects are created with a garbage value.
 </div>
 </div>
 
-<div id="outline-container-org395c45e" class="outline-4">
-<h4 id="org395c45e"><span class="section-number-4">2.1.2.</span> Zero initialization</h4>
+<div id="outline-container-org0a6405a" class="outline-4">
+<h4 id="org0a6405a"><span class="section-number-4">2.1.2.</span> Zero initialization</h4>
 <div class="outline-text-4" id="text-2-1-2">
 <p>
 Compilers zero initialize objects in the global scope. <code>Zero initialization</code> is not a way to initialize objects it is more like a compiler process.
@@ -979,8 +1002,8 @@ int* p; // p = nullptr;
 </div>
 </div>
 
-<div id="outline-container-org2bc0694" class="outline-4">
-<h4 id="org2bc0694"><span class="section-number-4">2.1.3.</span> Copy initialization</h4>
+<div id="outline-container-org289d1e1" class="outline-4">
+<h4 id="org289d1e1"><span class="section-number-4">2.1.3.</span> Copy initialization</h4>
 <div class="outline-text-4" id="text-2-1-3">
 <p>
 If objects are initialized like in the C language, it is called <code>copy initialization</code>.
@@ -992,8 +1015,8 @@ If objects are initialized like in the C language, it is called <code>copy initi
 </div>
 </div>
 
-<div id="outline-container-org622220c" class="outline-4">
-<h4 id="org622220c"><span class="section-number-4">2.1.4.</span> Direct initialization</h4>
+<div id="outline-container-org33e37d5" class="outline-4">
+<h4 id="org33e37d5"><span class="section-number-4">2.1.4.</span> Direct initialization</h4>
 <div class="outline-text-4" id="text-2-1-4">
 <p>
 If objects are initialized by using paranthesis, it is called <code>direct initialization</code>.
@@ -1005,8 +1028,8 @@ If objects are initialized by using paranthesis, it is called <code>direct initi
 </div>
 </div>
 
-<div id="outline-container-org011a8a6" class="outline-4">
-<h4 id="org011a8a6"><span class="section-number-4">2.1.5.</span> Direct-list / brace initialization (uniform initialization)</h4>
+<div id="outline-container-orgbff24b2" class="outline-4">
+<h4 id="orgbff24b2"><span class="section-number-4">2.1.5.</span> Direct-list / brace initialization (uniform initialization)</h4>
 <div class="outline-text-4" id="text-2-1-5">
 <p>
 If objects are initialized by using braces, it is called <code>direct-list initialization</code>. <code>direct-list/brace initialization</code> is added to the language to have a uniform way to initialize objects. This is why it is also called <code>uniform initialization</code>. It can be used to initialize any object.
@@ -1058,8 +1081,8 @@ B bz(A{});
 </div>
 </div>
 
-<div id="outline-container-org3839534" class="outline-4">
-<h4 id="org3839534"><span class="section-number-4">2.1.6.</span> Value initialization</h4>
+<div id="outline-container-orgbf997ae" class="outline-4">
+<h4 id="orgbf997ae"><span class="section-number-4">2.1.6.</span> Value initialization</h4>
 <div class="outline-text-4" id="text-2-1-6">
 <p>
 If objects are initialized by using braces but inside of the braces are empty, it is called <code>value initialization</code>. Value initialized objects are first initialized to zero, if any additional initialization steps are required, this is done after <code>zero initialization</code>.
@@ -1072,8 +1095,8 @@ If objects are initialized by using braces but inside of the braces are empty, i
 </div>
 </div>
 
-<div id="outline-container-orgc1e69ab" class="outline-3">
-<h3 id="orgc1e69ab"><span class="section-number-3">2.2.</span> nullptr</h3>
+<div id="outline-container-org3e148a2" class="outline-3">
+<h3 id="org3e148a2"><span class="section-number-3">2.2.</span> nullptr</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 In C++, there is a keyword that represents a null pointer, and it is called <code>nullptr</code>. It is not a macro like in C. It is a keyword, a constant and its type is <code>nullptr_t</code>.
@@ -1094,8 +1117,8 @@ double* z = nullptr;
 </div>
 </div>
 
-<div id="outline-container-org78a548f" class="outline-3">
-<h3 id="org78a548f"><span class="section-number-3">2.3.</span> Reference Semantics</h3>
+<div id="outline-container-orgafb652e" class="outline-3">
+<h3 id="orgafb652e"><span class="section-number-3">2.3.</span> Reference Semantics</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 There is an alternative way to represent pointers in C++, which is called <code>reference</code>, but this is only an alternative at the language layer, the underlying representation does not change once the code is compiled. Everything works with the pointers in assembly level.
@@ -1124,8 +1147,8 @@ auto&amp;&amp; t = 10;
 </div>
 </div>
 
-<div id="outline-container-org4dc9c74" class="outline-4">
-<h4 id="org4dc9c74"><span class="section-number-4">2.3.1.</span> L-value references</h4>
+<div id="outline-container-org17ea48e" class="outline-4">
+<h4 id="org17ea48e"><span class="section-number-4">2.3.1.</span> L-value references</h4>
 <div class="outline-text-4" id="text-2-3-1">
 <p>
 L-value references are similar to <code>top-level const pointer objects</code>:
@@ -1221,8 +1244,8 @@ int&amp; r = foo(x);
 </div>
 </div>
 
-<div id="outline-container-org7f77e29" class="outline-4">
-<h4 id="org7f77e29"><span class="section-number-4">2.3.2.</span> L-value references and const semantics</h4>
+<div id="outline-container-org384e7f1" class="outline-4">
+<h4 id="org384e7f1"><span class="section-number-4">2.3.2.</span> L-value references and const semantics</h4>
 <div class="outline-text-4" id="text-2-3-2">
 <p>
 We said that L-value references are like <code>top-level const pointer</code> by default but they can also be used like <code>low-level const pointer</code>.
@@ -1310,8 +1333,8 @@ f2(10); // Also valid.
 </div>
 </div>
 
-<div id="outline-container-org32cb04b" class="outline-4">
-<h4 id="org32cb04b"><span class="section-number-4">2.3.3.</span> Differences between pointers and L-value references</h4>
+<div id="outline-container-org1fd1c31" class="outline-4">
+<h4 id="org1fd1c31"><span class="section-number-4">2.3.3.</span> Differences between pointers and L-value references</h4>
 <div class="outline-text-4" id="text-2-3-3">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -1357,8 +1380,8 @@ f2(10); // Also valid.
 </div>
 </div>
 
-<div id="outline-container-orge5bfb50" class="outline-4">
-<h4 id="orge5bfb50"><span class="section-number-4">2.3.4.</span> R-value references</h4>
+<div id="outline-container-orgc567623" class="outline-4">
+<h4 id="orgc567623"><span class="section-number-4">2.3.4.</span> R-value references</h4>
 <div class="outline-text-4" id="text-2-3-4">
 <p>
 R-value references are mostly about move semantics and perfect forwarding. Details will be discussed in the future. We will just briefly explain the syntax for now.
@@ -1379,8 +1402,8 @@ int&amp;&amp; rr = x; // Invalid. R-value references cannot be initialized with 
 </div>
 </div>
 
-<div id="outline-container-org5fdf535" class="outline-3">
-<h3 id="org5fdf535"><span class="section-number-3">2.4.</span> Type Deduction</h3>
+<div id="outline-container-orgdcfce9e" class="outline-3">
+<h3 id="orgdcfce9e"><span class="section-number-3">2.4.</span> Type Deduction</h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 In C++, we don't need to write the type explicitly in some contexts. We can use one of the type deduction mechanisms to have the compiler determine the type for us by looking at the code.
@@ -1394,8 +1417,8 @@ There are several different mechanisms for type deduction:
 </ul>
 </div>
 
-<div id="outline-container-orgd3e33d2" class="outline-4">
-<h4 id="orgd3e33d2"><span class="section-number-4">2.4.1.</span> auto type deduction</h4>
+<div id="outline-container-org91baedd" class="outline-4">
+<h4 id="org91baedd"><span class="section-number-4">2.4.1.</span> auto type deduction</h4>
 <div class="outline-text-4" id="text-2-4-1">
 <p>
 The <code>auto</code> keyword can be used to determine the type of the variable during initialization. A very important point is that the type deduction is made for <code>auto</code> keyword not for the variable itself.
@@ -1616,8 +1639,8 @@ Reference collapsing rules:
 </div>
 </div>
 
-<div id="outline-container-org2de667a" class="outline-4">
-<h4 id="org2de667a"><span class="section-number-4">2.4.2.</span> decltype type deduction</h4>
+<div id="outline-container-org5f818af" class="outline-4">
+<h4 id="org5f818af"><span class="section-number-4">2.4.2.</span> decltype type deduction</h4>
 <div class="outline-text-4" id="text-2-4-2">
 <p>
 <code>auto</code> type deduction can be used for initialization but <code>decltype</code> type deduction does not have this limitation. It can be used in any context intead of types. <code>decltype</code> is also <code>unevaluated context</code> like <code>sizeof</code>.
@@ -1757,8 +1780,8 @@ Other type deduction mechanisms will be discussed later.
 </div>
 </div>
 
-<div id="outline-container-org671ad3d" class="outline-3">
-<h3 id="org671ad3d"><span class="section-number-3">2.5.</span> Default Function Arguments</h3>
+<div id="outline-container-org187203b" class="outline-3">
+<h3 id="org187203b"><span class="section-number-3">2.5.</span> Default Function Arguments</h3>
 <div class="outline-text-3" id="text-2-5">
 <p>
 Unlike C, C++ supports default function arguments. If a function mostly takes the same value for an argument, default function arguments are very helpful.
@@ -1880,16 +1903,16 @@ void f3(int, int = 5, int);
 </div>
 </div>
 
-<div id="outline-container-org960260f" class="outline-3">
-<h3 id="org960260f"><span class="section-number-3">2.6.</span> Scoped enum / Enum class</h3>
+<div id="outline-container-org61e6547" class="outline-3">
+<h3 id="org61e6547"><span class="section-number-3">2.6.</span> Scoped enum / Enum class</h3>
 <div class="outline-text-3" id="text-2-6">
 <p>
 In addition to the <code>traditional enum type</code>, C++ has a new enum type called <code>scoped enum</code> / <code>enum class</code>. <code>Scoped enum</code> were introduced to overcome the disadvantages of the <code>traditional enum type</code>.
 </p>
 </div>
 
-<div id="outline-container-org81146bf" class="outline-4">
-<h4 id="org81146bf"><span class="section-number-4">2.6.1.</span> Disadvantages of the traditional enum type</h4>
+<div id="outline-container-org2540230" class="outline-4">
+<h4 id="org2540230"><span class="section-number-4">2.6.1.</span> Disadvantages of the traditional enum type</h4>
 <div class="outline-text-4" id="text-2-6-1">
 <ul class="org-ul">
 <li><p>
@@ -1922,8 +1945,8 @@ enum ScreenColor { Gray, White, Red };
 </div>
 </div>
 
-<div id="outline-container-orgf165259" class="outline-4">
-<h4 id="orgf165259"><span class="section-number-4">2.6.2.</span> Advantages of the scoped enum type</h4>
+<div id="outline-container-org5c06b1c" class="outline-4">
+<h4 id="org5c06b1c"><span class="section-number-4">2.6.2.</span> Advantages of the scoped enum type</h4>
 <div class="outline-text-4" id="text-2-6-2">
 <ul class="org-ul">
 <li><p>
@@ -1984,8 +2007,8 @@ void func()
 </div>
 </div>
 
-<div id="outline-container-org229a20d" class="outline-3">
-<h3 id="org229a20d"><span class="section-number-3">2.7.</span> Type Cast Operators</h3>
+<div id="outline-container-org0740e4a" class="outline-3">
+<h3 id="org0740e4a"><span class="section-number-3">2.7.</span> Type Cast Operators</h3>
 <div class="outline-text-3" id="text-2-7">
 <p>
 In C++, there 2 different type conversions: <code>implicit type conversion</code> and <code>explicit type conversion</code>. In some cases the compiler is free to do <code>implicit type conversion</code> depending on the rules of the language, but if we want to explicity convert a type, we have to do <code>explicit type conversion</code> by using <code>type cast operators</code>.
@@ -2073,8 +2096,8 @@ Example for <code>dynamic_cast</code>:
 </p>
 </div>
 
-<div id="outline-container-org65df52d" class="outline-4">
-<h4 id="org65df52d"><span class="section-number-4">2.7.1.</span> Why C-style type cast is not enough?</h4>
+<div id="outline-container-org4ddf46d" class="outline-4">
+<h4 id="org4ddf46d"><span class="section-number-4">2.7.1.</span> Why C-style type cast is not enough?</h4>
 <div class="outline-text-4" id="text-2-7-1">
 <p>
 Different <code>explicit type conversions</code> can have different intentions and meanings. There can be many different reasons for converting one type to another type:
@@ -2092,8 +2115,8 @@ The list can be extended with different examples, but the point is that not ever
 </div>
 </div>
 
-<div id="outline-container-org2e0e2bb" class="outline-3">
-<h3 id="org2e0e2bb"><span class="section-number-3">2.8.</span> Function Overloading</h3>
+<div id="outline-container-orge7d9e60" class="outline-3">
+<h3 id="orge7d9e60"><span class="section-number-3">2.8.</span> Function Overloading</h3>
 <div class="outline-text-3" id="text-2-8">
 <p>
 In C++, multiple functions can have the same name but with different parameters. These functions can perform different tasks based on the parameters passed to them. The compiler differentiates between the overloaded functions by their number of parameters, types of parameters, and the order of parameters. When the compiler encounters a call to an overloaded function, it uses the argument types and number of arguments to determine which version of the overloaded function to invoke. This process, called <code>static/early binding</code> or <code>compile-time polymorphism</code>, happens at compile-time, meaning the function to be executed is determined before the program runs. Function overloading is all about compile-time, it has no run-time overhead. For function overloading, there are 2 different and important points for the compiler to decide. Is there a function overloading for the particular function and if so, which function to choose. The process by the compiler to decide which function to choose is called <code>function overload resolution</code>.
@@ -2281,8 +2304,8 @@ void foo(int (*)[8]); // int(*)[8]; a pointer to int[8]
 </div>
 </div>
 
-<div id="outline-container-org9a6ec17" class="outline-4">
-<h4 id="org9a6ec17"><span class="section-number-4">2.8.1.</span> Function overload resolution</h4>
+<div id="outline-container-org508aef3" class="outline-4">
+<h4 id="org508aef3"><span class="section-number-4">2.8.1.</span> Function overload resolution</h4>
 <div class="outline-text-4" id="text-2-8-1">
 <p>
 <code>Function overload resolution</code> is handled by the compiler as a 3 step process. Actually, 3 steps is the maximum, it may take fewer steps:
@@ -2543,8 +2566,8 @@ f(12, 12, 12);
 </div>
 </div>
 
-<div id="outline-container-orgbe7993c" class="outline-3">
-<h3 id="orgbe7993c"><span class="section-number-3">2.9.</span> Name Mangling</h3>
+<div id="outline-container-orgcae7972" class="outline-3">
+<h3 id="orgcae7972"><span class="section-number-3">2.9.</span> Name Mangling</h3>
 <div class="outline-text-3" id="text-2-9">
 <p>
 <code>Name mangling</code> is a process used by C++ compilers to generate unique names for functions, variables, and other entities to support features like <code>function overloading</code>, <code>namespaces</code>, and <code>template instantiation</code>. Since C++ allows multiple functions with the same name (through <code>function overloading</code>), the compiler needs a way to differentiate between these functions at the binary level. <code>Name mangling</code> achieves this by encoding additional information, such as the function's <code>parameter types</code>, <code>return type</code>, and the <code>namespace</code> or <code>class</code> it belongs to, into the function's name. 
@@ -2583,15 +2606,1941 @@ int main()
 To solve this kind of problems we typically use <code>extern "C"</code> declaration with <code>conditional compiling</code>. By doing this we can use the same <code>header file</code> for both C and C++.
 </p>
 
+<div class="org-src-container">
+<pre class="src src-C++">// test.h
+#ifdef __cplusplus
+extern "C" { // open extern "C" block.
+#endif
+
+int func(int);
+
+#ifdef __cplusplus
+} // close extern "C" block.
+#endif
+
+// test.c
+int func(int x)
+{
+    return x + 1;
+}
+
+// main.cpp
+#include "test.h"
+
+int main()
+{
+    // This code will be built and linked successfully. The
+    // compiler won't generate mangled names for func(int)
+    // because its declaration is inside of an extern "C" block.
+    auto x = func(20);
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9088d57" class="outline-3">
+<h3 id="org9088d57"><span class="section-number-3">2.10.</span> One Definition Rule (ODR)</h3>
+<div class="outline-text-3" id="text-2-10">
 <p>
-cpp008 - where we left - 01:32:00
+Objects (variables, functions, templates, classes etc.) in C++ can have multiple declarations but only one definition across the project. This is called <code>one definition rule</code>. If a program has more than one definition of a particular object, the program is <code>ill-formed</code> and the compiler isn't required to give any diagnostics. The linker program may give some diagnostics but it is also not guaranteed. If the same object has multiple definitions in the same source file, it is a syntax error and diagnostic is required.
+</p>
+
+<p>
+Some examples:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">// test.h
+int x = 10;
+
+// If test.h is to be included from multiple source files, this is against the ODR because variable x will have multiple definitions.
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-C++">// test.h
+void func()
+{
+}
+// If test.h is to be included from multiple source files, this is against the ODR because func() will have multiple definitions.
+</pre>
+</div>
+
+<p>
+When an <code>inline function</code> in a <code>header file</code> is included from multiple source files, this isn't against the <code>ODR</code> and but every source file will have its own definition for that particular function.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">// test.h
+static void func()
+{
+}
+// If test.h is to be included from multiple source files, this is not against the ODR because func() will be in internal linkage. Every source file will have its own func().
+</pre>
+</div>
+
+<p>
+There are such objects that can have more than one definition in different source files but do not violate the <code>ODR</code>, but their definitions must be the same <code>token-by-token</code>. This is very important because in practice it means that the definitions of these objects can be in <code>header files</code>.
+Definitions that can coexist in different source files without violating ODR:
+</p>
+<ul class="org-ul">
+<li><code>class definitions</code></li>
+<li><code>inline function definitions</code></li>
+<li><code>inline variable definitions</code> (C++17)</li>
+<li><code>constexpr functions</code></li>
+<li><code>constexpr variables</code></li>
+<li><code>class templates</code></li>
+<li><code>function templates</code></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf1bcf5d" class="outline-3">
+<h3 id="orgf1bcf5d"><span class="section-number-3">2.11.</span> Inline functions</h3>
+<div class="outline-text-3" id="text-2-11">
+<p>
+Functions defined with the <code>inline</code> keyword are called <code>inline functions</code>, meaning that they will not violate the <code>ODR</code>. This means we can define <code>inline functions</code> in <code>header files</code>. <code>inline functions</code> are not directly related with the <code>inline expansion</code>. <code>inline expansion</code> is an old and effective optimization method often used by compilers. In a nutshell, this means that instead of calling a function, the compiler embeds the code for that function directly into the source code, depending on the different parameters. The main purpose of defining an <code>inline function</code> using the <code>inline</code> keyword is not to allow the compiler to do <code>inline expansion</code> but to avoid violating <code>ODR</code>. Unless a special compiler flag is used, it is up to the compiler to decide whether to do <code>inline expansion</code> or not.
+</p>
+
+<p>
+When an <code>inline function</code> in a <code>header file</code> is included from multiple source files, this is not against the <code>ODR</code> and there will be only one definition from the compiler perspective even it is included in multiple source files unlike <code>static</code> functions.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C++">// test.h
+inline void func()
+{
+}
+// If test.h is to be included from multiple source files, this is not against the ODR. There will be only one func() even it is included in multiple source files.
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3de4a77" class="outline-3">
+<h3 id="org3de4a77"><span class="section-number-3">2.12.</span> Inline variables</h3>
+<div class="outline-text-3" id="text-2-12">
+<p>
+Variables defined with the <code>inline</code> keyword are called <code>inline variables</code>, meaning that they will not violate the <code>ODR</code> similar to <code>inline functions</code>. <code>Inline variables</code> were added in C++17. When an <code>inline variable</code> in a <code>header file</code> is included from multiple source files, this is not against the <code>ODR</code> and there will be only one definition from the compiler perspective even it is included in multiple source files.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C++">// test.h
+inline int x = 10;
+// If test.h is to be included from multiple source files, this is not against the ODR. There will be only one x even it is included in multiple source files.
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcabc666" class="outline-3">
+<h3 id="orgcabc666"><span class="section-number-3">2.13.</span> constexpr</h3>
+<div class="outline-text-3" id="text-2-13">
+</div>
+<div id="outline-container-org0b8c765" class="outline-4">
+<h4 id="org0b8c765"><span class="section-number-4">2.13.1.</span> constexpr variables</h4>
+<div class="outline-text-4" id="text-2-13-1">
+<p>
+In C++, variables defined with the <code>const</code> keyword can be initialized with const and non-const expressions:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C++">int foo();
+
+// These are valid definitions, const objects can be initialized with const and non-const expressions.
+const int x = 10;
+const int y = foo();
+
+int arr1[x]; // This is valid because x is initialized with a const expression (10) which means expression created by x is also const expression.
+int arr2[y]; // This is invalid because y is initialized with a non-const expression (foo()) which means expression created by y is also non-const expression.
+</pre>
+</div>
+
+<p>
+But, variables defined with the <code>constexpr</code> keyword has to be initialized with a constant expression:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">int foo();
+
+constexpr int x = 10; // This is valid. 10 is constant expression.
+constexpr int y = foo(); // This is invalid. foo() is non-const expression.
+</pre>
+</div>
+
+<p>
+Variables defined with the <code>constexpr</code> keyword has <code>const</code> declaration type:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">constexpr int x = 10;
+
+x = 5; // This is invalid because x is const.
+decltype(x); // This equals to const int.
+
+int g{};
+
+constexpr int* p = &amp;g;
+decltype(p); // This equals to int* const p;
+
+constexpr const int* t = &amp;g;
+decltype(t); // This equals to const int* const t;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgeb433fa" class="outline-4">
+<h4 id="orgeb433fa"><span class="section-number-4">2.13.2.</span> constexpr functions</h4>
+<div class="outline-text-4" id="text-2-13-2">
+<p>
+<code>constexpr</code> functions are functions whose return value is obtained at compile time when certain conditions are met. If <code>constexpr</code> functions are called with non-const arguments, the return value will be calculated at runtime like normal functions.
+</p>
+
+<p>
+Some restrictions when defining <code>constexpr</code> functions:
+</p>
+<ul class="org-ul">
+<li>Cannot define <code>static</code> local variables.</li>
+<li>Cannot be a virtual function.</li>
+<li>Return type cannot be <code>void</code>.</li>
+<li>Return type, types of all local variables and types of arguments must be <code>literal type</code>.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-C++">constexpr int sum_square(int a, int b)
+{
+    return a * a + b * b;
+}
+
+constexpr int ndigit(int x)
+{
+    int digit_count = 0;
+
+    if (x == 0)
+	return 1;
+
+    while (x)
+    {
+	++digit_count;
+	x /= 10;
+    }
+
+   return digit_count;
+}
+
+int main()
+{
+    const int a = 87234;
+    const int b = 7624271;
+
+    // These will be calculated at compile time and the generated return values are also constant expression. 
+    constexpr auto x = sum_square(10, 20); 
+    constexpr auto y = sum_square(ndigit(a) + ndigit(b));
+
+    int j = 1515;
+
+    // This is valid. j is not const and because of that ndigit(j) will be called at runtime.
+    int k = ndigit(j);
+
+    // This is invalid. j is not const and because of that ndigit(j) will be called at runtime. This means generated return value also will be non-const and constexpr variables cannot be initialized with non-const expressions.
+    constexpr int l = ndigit(j);
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb185dc8" class="outline-3">
+<h3 id="orgb185dc8"><span class="section-number-3">2.14.</span> Classes</h3>
+<div class="outline-text-3" id="text-2-14">
+<p>
+The use of classes in C++ is not limited to object-oriented programming. Classes are the main tools for data abstraction also beyond object-oriented programming.
+</p>
+</div>
+
+<div id="outline-container-orgccf01cd" class="outline-4">
+<h4 id="orgccf01cd"><span class="section-number-4">2.14.1.</span> Class definition</h4>
+<div class="outline-text-4" id="text-2-14-1">
+<p>
+Classes are <code>user-defined types</code> that can have <code>data members</code>, <code>member functions</code> and <code>type member / member type / nested type</code>. They are defined/declared with the keywords <code>class</code> and <code>struct</code> (note that unlike C, <code>struct</code> is also a class).
+A class definition gives the compiler all the information about that class. It is also possible to declare a class without defining it. In this case, the compiler cannot get all the information about the class from the class declaration. All it knows is that the class is declared and that it must get all the necessary information about this class from the definition which can be in another source file. 
+</p>
+
+<p>
+Members of the classes can be taxonomically listed as follows:
+</p>
+<ul class="org-ul">
+<li><code>class members</code>
+<ul class="org-ul">
+<li><code>data members</code>
+<ul class="org-ul">
+<li><code>non-static data members</code></li>
+<li><code>static data members</code></li>
+</ul></li>
+<li><code>member functions</code>
+<ul class="org-ul">
+<li><code>non-static member functions</code></li>
+<li><code>static member functions</code></li>
+</ul></li>
+<li><code>type member / member type / nested type</code></li>
+</ul></li>
+</ul>
+
+<p>
+Defining and declaring classes:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">// Class declaration / Forwarding declaration. In this point, C1 is incomplete class. The compiler doesn't know anything but just the name of it. 
+class C1;
+
+// Class types can be empty. If a class is empty, it is called empty class.
+class C2 // Class definition
+{
+
+};
+
+// In C++ when we say class we also mean struct because structs are also class type.
+// Note: Empty structs are invalid in C.
+struct C3 // Class definition
+{
+
+};
+</pre>
+</div>
+
+<p>
+Classes can have different type of <code>class members</code> in the <code>class scope</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"> class C1 
+ {
+     // Data members
+     // Member functions
+     // Type member / Member type / Nested type
+ };
+
+class C2
+{
+    int mx; // Data member
+    void f(); // Member function
+    enum Pos{ ON, OFF }; // Member type
+};
+</pre>
+</div>
+
+<p>
+If a class will be used also in other source files, the definition can be placed in a header file. It is not against the ODR.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">// test.h
+class C1
+{
+    int a, b;
+    double d1, d2;
+    void f();
+};
+
+// main.cpp
+// #include "test.h"
+int main()
+{
+    C1 c1;
+
+    return 0;
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf50b7ad" class="outline-4">
+<h4 id="orgf50b7ad"><span class="section-number-4">2.14.2.</span> Access control</h4>
+<div class="outline-text-4" id="text-2-14-2">
+<p>
+Normally, when an identifier is used, the compiler performs a name lookup to find out what object that name represents, but in C++ (also in other languages which supports OOP style programming) there is one more step after the name lookup. The compiler must check that the code trying to access an identifier has permission to access that identifier. This is called <code>access control</code>.
+</p>
+
+<p>
+There are 3 different access categories that apply to the members of classes and determine who can and cannot access them. These 3 categories are actually also keywords and are called <code>access specifiers</code>:
+</p>
+<ul class="org-ul">
+<li><code>public</code>
+<ul class="org-ul">
+<li><code>public class members</code> can be accessed both within the class itself and by clients using the class, meaning there is no access control for <code>public class members</code>.</li>
+</ul></li>
+<li><code>private</code>
+<ul class="org-ul">
+<li><code>private class members</code> can only be accessed within the class itself and cannot be used by external codes.</li>
+</ul></li>
+<li><code>protected</code>
+<ul class="org-ul">
+<li><code>protected class members</code> can be accessed within the class itself and from its derived classes.</li>
+</ul></li>
+</ul>
+
+<p>
+<code>access specifiers</code> can be used to define <code>access rights</code> for a group of <code>class members</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public: // Each class member will have public access right from here until the compiler sees another access specifier.
+    int x;
+    int y;
+    void f1();
+
+private:
+    int z; // Each class member will have private access right from here until the compiler sees another access specifier.
+    void f2();
+
+protected: // Same applies here.
+    int t;
+};
+</pre>
+</div>
+
+<p>
+If a class type is defined with the <code>class</code> keyword, all of its <code>class members</code> are <code>private</code> by default:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+    // If no access specifier is used these class members are private by default.
+    int x;
+    void f1();
+
+public:
+    int a, b;
+};
+</pre>
+</div>
+
+<p>
+If a class type is defined with the <code>struct</code> keyword, all of its <code>class members</code> are <code>public</code> by default: 
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">struct C1
+{
+    // If no access specifier is used these class members are public by default.
+    int x;
+    void f1();
+
+private:
+    int a, b;
+};
+</pre>
+</div>
+
+<p>
+Same <code>access specifier</code> can be used multiple times:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+
+private:
+
+public:
+
+private:
+};
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3f28777" class="outline-4">
+<h4 id="org3f28777"><span class="section-number-4">2.14.3.</span> Non-static data members</h4>
+<div class="outline-text-4" id="text-2-14-3">
+<p>
+<code>non-static data members</code> are variables that are actually held within the object of a class, that is, they are variables of the object that is created of that class. 
+</p>
+
+<p>
+When <code>non-static data members</code> are added to an object, the object's storage requirement will increase depending on the added members:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+    int x;
+};
+
+class C2
+{
+};
+
+int main()
+{
+    // This will print 4 assuming int is 4 bytes.   
+    std::cout &lt;&lt; "sizeof(C1) = " &lt;&lt; sizeof(C1) &lt;&lt; '\n';
+    // Empty classes are 1 byte.
+    std::cout &lt;&lt; "sizeof(C2) = " &lt;&lt; sizeof(C2) &lt;&lt; '\n';
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb9b0c79" class="outline-4">
+<h4 id="orgb9b0c79"><span class="section-number-4">2.14.4.</span> Non-static member functions</h4>
+<div class="outline-text-4" id="text-2-14-4">
+<p>
+<code>non-static member functions</code> are no different from normal functions at the assembly level, they are just an abstraction that exists at the language layer. <code>non-static member functions</code> are functions defined in the <code>class definition</code>. They have an implicit <code>this</code> pointer that refers to the object on which they are called. <code>this</code> pointer allows them to access the object's <code>non-static data members</code> and other <code>non-static member functions</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    void foo(int); // Non-static member functions have implicit ~this pointer~ which is the address of the caller object. The compiler sees it like void foo(C1* this, int);
+
+private:
+    int mx; // Non-static data member
+};
+
+int main()
+{
+    C1 c1;    
+
+    c1.foo(12); // This is similar to foo(&amp;c1, 12);
+}
+</pre>
+</div>
+
+<p>
+There are 2 different ways to define <code>non-static member functions</code>.
+</p>
+
+<p>
+A <code>non-static member function</code> can be declared in the header file and defined it in the source file. If the signatures don't match it is a syntax error:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">// fighter.h
+class Fighter
+{
+public:
+    void attack(Fighter&amp;);
+};
+
+// fighter.cpp
+// #include "fighter.h"
+void Fighter::attack(Fighter&amp; f)
+{
+
+}
+</pre>
+</div>
+
+<p>
+A <code>non-static member function</code> can be declared and defined directly in the <code>class definition</code>. When a <code>non-static member function</code> is defined like this, it is implicitly an <code>inline function</code>, meaning including it to multiple source file isn't against the <code>ODR</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">// fighter.h
+class Fighter
+{
+public:
+    void attack(Fighter&amp; f) // This equals to inline void attack(Fighter &amp;f);. Using inline explicity doesn't matter in this case.
+    {
+
+    }
+};
+</pre>
+</div>
+
+<p>
+In this case, if the <code>inline</code> keyword is not used explicity in the declaration or definition, it is against the <code>ODR</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">// fighter.h
+class Fighter
+{
+public:
+    void attack(Fighter&amp; f); // This is not implicitly inline function because it doesn't have definition.
+};
+
+// This is the definition of attack function but it is also in the header file. If we include this header file
+// from multiple source file it is agains the ODR. We should use the inline keyword explicitly in the declaration or definition
+// if we want to do this.
+void Fighter::attack(Fighter&amp; f)
+{
+}
+</pre>
+</div>
+
+<p>
+<code>unqualified identifiers</code> in the definition of a <code>non-static member function</code> are searched in this order:
+</p>
+<ul class="org-ul">
+<li><code>block scope</code></li>
+<li><code>enclosing block scopes</code> (there can be multiple <code>enclosing blocks</code>)</li>
+<li><code>class scope</code></li>
+<li><code>namespace scope</code></li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-C++">// class.h
+class C1 // 3
+{
+public:
+    void foo();
+
+private:
+    int mx, my;
+    int a;
+};
+
+// 4
+
+// class.c
+void C1::foo() // 2
+{
+    int a = 0;
+
+    if (1) // 1
+    {
+	// 1 - x will be searched in this if block first. From x to beginning of if block.
+	// 2 - x will be searched in the enclosing block (function block in this case) if it couldn't be found in 1. 
+	// 3 - x will be searched in the class scope if it couldn't be found in 2.
+	// 4 - x will be searched in the namespace scope if it couldn't be found in 3.
+	// If it couldn't be found in 4, name look-up will fail.
+	x;
+
+	// mx will be found in 3 (class scope). The compiler will change it to qualified identifier by using implicit ~this pointer~.
+	mx; // This is equal to this-&gt;mx.
+
+	// a will be found in 2 (enclosing block). This will increase the local a inside of the function block, not the a in the class scope.
+	a++;
+    }
+}
+</pre>
+</div>
+
+<p>
+The <code>non-static data members</code> accessed in <code>non-static member functions</code> are the data members of the object they are called on:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C++">class Counter
+{
+public:
+    void print()
+    {
+	std::cout &lt;&lt; m_c &lt;&lt; '\n';
+    }
+
+    void set(int val)
+    {
+	m_c = val;
+    }
+
+private:
+    int m_c{};
+};
+
+int main()
+{
+    Counter c1;
+
+    c1.set(78); // Sets c1's m_c to 78.
+    c1.print(); // Prints c1's m_c, which is 78.
+    c1.set(99); // Sets c1's m_c to 99.
+    c1.print(); // Prints 99.
+
+    Counter c2;
+
+    c2.set(3333); // Sets c2's m_c to 3333.
+    c2.print(); // Prints c2's m_c, which is 3333.
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgea74ca1" class="outline-4">
+<h4 id="orgea74ca1"><span class="section-number-4">2.14.5.</span> Class scope</h4>
+<div class="outline-text-4" id="text-2-14-5">
+<p>
+<code>class members</code> declared in the <code>class definition</code> are included in the <code>class scope</code>.
+In which cases is a identifier searched within a <code>class definition</code>?
+</p>
+<ul class="org-ul">
+<li>If the identifier is the right operand of <code>. operator</code>.
+<ul class="org-ul">
+<li><code>object.x</code>, <code>x</code> will be searched in the <code>class scope</code>.</li>
+</ul></li>
+<li>If the identifier is the right operand of <code>-&gt; operator</code>.
+<ul class="org-ul">
+<li><code>object-&gt;x</code>, <code>x</code> will be searched in the <code>class scope</code>.</li>
+</ul></li>
+<li>If the identifier is the right operand of <code>:: operator</code>.
+<ul class="org-ul">
+<li><code>class::x</code>, <code>x</code> will be searched in the <code>class scope</code>.</li>
+</ul></li>
+</ul>
+
+<p>
+All of the <code>access specifiers</code> are in the same <code>class scope</code>. <code>public</code>, <code>private</code> and <code>protected</code> don't create new scope, they share the same <code>class scope</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    void foo();
+private:
+    int x;
+};
+
+int x = 3477;
+
+void C1::foo()
+{
+    int x = 10;
+
+    x = 56; // This x is defined in the block scope.
+
+    C1::x = 20; // If we want access the x which is in the class scope. We can use qualified name. The compiler will search it only in the class scope.
+    ::x = 22; // This x in the namespace scope.
+}
+</pre>
+</div>
+
+<p>
+<code>Member functions</code> cannot be redeclared:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    void foo(int);
+    void foo(int); // Redeclaration is invalid, syntax error.
+};
+
+void foo(int);
+void foo(int); // Redeclaration is valid.
+</pre>
+</div>
+
+<p>
+<code>Function overloading</code> and <code>function overload resolution</code> rules also apply to <code>member functions</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    // This is valid function overloading, because they are in the same class scope.
+    void foo(int);
+    void foo(int, int);
+};
+</pre>
+</div>
+
+<p>
+<code>Access specifiers</code> don't effect <code>function overloading</code> rules because they are not related with scope:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    // This is valid function overloading, because they are in the same class scope.
+    void foo(int);
+private:
+    void foo(int, int);
+};
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    void foo(int);
+private:
+    void foo(double);
+};
+
+int main()
+{
+    C1 c;
+    c.func(2.3); // After function overload resolution, foo(double) will be chosen (exact match) but access control will fail because it is a private function.
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga5e54ff" class="outline-4">
+<h4 id="orga5e54ff"><span class="section-number-4">2.14.6.</span> this keyword</h4>
+<div class="outline-text-4" id="text-2-14-6">
+<p>
+<code>this</code> is a keyword that can only be used in <code>non-static member functions</code> of a class. <code>this</code> represents a pointer and often called <code>this pointer</code>. <code>this pointer</code> holds the address of the object on which the function is called.
+</p>
+
+<p>
+The use of <code>this</code> keyword in <code>global functions</code> or in <code>static member functions</code> of classes is a syntax error:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    void f1(int)
+    {
+	this; // This is valid.
+    }
+
+    static void f2(int)
+    {
+	this; // This is invalid.
+    }
+};
+</pre>
+</div>
+
+<p>
+<code>this pointer</code> holds the address of the caller object:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    void foo()
+    {
+	std::cout &lt;&lt; "this: " &lt;&lt; this &lt;&lt; '\n';
+    }
+
+    int main()
+    {
+	C1 c1;
+	std::cout &lt;&lt; "&amp;c1: " &lt;&lt; &amp;c1 &lt;&lt; '\n';
+	c1.foo(); // The address of the c1 (&amp;c1) and ~this pointer~ are same.
+
+	C1 c2;
+	std::cout &lt;&lt; "&amp;c2: " &lt;&lt; &amp;c2 &lt;&lt; '\n';
+	c2.foo(); // The address of the c2 (&amp;c2) and ~this pointer~ are same.
+    }
+ };
+</pre>
+</div>
+
+<p>
+The value category of an expression created by <code>this pointer</code> is <code>PR-value expression</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    void foo()
+    {
+	&amp;this; // This is invalid. ~this~ is a PR-value expression. Only L-value expressions can be the operand of address operator.
+    }
+ };
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    void foo()
+    {
+	&amp;this; // This is invalid. ~this~ is a PR-value expression. Only L-value expressions can be the operand of address operator.
+    }
+ };
+</pre>
+</div>
+
+<p>
+The <code>non-static data members</code> can be accessed from <code>non-static member functions</code> with or without a <code>qualifier</code>, but it is also possible to access them via <code>this pointer</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    void foo()
+    {
+	// All of these are same.
+	mx = 20; // Access with unqualified identifier.
+	C1::mx = 20; // Access with qualified identifier.
+	this-&gt;mx = 20; // Access through ~this pointer~.
+    }
+
+private:
+    int mx;
+};
+</pre>
+</div>
+
+<p>
+There are situations where it is not possible to do what we want without using <code>this pointer</code>. 
+</p>
+
+<p>
+It is not possible to call another function within a <code>non-static member function</code> for the caller object without <code>this pointer</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    void f1();
+};
+
+void f2(C1*);
+void f3(C1);
+void f4(C1&amp;);
+
+int C1::f1()
+{
+    // There is no way to call f2, f3 and f4 with the caller object without ~this pointer~.
+    f2(this);
+    f3(*this);
+    f4(*this);
+}
+</pre>
+</div>
+
+<p>
+It is not possible to return the caller object or the address of the caller object without <code>this pointer</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    C1 f1()
+    {
+	return *this;
+    }
+
+    C1* f2()
+    {
+	return this;
+    }
+
+    C1&amp; f3()
+    {
+	return *this;
+    }
+};
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org696b314" class="outline-4">
+<h4 id="org696b314"><span class="section-number-4">2.14.7.</span> Const member functions</h4>
+<div class="outline-text-4" id="text-2-14-7">
+<p>
+<code>this pointer</code> is a hidden parameter that all <code>non-static member functions</code> have, so we cannot tell whether a function is a mutator or an accessor function. To avoid this confusion, if a function is not a mutator, we can define/declare it as <code>const</code> to indicate this. When a <code>non-static member function</code> is defined as <code>const</code>, the hidden <code>this pointer</code> becomes <code>const</code>. The <code>const member functions</code> basically tell us that they will not change the value/state of the object.
+</p>
+
+<p>
+There are 2 different categories for <code>non-static member functions</code>:
+</p>
+<ul class="org-ul">
+<li><code>const member function</code></li>
+<li><code>non-const member function</code></li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    // Const member function / Accessor function. This equals to void get(const C1*);
+    void get() const;
+
+    // Non-const member function / Mutator function. This equals to void get(C1*);
+    void set();
+};
+</pre>
+</div>
+
+<p>
+The compiler performs the same checks for <code>const this pointer</code> as it does for other <code>const objects</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    void f1() const
+    {
+	// This equals to this-&gt;mx = 10;
+	mx = 10; // Invalid, because ~this pointer~ is const. Mutating a const object is a syntax error.
+    }
+
+private:
+    int mx;
+};
+</pre>
+</div>
+
+<p>
+<code>non-const member functions</code> cannot be called within <code>const member functions</code>, because there is no implicit conversion from <code>const T*</code> to <code>T*</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"> class C1
+ {
+ public:
+     void f1()
+     {
+	 f2(); // Valid. T* can be converted to const T* implicitly.
+     }
+
+     void f2() const
+     {
+	 // f2() takes const ~this pointer~ and tries to call f1() which takes non-const ~this pointer~, 
+	 // but there is no implicit cast from const T* to T*.
+	 f1(); // Invalid. 
+     }
+};
+</pre>
+</div>
+
+<p>
+<code>non-const/const member functions</code> can be called with <code>non-const</code> class objects:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"> class C1
+ {
+ public:
+     void f1()
+     {
+     }
+
+     void f2() const
+     {
+     }
+};
+
+ int main()
+ {
+     C1 a;
+
+     a.f1(); // Valid.
+     a.f2(); // Valid.
+  }
+</pre>
+</div>
+
+<p>
+<code>const</code> class objects can only call <code>const member functions</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"> class C1
+ {
+ public:
+     void f1()
+     {
+     }
+
+     void f2() const
+     {
+     }
+};
+
+ int main()
+ {
+     const C1 a;
+
+     // &amp;a is const C1* but f1() has implicit non-const ~this pointer~ and
+     // there is no implicit conversion from const T* to T*.
+     a.f1(); // Invalid.
+     a.f2(); // Valid.
+  }
+</pre>
+</div>
+
+<p>
+To define <code>const member functions</code>, the <code>const</code> keyword must appear in both the declaration and the definition:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    void f1() const;
+};
+
+void C1::f1() const
+{
+}
+</pre>
+</div>
+
+<p>
+<code>non-const/const member functions</code> can be used for <code>function overloading</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    // These are valid overloads.
+
+    void f1()
+    {
+	std::cout &lt;&lt; "C1::f1()\n";
+    }
+
+    void f1() const
+    {
+	std::cout &lt;&lt; "C1::f1() const\n";
+    }
+};
+
+int main()
+{
+    const C1 a;
+    C1 b;
+
+    a.f1(); // C1::f1() const will be called.
+    b.f1(); // C1::f1() will be called.
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9d6e4a6" class="outline-4">
+<h4 id="org9d6e4a6"><span class="section-number-4">2.14.8.</span> mutable keyword</h4>
+<div class="outline-text-4" id="text-2-14-8">
+<p>
+Normally, the <code>const member functions</code> and <code>const objects</code> of the class cannot change the value of the object's <code>non-static data members</code>, but the <code>non-static data members</code> declared with the <code>mutable</code> keyword can be changed by the <code>const member functions</code>.
+</p>
+
+<p>
+If the reason for the existence of <code>const member functions</code> is to prevent modification of <code>non-static data members</code>, why do we want to allow changes by using <code>mutable</code> keyword? Not every <code>non-static data member</code> of an object has to directly represent the state of the object. For example, some <code>data members</code> can be used for debugging and caching purposes and have no direct effect on the <code>observable state</code> of the object. The <code>mutable</code> keyword is particularly useful in these cases.
+</p>
+
+<p>
+Assume there is a <code>Date</code> class with some <code>non-static data members</code> to represent the day, month and year. If we want to know how many times the month was accessed, we can put an additional <code>data member</code> to count it and increment it in the month's <code>getter</code>, but this is not directly related to the state of the object. It is just additional data that is needed for some reason. If there was no <code>mutable</code> keyword, we would have to change <code>getter</code> to <code>non-const member function</code> just to have some debug information. Example:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class Date
+{
+public:
+    int get_month() const
+    {
+	// ...
+	++m_debug_month_hit_count;
+	return m_month; 
+    }
+private:
+    int m_day, m_month, m_year;
+    // This data member is not directly related with the value/state of the object. It is just a debug information.
+    // It is declared as mutable so it is allowed to be changed even from const member functions.
+    mutable int m_debug_month_hit_count;
+};
+</pre>
+</div>
+
+<p>
+<code>const objects</code> can also change the <code>mutable</code> data members:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"> class Date
+ {
+ public:
+     int get_month() const
+     {
+	 return m_month; 
+     }
+
+ private:
+     int m_day, m_month, m_year;
+
+ public:   
+     mutable int m_debug_cache_value;
+};
+
+ int main()
+ {
+     const Date date{};
+     date.m_debug_cache_value = 365;
+ }
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org86c067a" class="outline-4">
+<h4 id="org86c067a"><span class="section-number-4">2.14.9.</span> Constructor and destructor of classes</h4>
+<div class="outline-text-4" id="text-2-14-9">
+<p>
+The <code>constructor</code> and <code>destructor</code> are in the category of <code>non-static member functions</code>. The instantiation of a class object is performed by the <code>constructor</code> of the class, while the end of life of the object is performed by the <code>destructor</code> of the class.
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="org3e15d1d"></a>Constructor<br />
+<div class="outline-text-5" id="text-2-14-9-1">
+<p>
+If any class object, regardless of its type, is alive, it was brought to life by a <code>constructor</code>. There is no exception to this rule in C++. Every object is instantiated by a call to a <code>constructor</code> function. After the <code>constructor</code> is called, the class object becomes available, which means that the memory space allocated for that class object is no longer a pile of garbage, but is now filled with values that can be used by the class. This typically means initializing the <code>non-static data members</code> of the class.
+</p>
+
+<p>
+There is a special type of <code>constructor</code> called <code>default constructor</code>. For a <code>constructor</code> to be the <code>default constructor</code>, it must either take no parameters or all its parameters must take default arguments. In other words, a <code>constructor</code> is the <code>default constructor</code> if it can be called without passing any arguments. The <code>default constructor</code> is one of the <code>special member functions</code>.
+</p>
+
+<p>
+<code>Constructor</code>:
+</p>
+<ul class="org-ul">
+<li>is <code>non-static member function</code> (not allowed to be <code>static</code>).</li>
+<li>is <code>non-const member functions</code> (not allowed to be <code>const</code>).</li>
+<li>has <code>this pointer</code>.</li>
+<li>cannot be <code>global function</code>.</li>
+<li>must have the same name with the class.</li>
+<li>doesn't have concept of a return value.</li>
+<li>can be <code>overloaded</code>.</li>
+<li>can be <code>public</code>, <code>private</code> and <code>protected</code>.</li>
+<li>cannot be called by objects using <code>.</code> and <code>-&gt;</code> operators.</li>
+<li>is a <code>special member function</code> if it is the <code>default constructor</code>.</li>
+</ul>
+
+<p>
+Declaration of a <code>constructor</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    C1(); // Has to have the same name with the class.
+};
+</pre>
+</div>
+
+<p>
+A class can have multiple <code>constructors</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    // These are valid function overloads.
+    C1();
+    C1(int);
+};
+</pre>
+</div>
+
+<p>
+<code>Constructors</code> cannot be <code>static</code> or <code>const</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    static C1(); // Invalid.
+    C1(int) const; // Invalid.
+};
+</pre>
+</div>
+
+<p>
+<code>Constructors</code> don't have to be <code>public</code> they can also be <code>private</code> or <code>protected</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+// This is valid, but when we try to create an instance of the class,
+// access control will fail and we will get a syntax error.
+private:
+    C1();
+    C1(int);
+    C1(int);
+};
+</pre>
+</div>
+
+<p>
+Definition and declaration of a <code>constructor</code> can be in <code>class definition</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    C1()
+    {
+	// These are valid.
+	mx = 10;
+	this-&gt;mx = 10;
+	C1::mx = 10;
+    }
+private:
+    int mx, my;
+};
+</pre>
+</div>
+
+<p>
+Definition and declaration of a <code>constructor</code> can also be separate:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">// c1.h
+class C1
+{
+public:
+    C1(int);
+
+private:
+    int mx, my;
+};
+
+// c1.cpp
+// #include "c1.h"
+C1::C1(int x)
+{
+    mx = x;
+    this-&gt;mx = x;
+    C1::mx = x;
+}
+</pre>
+</div>
+
+<p>
+<code>Constructors</code> can't be called by objects using <code>.</code> and <code>-&gt;</code> operators:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    C1();
+};
+
+int main()
+{
+    C1 c1;
+
+    c1.C1(); // This is invalid.
+}
+</pre>
+</div>
+
+<p>
+Example for <code>default constructor</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    C1(); // Default constructor.
+};
+
+class C2
+{
+public:
+    C2(int = 0); // Default constructor.
+};
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org0b0388d"></a>Destructor<br />
+<div class="outline-text-5" id="text-2-14-9-2">
+<p>
+Every class object that is instantiated has a lifespan/lifetime, and its lifetime will end at some point in the program's runtime. End-of-life class objects are deleted with a call to a <code>destructor</code> function. There is also no exception to this rule in C++. After the call to the <code>destructor</code>, the object's life is completely over and all memory allocated for the object is freed.
+</p>
+
+<p>
+<code>Destructor</code>:
+</p>
+<ul class="org-ul">
+<li>is <code>non-static member functions</code> (not allowed to be <code>static</code>).</li>
+<li>is <code>non-const member functions</code> (not allowed to be <code>const</code>).</li>
+<li>has <code>this pointer</code>.</li>
+<li>cannot be <code>global function</code>.</li>
+<li>must have the same name with the class and have the prefix <code>~</code>.</li>
+<li>don't have concept of a return value.</li>
+<li>cannot have parameters, so it cannot be <code>overloaded</code>.</li>
+<li>can be <code>public</code>, <code>private</code> and <code>protected</code>.</li>
+<li>can be called manually by objects using <code>.</code> and <code>-&gt;</code> operators.</li>
+<li>is a <code>special member function</code>.</li>
+</ul>
+
+<p>
+Declaration of a <code>destructor</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    ~C1(); // Has to have the same name with the class prefixed by ~.
+};
+</pre>
+</div>
+
+<p>
+A class cannot have multiple <code>destructors</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    ~C1(); // Valid.
+     // Invalid. Destructors cannot have parameters and cannot be overloaded.
+    // This means there is no way to have more than one destructor.
+    ~C1(int);
+};
+</pre>
+</div>
+
+<p>
+<code>Destructor</code> cannot be <code>static</code> or <code>const</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    static ~C1(); // Invalid.
+};
+
+class C2
+{
+public:
+    ~C2() const; // Invalid.
+};
+</pre>
+</div>
+
+<p>
+<code>Destructor</code> can be <code>public</code>, <code>private</code> and <code>protected</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+// This is valid, but access control will fail
+// when destructor is called and we will get a syntax error.
+private:
+    ~C1();
+};
+</pre>
+</div>
+
+<p>
+Definition and declaration of a <code>destructor</code> can be in <code>class definition</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    ~C1()
+    {
+	// These are valid.
+	mx = 0;
+	this-&gt;mx = 0;
+	C1::mx = 0;
+    }
+private:
+    int mx, my;
+};
+</pre>
+</div>
+
+<p>
+Definition and declaration of a <code>destructor</code> can also be separate:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">// c1.h
+class C1
+{
+public:
+    ~C1();
+
+private:
+    int mx, my;
+};
+
+// c1.cpp
+// #include "c1.h"
+C1::~C1()
+{
+    mx = 0;
+    this-&gt;mx = 0;
+    C1::mx = 0;
+}
+</pre>
+</div>
+
+<p>
+<code>Destructor</code> can be called manually by objects using <code>.</code> and <code>-&gt;</code> operators:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    C1();
+};
+
+int main()
+{
+    C1 c1;
+
+    // This is valid, but the cases where this is needed are very rare.
+    // There is almost only one case and it is about ~placement new~ operator.
+    c1.~C1(); 
+}
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org8640473"></a>When are the constructor and the destructor called?<br />
+<div class="outline-text-5" id="text-2-14-9-3">
+<p>
+For a <code>global class object</code>:
+</p>
+<ul class="org-ul">
+<li>The <code>constructor</code> is called before the <code>main</code> function.</li>
+<li>The <code>destructor</code> is called after the <code>main</code> function.</li>
+</ul>
+
+<p>
+If there is more than one <code>global class object</code>, the calling order of its <code>constructors</code> must be the same as the order of object declarations, and the order in which their <code>destructors</code> are called must be the reverse order of the order in which <code>contructors</code> are called. This is only valid in the same source file. The order of instantiation of <code>global class objects</code> defined in different source files is not specified. The term used for this situation is <code>static initilization fiasco</code>.
+</p>
+
+<p>
+Example for a <code>global class object</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    C1()
+    {
+	std::cout &lt;&lt; "C1 default constructor this: " &lt;&lt; this &lt;&lt; '\n';
+    }
+
+    ~C1()
+    {
+	std::cout &lt;&lt; "C1 destructor this: " &lt;&lt; this &lt;&lt; '\n';
+    }
+};
+
+C1 c1;
+
+int main()
+{
+    std::cout &lt;&lt; "main begins\n";
+    std::cout &lt;&lt; "&amp;c1: " &lt;&lt; &amp;c1 &lt;&lt; '\n';
+    std::cout &lt;&lt; "main ends\n";
+}
+
+/*
+    Output: 
+    C1 default constructor this: &lt;c1 address&gt;
+    main begins
+    &amp;c1: &lt;c1 address&gt;
+    main ends
+    C1 destructor this: &lt;c1 address&gt;
+*/
+</pre>
+</div>
+
+<p>
+Example for multiple <code>global class object</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    C1()
+    {
+	std::cout &lt;&lt; "C1 default constructor this: " &lt;&lt; this &lt;&lt; '\n';
+    }
+
+    ~C1()
+    {
+	std::cout &lt;&lt; "C1 destructor this: " &lt;&lt; this &lt;&lt; '\n';
+    }
+};
+
+C1 c1a;
+C1 c1b;
+
+int main()
+{
+    std::cout &lt;&lt; "main begins\n";
+    std::cout &lt;&lt; "main ends\n";
+}
+
+/*
+    Output: 
+    C1 default constructor this: &lt;c1a address&gt;
+    C1 default constructor this: &lt;c1b address&gt;
+    main begins
+    main ends
+    C1 destructor this: &lt;c1b address&gt;
+    C1 destructor this: &lt;c1a address&gt;
+*/
+</pre>
+</div>
+
+<p>
+Example for multiple <code>global class object</code> in different source files:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">// c1.h
+class C1
+{
+public:
+    C1()
+    {
+	std::cout &lt;&lt; "C1 default constructor this: " &lt;&lt; this &lt;&lt; '\n';
+    }
+
+    ~C1()
+    {
+	std::cout &lt;&lt; "C1 destructor this: " &lt;&lt; this &lt;&lt; '\n';
+    }
+};
+
+// main.cpp
+C1 c1;
+
+// a.cpp
+C1 c1a;
+
+// b.cpp
+C1 c1b;
+
+// In this case, we cannot say anything about initilization order.
+// There is no way to know in which order objects will be created.
+</pre>
+</div>
+
+<p>
+For a <code>static local class object</code>:
+</p>
+<ul class="org-ul">
+<li>The <code>constructor</code> is called the first time when the function containing the object is called.</li>
+<li>The <code>destructor</code> is called after the <code>main</code> function.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    C1()
+    {
+	std::cout &lt;&lt; "C1 default constructor this: " &lt;&lt; this &lt;&lt; '\n';
+    }
+
+    ~C1()
+    {
+	std::cout &lt;&lt; "C1 destructor this: " &lt;&lt; this &lt;&lt; '\n';
+    }
+};
+
+int f1()
+{
+    std::cout &lt;&lt; "f1() is called\n";
+    // When the program reaches this point, the constructor will be called,
+    // and this is the first call to f1(). If f1() gets called more than once,
+    // the constructor will not be called again because the object has alreay been created and
+    // is still alive (because it has static lifetime).
+    static C1 c1;
+}
+
+int main()
+{
+    std::cout &lt;&lt; "main begins\n";
+    f1();
+    f1();
+    f1();
+    std::cout &lt;&lt; "main ends\n";
+}
+
+/*
+    Output: 
+    main begins
+    f1() is called
+    C1 default constructor this: &lt;c1 address&gt;
+    f1() is called
+    f1() is called
+    main ends
+    C1 destructor this: &lt;c1 address&gt;
+*/
+</pre>
+</div>
+
+<p>
+For a <code>local/automatic class object</code>:
+</p>
+<ul class="org-ul">
+<li>The <code>constructor</code> is called when the the program reaches the point where the object is created.</li>
+<li>The <code>destructor</code> is called when the scope defining the lifetime of the object ends.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    C1()
+    {
+	std::cout &lt;&lt; "C1 default constructor\n";
+    }
+
+    ~C1()
+    {
+	std::cout &lt;&lt; "C1 destructor\n";
+    }
+};
+
+int main()
+{
+    std::cout &lt;&lt; "main begins\n";
+
+    if (1)
+    {
+	C1 c1; // The constructor will be called when program reaches this point. c1 is alive after this point.
+
+	std::cout &lt;&lt; "main continues\n";
+
+	// The destructor will be called here at the end of scope which c1 object is in.
+    }
+    std::cout &lt;&lt; "main continues\n";
+
+    std::cout &lt;&lt; "main ends\n";
+}
+
+/*
+    Output: 
+    main begins
+    C1 default constructor
+    main continues
+    C1 destructor
+    main continues
+    main ends
+*/
+</pre>
+</div>
+
+<p>
+Unlike <code>static local class objects</code>, <code>local/automatic class objects</code> are recreated each time the program enters the <code>block/scope</code> they are in:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    C1()
+    {
+	std::cout &lt;&lt; "C1 default constructor\n";
+    }
+
+    ~C1()
+    {
+	std::cout &lt;&lt; "C1 destructor\n";
+    }
+};
+
+int main()
+{
+    std::cout &lt;&lt; "main begins\n";
+
+    for (int i = 0; i &lt; 3; ++i)
+    {
+	C1 c1; // In each iteration, the constructor is called and c1 gets created.
+
+	// Each time the scope of the for-loop ends, the destructor is called, and c1 gets destroyed.
+    }
+
+    std::cout &lt;&lt; "main ends\n";
+}
+
+/*
+    Output: 
+    main begins
+    C1 default constructor
+    C1 destructor
+    C1 default constructor
+    C1 destructor
+    C1 default constructor
+    C1 destructor
+    main ends
+*/
+</pre>
+</div>
+
+<p>
+For a <code>dynamic class objects</code>:
+</p>
+<ul class="org-ul">
+<li>The <code>constructor</code> is called when one of the <code>new expressions/operators</code> is used.</li>
+<li>The <code>destructor</code> is called when one of the <code>delete expressions/operators</code> is used.</li>
+</ul>
+
+<p>
+The <code>new expressions</code> and <code>delete expressions</code> are not equivalents of <code>malloc</code> and <code>free</code>. The <code>malloc</code> and <code>free</code> functions are used to allocate and deallocate a memory space. The <code>new expressions</code> and <code>delete expressions</code> are used to create and destroy <code>class objects</code> with <code>dynamic lifetime</code>. 
+</p>
+
+<p>
+When a <code>new expression</code> is used (in order):
+</p>
+<ul class="org-ul">
+<li>The function <code>void* operator new(std::size_t)</code> is called. The <code>operator new</code> function allocates a memory space (possibly using <code>malloc</code>) for the object. It returns this address if the allocation succeeds, or throws an <code>exception</code> of type <code>std:bad_alloc</code> if it fails.</li>
+<li>The address returned from <code>operator new</code> function is then <code>casted</code> from <code>void*</code> to the address of the <code>class type</code> and the <code>constructor</code> of the class is called for that address.</li>
+<li>The allocated address is returned to the caller.</li>
+</ul>
+
+<p>
+When a <code>delete expression</code> is used (in order):
+</p>
+<ul class="org-ul">
+<li>The <code>destructor</code> of the class is called for the object.</li>
+<li>The function <code>void operator delete(void*)</code> is called with the address of the object (which is allocated by <code>operator new</code> function). The <code>operator delete</code> function deallocates the memory space (possibly using <code>free</code>).</li>
+</ul>
+
+<p>
+The <code>operator new</code> and <code>operator delete</code> functions are part of the C++ standard library.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    C1();
+};
+
+int main()
+{
+    //  Memory is allocated for the object.
+    // C1* address_obj = (C1*)operator new(sizeof(C1));
+    // The constructor is called with the allocated address of the object.
+    // Normally, we cannot call the constructor manually but the compiler can do it.
+    // address_obj-&gt;constructor(); 
+    // The allocated address is returned to the caller.
+    // c1 = address_obj;
+    C1* c1 = new C1;
+
+    // The destructor is called for the object.
+    // c1-&gt;~C1();
+    // The operator delete function is called with the allocated address of the object.
+    // operator delete(c1);
+    delete c1;
+}
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    C1()
+    {
+	std::cout &lt;&lt; "C1 default constructor this: " &lt;&lt; this &lt;&lt; '\n';
+    }
+
+    ~C1()
+    {
+	std::cout &lt;&lt; "C1 destructor this: " &lt;&lt; this &lt;&lt; '\n';
+    }
+
+    void f1()
+    {
+	std::cout &lt;&lt; "f1() is called\n";
+    }
+};
+
+int main()
+{
+    std::cout &lt;&lt; "main begins\n";
+
+    C1* c1 = new C1;
+
+    c1-&gt;f1();
+
+    delete c1;
+
+    std::cout &lt;&lt; "main ends\n";
+}
+
+/*
+    Output: 
+    main begins
+    C1 default constructor this: &lt;c1 address&gt;
+    f1() is called
+    C1 destructor this: &lt;c1 address&gt;
+    main ends
+*/
+</pre>
+</div>
+
+<p>
+The <code>pointer</code> and <code>reference</code> types do not cause the constructor and destructor to be called:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">class C1
+{
+public:
+    C1()
+    {
+	std::cout &lt;&lt; "C1 default constructor\n";
+    }
+
+    ~C1()
+    {
+	std::cout &lt;&lt; "C1 destructor\n";
+    }
+};
+
+int main()
+{
+    // The constructor will be only called when c1 gets created in the first line.
+    C1 c1;
+    // c1p and c1p are just pointer/reference types, they don't directly represent the class.
+    // No constructor/destructor will be called for c1p and c1r.
+    C1* c1p = &amp;c1; 
+    C1&amp; c1r = c1;
+
+   // The destructor for c1 will be called here. Nothing will happen for c1p and c1r.
+}
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-orga725cf4" class="outline-4">
+<h4 id="orga725cf4"><span class="section-number-4">2.14.10.</span> Special member functions</h4>
+<div class="outline-text-4" id="text-2-14-10">
+<p>
+<code>special member functions</code> are <code>member functions</code> related to a very important group of functions of a class. There are 6 different <code>special member functions</code>.
+</p>
+
+<p>
+These <code>special member functions</code> are:
+</p>
+<ul class="org-ul">
+<li><code>default constructor</code></li>
+<li><code>destructor</code></li>
+<li><code>copy constructor</code></li>
+<li><code>move constructor</code> (C++11)</li>
+<li><code>copy assignment</code></li>
+<li><code>move assignment</code>  (C++11)</li>
+</ul>
+
+<p>
+The definitions of these functions can be written by the compiler if certain conditions are met. These functions, which are generated automatically by the compiler are called <code>defaulted functions</code>. 
+</p>
+
+<p>
+<code>Defaulted functions</code> can be declared/defined in 2 different ways:
+</p>
+<ul class="org-ul">
+<li>The compiler can declare and define these functions <code>implicitly</code> according to the rules of the language.</li>
+<li>We can <code>explicitly</code> ask the compiler to write the code for these functions.</li>
+</ul>
+
+
+<p>
+cpp011 - where we left - 02:17:00
 </p>
 </div>
 </div>
 </div>
 </div>
+</div>
 <div id="postamble" class="status">
-<p class="date">Created: 2024-08-27 Tue 17:21</p>
+<p class="date">Created: 2024-09-18 Wed 20:46</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
