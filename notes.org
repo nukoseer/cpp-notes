@@ -1,3 +1,6 @@
+#+OPTIONS: num:nil
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+
 * Fundemental Differences Between C and C++
  Main purpose of this section is to point out the differences between C and C++. It isn't about how code should or should not be written in C or C++. It is only about validity of the code.
 ** Syntax Differences
@@ -2354,10 +2357,10 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
 *** Constructor and destructor of classes
  The ~constructor~ and ~destructor~ are in the category of ~non-static member functions~. The instantiation of a class object is performed by the ~constructor~ of the class, while the end of life of the object is performed by the ~destructor~ of the class.
 
+ There is a special type of ~constructor~ called ~default constructor~ which will be discussed in ~special member functions~. In short, a ~constructor~ that can be called without taking any parameters is called a ~default constructor~.
+
 **** Constructor
  If any class object, regardless of its type, is alive, it was brought to life by a ~constructor~. There is no exception to this rule in C++. Every object is instantiated by a call to a ~constructor~ function. After the ~constructor~ is called, the class object becomes available, which means that the memory space allocated for that class object is no longer a pile of garbage, but is now filled with values that can be used by the class. This typically means initializing the ~non-static data members~ of the class.
-
- There is a special type of ~constructor~ called ~default constructor~. For a ~constructor~ to be the ~default constructor~, it must either take no parameters or all its parameters must take default arguments. In other words, a ~constructor~ is the ~default constructor~ if it can be called without passing any arguments. The ~default constructor~ is one of the ~special member functions~.
 
  ~Constructor~:
  - is ~non-static member function~ (not allowed to be ~static~). 
@@ -2468,21 +2471,6 @@ If one function is in ~namespace scope~ and the other is in ~block scope~, even 
        c1.C1(); // This is invalid.
    }
  #+END_SRC
-
-Example for ~default constructor~:
- #+BEGIN_SRC C++
-   class C1
-   {
-   public:
-       C1(); // Default constructor.
-   };
-
-   class C2
-   {
-   public:
-       C2(int = 0); // Default constructor.
-   };
-#+END_SRC
 
 **** Destructor
  Every class object that is instantiated has a lifespan/lifetime, and its lifetime will end at some point in the program's runtime. End-of-life class objects are deleted with a call to a ~destructor~ function. There is also no exception to this rule in C++. After the call to the ~destructor~, the object's life is completely over and all memory allocated for the object is freed.
@@ -3112,7 +3100,7 @@ For a ~local/automatic class object~:
 
        C1(int x, int y)
        {
-	   std::cout << "C1(int x, int y) x: " << x << " y: " << y << \n';
+	   std::cout << "C1(int x, int y) x: " << x << " y: " << y << '\n';
        }
    };
 
@@ -3177,7 +3165,7 @@ For a ~local/automatic class object~:
    {
    public:
        // mx will be initialized before my because mx is declared first.
-       C1() : my{ 10 } mx{ 20 }
+       C1() : my{ 10 }, mx{ 20 }
        {
 
        }
@@ -3271,43 +3259,11 @@ For a ~local/automatic class object~:
  - The compiler can declare and define the ~special member functions~ ~implicitly~ according to the rules of the language.
  - We can ~explicitly~ ask the compiler to write the code for the ~special member functions~.
 
- The ~default constructor~ is ~defaulted~:
- #+BEGIN_SRC C++
-   class C1
-   {
-   public:
-       C1() = default;
-   };
- #+END_SRC
-
- The ~default constructor~ is ~implicitly deleted~:
- #+BEGIN_SRC C++
-   class C1
-   {
-   public:
-       const int x;
-   };
-
-   int main()
-   {
-       C1 c1; // Invalid. The default constructor is deleted and cannot be called.
-   }
- #+END_SRC
-
- ~deleted function~ means that the function exists, but calling it would cause a syntax error. ~deleted functions~ are distinguished from functions that were ~not declared~. They are included in the ~function overload resolution~ process. With some exceptions, ~special member functions~, ~class member functions~ and ~global functions~ can be ~deleted~, but most of the time ~deleted functions~ are about ~special member functions~.
-
  ~special member functions~ can be ~deleted~ in 2 different ways:
  - The compiler can ~delete~ the ~special member functions~ ~implicitly~ according to the rules of the language.
  - We can ~explicitly~ ask the compiler to ~delete~ the ~special member functions~.
 
- The ~default constructor~ is ~deleted~:
- #+BEGIN_SRC C++
-   class C1
-   {
-   public:
-       C1() = delete;
-   };
- #+END_SRC
+ ~deleted function~ means that the function exists, but calling it would cause a syntax error. ~deleted functions~ are distinguished from functions that were ~not declared~. They are included in the ~function overload resolution~ process. With some exceptions, ~special member functions~, ~class member functions~ and ~global functions~ can be ~deleted~, but most of the time ~deleted functions~ are about ~special member functions~.
 
  Calling ~deleted functions~ is invalid:
  #+BEGIN_SRC C++
@@ -3330,4 +3286,287 @@ For a ~local/automatic class object~:
       f1(2); // Invalid, func(int) will be chosen but deleted functions cannot be referenced.
   }
  #+END_SRC
+
+ There are some rules defining how each ~special member function~ should be ~defaulted~ by the compiler. When a ~special member function~ is defaulted by the compiler violates the rules of the language, the compiler ~deletes~ the function it should have ~defaulted~ to instead of throwing a syntax error.
+
+ Cases that can cause a syntax error when the compiler tries to ~default~ a ~special member function~:
+ - If some of the ~non-static data members~ of a class cannot be ~default initialized~.
+ - If there is a call to a function that does not exist / ~non declared~.
+ - If there is a call to a ~private~ function.
+ - If there is a call to a ~deleted~ function.
+
+**** Default constructor
+ For a ~constructor~ to be the ~default constructor~, it must either take no parameters or all its parameters must take default arguments. In other words, a ~constructor~ is the ~default constructor~ if it can be called without passing any arguments. The ~default constructor~ is one of the ~special member functions~.
+
+ Example for the ~default constructor~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1(); // Default constructor.
+   };
+
+   class C2
+   {
+   public:
+       C2(int = 0); // Default constructor.
+   };
+#+END_SRC
+
+ The ~default constructor~ is ~defaulted~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1() = default; // The default constructor is user-declared and defaulted.
+   };
+ #+END_SRC
+
+ The ~default constructor~ is ~implicitly deleted~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   // The default constructor is implicitly declared and deleted.
+   public:
+       const int x;
+   };
+
+   int main()
+   {
+       C1 c1; // Invalid. The default constructor is deleted and cannot be called.
+   }
+ #+END_SRC
+
+ The ~default constructor~ is ~deleted~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1() = delete; // The default constructor is user declared and deleted.
+   };
+ #+END_SRC
+
+ ~default constructor~ which is ~defaulted~ by the compiler must be:
+ - ~non-static~
+ - ~inline~ (because it will be defined in ~class definition~, meaning it is implicitly ~inline~)
+ - ~public~
+ function of a class.
+
+ The compiler will generate code for a ~default constructor~ that ~default initializes~ all ~non-static data members~. If there is an ~explicitly declared~ constructor (it doesn't have to be ~default constructor~) the compiler will not ~default~ a ~default constructor~.
+
+ The ~default constructor~ will be ~defaulted~ by the compiler because there is no syntax error and it is not ~explicitly declared~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // The compiler will generate something like this as a default constructor. All non-static data members are default initialized.
+       // C1() : ax(), bx(), cx()
+       // {
+              // The compiler can also add extra code depending on its implementation.
+       // }
+   private:
+       int ax;
+       double bx;
+       char* cx;
+   };
+ #+END_SRC
+
+ The ~default constructor~ will be ~deleted~ because ~const~ objects cannot be ~default initialized~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   // The default constructor will be deleted by compiler because const objects cannot be default initialized.
+   // Instead of throwing a syntax error the compiler deletes the default constructor.
+   private:
+       const int x;
+   };
+
+   int main()
+   {
+       C1 c1; // This is a syntax error. Deleted functions cannot be referenced.
+       return 0;
+   }
+ #+END_SRC
+
+ The ~default constructor~ will be ~deleted~ because the ~non-static data member~ does not have ~default constructor~ and cannot be ~default initialized~:
+ #+BEGIN_SRC C++
+   class C2
+   {
+   public:
+       // There is an explicily declared constructor, meaning that this class does not have a default constructor.
+       // The default constructor is non-declared.
+       C2(int);
+   };
+
+   class C1
+   {
+   // The default constructor will be deleted because c2 does not have a default constructor so cannot be default initialized.
+   private:
+       C2 c2;
+   };
+
+   int main()
+   {
+       C1 c1; // Syntax error. Attempting to reference a deleted function.
+       
+       return 0;
+   }
+ #+END_SRC
+
+**** Copy constructor
+ The ~copy constructor~ is called when a ~class object~ instantiated by taking its value from another ~class object~ of the same type. The ~copy constructor~ has the same name as the class and takes a ~const L-value reference~ parameter of that class type.
+ 
+ ~explicitly declared copy constructor~ example:
+  #+BEGIN_SRC C++ :includes <iostream>
+   class Date
+   {
+   public:
+       Date(int d, int m, int y) : md{ d }, mm{ m }, my{ y } { }
+       Date(const Date& other) : md{ other.md }, mm{ other.mm }, my{ other.my }
+       {
+           std::cout << "this: " << this << " &other: " << &other << '\n';
+       }
+   private:
+       int md{ 1 }, mm{ 1 }, my{ 1990 };
+   };
+
+   int main()
+   {
+       Date dx{ 12, 8, 1999 };
+       Date dy = dx;
+
+       std::cout << "&dy: " << &dy << " &dx: " << &dx << '\n';
+   }
+
+   /*
+        'this pointer' will be address of dy and address of other will be equal to address of dx.
+        Output:
+        this: <address of this> &other: <address of other>
+        dy: <address of dy> dx: <address of dx>
+   */
+ #+END_SRC
+
+ In some cases the compiler can make certain optimizations so that the ~copy constructor~ is not called, but leaving these cases aside for now, typically the ~copy constructor~ is called in the following scenarios.
+ 
+ When a ~class object~ is instantiated directly by another ~class object~:
+#+BEGIN_SRC C++
+  class C1
+  {
+      // The copy constructor is implicitly declared and defaulted.  
+  };
+
+  int main()
+  {
+      C1 c1a;
+      // The copy constructor will be called for c1b. c1b will be instantiated by taking its value from c1a.
+      // When the copy constructor is called for c1b, 'this pointer' will be address of c1b and const reference parameter will be c1a.
+      C1 c1b{ c1a };
+      // The copy constructor will be called for c1c. c1c will be instantiated by taking its value from c1b.
+      C1 c1c = c1b;
+  }
+ #+END_SRC
+
+ Calling a function with a value (not reference or pointer) causes the ~copy constructor~ to be called:
+#+BEGIN_SRC C++
+  class C1
+  {
+      // The copy constructor is implicitly declared and defaulted.  
+  };
+
+  void func(C1 param);
+
+  int main()
+  {
+      C1 c1;
+      // When func() is called with c1, C1 param will be instantiated by calling the copy constructor.
+      func(c1);
+  }
+ #+END_SRC
+
+ Returning a value from a function (not reference or pointer) causes the ~copy constructor~ to be called:
+#+BEGIN_SRC C++
+  class C1
+  {
+      // The copy constructor is implicitly declared and defaulted.  
+  };
+
+  C1 func()
+  {
+      C1 c1;
+      // When func() is returned, the return object will be instantiated by calling the copy constructor and it will take its value from c1.
+      return c1; // c1 will be copied to the return object and will be desctructed at the end of scope.
+  }
+
+  int main()
+  {
+      C1 c1 = func();
+  }
+ #+END_SRC
+
+ ~copy constructor~ which is ~defaulted~ by the compiler must be:
+ - ~non-static~
+ - ~inline~ (because it will be defined in ~class definition~, meaning it is implicitly ~inline~)
+ - ~public~
+ function of a class.
+
+ The compiler will generate code for a ~copy constructor~ that initializes all ~non-static data members~ by taking their value from the ~class object~ being copied:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // The compiler will generate something like this as a copy constructor. All non-static data members are initialized by taking their value from other class object. Initilization will be in declaration order as in default constructor.
+       // C1(const C1& other) : ax(other.ax), bx(other.bx), cx(other.cx)
+       // {
+              // The compiler can also add extra code depending on its implementation.
+       // }
+   private:
+       int ax;
+       double bx;
+       char* cx;
+   };
+ #+END_SRC
+
+** Default member initializer / In-class initializer
+~default member initializer~ is a way to declare how ~default initialization~ should be done for ~data members~ of classes.
+
+~default member initializer~ will be used for ~data members~ which are not initialized explicitly:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // We do not initialize mx here but compiler will add mx{ 20 } here as default
+       // because we declare default member initializer for mx. 
+       C1() : my{ 10 } {}
+   private:
+       int mx{ 20 }; // Default member initializer / In-class initializer
+       int my; // No default member initializer. If we don't initialize my explicity it will be default initialized to garbage value.
+   };
+ #+END_SRC
+
+If a ~data member~ is initialized explicitly ~default member initializer~ will not be used:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // mx will be initialized to 30 and default member initializer will not be used, because mx is not default initialized.
+       C1() : mx { 30 } {}
+   private:
+       int mx{ 20 }; // Default member initializer / In-class initializer
+   };
+ #+END_SRC
+
+ ~direct-initilization~ syntax cannot be used for ~default member initializer~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1() : my { 30 } {}
+   private:
+       // int mx(20); // Invalid. Syntax error.
+       int my{ 20 }; // Valid.
+       int mz = 20 ; // Valid.
+   };
+ #+END_SRC
+ 
+cpp12 - 01:23:00
 
