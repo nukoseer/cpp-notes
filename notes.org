@@ -3526,7 +3526,303 @@ For a ~local/automatic class object~:
    };
  #+END_SRC
 
-** Default member initializer / In-class initializer
+ Usually the ~copy constructor~ which is ~defaulted~ by the compiler will be sufficient for our needs, but there are some cases where the ~copy constructor~ needs to be ~explicitly defined~ to prevent logical errors that can cause memory/resource leaks. We can say that if the ~destructor~ is ~explicitly defined~ for a class, typically the ~copy constructor~ also needs to be ~explicitly defined~ because most of the time it means we have some memory/resource to manage.
+
+ If pointer or reference ~non-static data members~ are stored inside of a class, we might need to use ~explicitly defined~ ~copy constructor~:
+ #+BEGIN_SRC C++ :includes <cstdio> <stdexcept>
+   class Logger
+   {
+   public:
+       // The copy constructor is defaulted by compiler.
+       
+       Logger(const char* file_name) : m_f(std::fopen(file_name, "w"))
+       {
+           if (!m_f)
+           {
+               throw std::runtime_error{ "Cannot create the file!" };
+           }
+       }
+
+       void log(const char* p)
+       {
+           std::fprintf(m_f, "%s\n", p);
+       }
+
+       ~Logger()
+       {
+           if (m_f)
+           {
+               std::fclose(m_f);
+           }
+       }
+
+   private:
+       FILE* m_f;
+   };
+
+   // When this function is called with a Logger object, values of that Logger object will be copied to object 'y' by the defaulted copy constructor. The problem is the Logger class has a pointer data member(m_f) and it will be also copied, meaning the same pointer will be used by 2 different objects ('caller object' and 'y'). This will cause a problem when the desctructor is called for those objects.
+   void func(Logger y)
+   {
+       // This will also write to file 'log.txt' because file(m_f) is copied from the caller object.
+       y.log("y");
+
+       // The destructor will be called here for 'y', and the file(m_f) will be closed in the desctructor.
+   }
+
+   int main()
+   {
+       Logger x{ "log.txt" };
+
+       // This will write to file 'log.txt'
+       x.log("x");
+
+       // Object 'x' will be copied to object 'y' (parameter of the func()).
+       func(x);
+
+       // From this point, the file pointer(m_f) inside object 'x' has become dangling pointer, and it will cause an undefined behaviour if we use it again.
+
+       // The destructor will be called here for object 'x', but the file(m_f) is already closed/freed when the destructor of 'y' object was called, because the value of 'm_f' was copied to object 'y' when we called the func().
+       // This will cause an undefined behaviour because we double free.
+   }
+ #+END_SRC
+
+ ~explicitly defined copy constructor~ to make deep-copy of the pointer ~data member~ instead of shallow-copy:
+#+BEGIN_SRC C++ :includes <iostream> <stdexcept> <cstdlib> <cstring>
+  class String
+  {
+  public:
+      String() = default;
+      String(const char* str) : m_len{ std::strlen(str) }, m_str{ static_cast<char*>(malloc(m_len + 1)) }
+      {
+          if (!m_str)
+          {
+              throw std::runtime_error{ "Cannot allocate memory!" };
+          }
+
+          std::strcpy(m_str, str);
+      }
+
+      // Explicitly defined copy construtor to make deep-copy instead of shallow-copy to prevent copying pointers.
+      String(const String& other) : m_len{ other.m_len }, m_str{ static_cast<char*>(malloc(m_len + 1)) }
+      {
+          if (!m_str)
+          {
+              throw std::runtime_error{ "Cannot allocate memory!" };
+          }
+
+          std::strcpy(m_str, other.m_str);
+      }
+
+      void print() const
+      {
+          std::cout << '[' << m_str << "]\n";
+      }
+
+      std::size_t length() const
+      {
+          return m_len;        
+      }
+
+      ~String()
+      {
+          std::free(m_str);
+      }
+
+  private:
+      std::size_t m_len;
+      char* m_str;
+  };
+
+  void func(String y)
+  {
+      std::cout << "func() is called\n";
+      y.print();
+
+      // The desctructor for object 'y' will be called here and the memory allocated for object 'y' will be freed.
+  }
+
+  int main()
+  {
+      String x{ "Hello world!" };
+
+      x.print();
+
+      func(x);
+
+      x.print();
+      std::cout << x.length();
+
+      // The desctructor for object 'x' will be called here and the memory allocated for object 'x' will be freed.
+      // In this case there is no double free because explicitly defined copy constructor didn't copy the pointer instead it allocated new memory space for the new String object. Both of the objects will print "Hello world!" but they store it in different memory spaces.
+  }
+ #+END_SRC
+
+**** Copy assignment operator/function
+The ~copy assignment operator~ is called when a ~class object~ is assigned to another ~class object~ of the same type. There is no instantiation when the ~copy assignment operator~ is called, because to assign one ~class object~ to another ~class object~, both ~class objects~ must already be instantiated. The ~copy assignment operator~ takes a ~const L-value reference~ parameter of that class type and ~returns~ ~L-value reference~ of the same class type.
+
+~copy assignment operator~ which is ~defaulted~ by the compiler must be:
+ - ~non-static~
+ - ~inline~ (because it will be defined in ~class definition~, meaning it is implicitly ~inline~)
+ - ~public~
+ function of a class.
+
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+        // The compiler will generate something like this as a copy assignment operator. All non-static data members are assigned by taking their values from other class object's non-static data members. Assignments will be in declaration order.
+       //C1& operator=(const C1& other)
+       //{
+       //    ax = other.ax;
+       //    bx = other.bx;
+       //
+       //    return *this;
+       //}
+
+   private:
+       int ax;
+       int bx;
+   };
+ #+END_SRC
+
+ ~explicitly declared copy assignment operator~ example:
+  #+BEGIN_SRC C++ :includes <iostream>
+    class Date
+    {
+    public:
+        Date(int d, int m, int y) : md{ d }, mm{ m }, my{ y } { }
+        Date& operator=(const Date& other)
+        {
+            md = other.md;
+            mm = other.mm;
+            my = other.my;
+            
+            std::cout << "this: " << this << " &other: " << &other << '\n';
+
+            return *this;
+        }
+    private:
+        int md{ 1 }, mm{ 1 }, my{ 1990 };
+    };
+
+    int main()
+    {
+        Date dx{ 12, 8, 1999 };
+        Date dy{ 9, 8, 1966 };
+
+        dy = dx;
+        
+        std::cout << "&dy: " << &dy << " &dx: " << &dx << '\n';
+    }
+
+    /*
+         'this pointer' will be address of dy and address of other will be equal to address of dx.
+         Output:
+         this: <address of this> &other: <address of other>
+         dy: <address of dy> dx: <address of dx>
+    ,*/
+ #+END_SRC
+
+ Similar to the ~copy constructor~, there are some cases where the ~copy assignment operator~ also needs to be ~explicitly defined~ to prevent logical errors which can cause memory/resource leaks. Similarly, we can say that if the ~destructor~ is ~explicitly defined~ for a class, typically the ~copy assignment operator~ also needs to be ~explicitly defined~ because most of the time it means we have some memory/resource to manage.
+
+ ~explicitly defined copy constructor~ to make deep-copy of the pointer ~data member~ instead of shallow-copy:
+ #+BEGIN_SRC C++ :includes <iostream> <stdexcept> <cstdlib> <cstring>
+   class String
+   {
+   public:
+       String() = default;
+       String(const char* str) : m_len{ std::strlen(str) }, m_str{ static_cast<char*>(malloc(m_len + 1)) }
+       {
+           if (!m_str)
+           {
+               throw std::runtime_error{ "Cannot allocate memory!" };
+           }
+
+           std::strcpy(m_str, str);
+       }
+
+       // Explicitly defined copy construtor to make deep-copy instead of shallow-copy to prevent copying pointers.
+       String(const String& other) : m_len{ other.m_len }, m_str{ static_cast<char*>(malloc(m_len + 1)) }
+       {
+           if (!m_str)
+           {
+               throw std::runtime_error{ "Cannot allocate memory!" };
+           }
+       
+           std::strcpy(m_str, other.m_str);
+       }
+       
+       // Explicitly defined copy assignment operator to make deep-copy instead of shallow-copy to prevent copying pointers.
+       String& operator=(const String& other)
+       {
+           // Return directly if the object is assigned to itself.
+           if (this == &other)
+           {
+               return *this;
+           }
+
+           // This is just for demonstration.
+           // We free already existing resource and reallocate for new string.
+           std::free(m_str);
+
+           m_len = other.m_len;
+           m_str = static_cast<char*>(malloc(m_len + 1));
+
+           if (!m_str)
+           {
+               throw std::runtime_error{ "Cannot allocate memory!" };
+           }
+
+           std::strcpy(m_str, other.m_str);
+
+           return *this;
+       }
+
+       void print() const
+       {
+           std::cout << '[' << m_str << "]\n";
+       }
+
+       std::size_t length() const
+       {
+           return m_len;        
+       }
+
+       ~String()
+       {
+           std::free(m_str);
+       }
+
+   private:
+       std::size_t m_len;
+       char* m_str;
+   };
+
+   void func(String y)
+   {
+       std::cout << "func() is called\n";
+       y.print();
+
+       // The desctructor for object 'y' will be called here and the memory allocated for object 'y' will be freed.
+   }
+
+   int main()
+   {
+       String x{ "Hello world!" };
+
+       x.print();
+
+       func(x);
+
+       x.print();
+       std::cout << x.length();
+
+       // The desctructor for object 'x' will be called here and the memory allocated for object 'x' will be freed.
+       // In this case there is no double free because explicitly defined copy constructor didn't copy the pointer instead it allocated new memory space for the new String object. Both of the objects will print "Hello world!" but they store it in different memory spaces.
+   }
+ #+END_SRC
+ 
+*** Default member initializer / In-class initializer
 ~default member initializer~ is a way to declare how ~default initialization~ should be done for ~data members~ of classes.
 
 ~default member initializer~ will be used for ~data members~ which are not initialized explicitly:
@@ -3568,5 +3864,5 @@ If a ~data member~ is initialized explicitly ~default member initializer~ will n
    };
  #+END_SRC
  
-cpp12 - 01:23:00
+cpp12 - 02:53:00
 
