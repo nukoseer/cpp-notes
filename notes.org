@@ -1,3 +1,4 @@
+#+TITLE: C++ Notes
 #+OPTIONS: num:nil
 #+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
 
@@ -3658,7 +3659,7 @@ For a ~local/automatic class object~:
  #+END_SRC
 
 **** Copy assignment operator/function
-The ~copy assignment operator~ is called when a ~class object~ is assigned to another ~class object~ of the same type. There is no instantiation when the ~copy assignment operator~ is called, because to assign one ~class object~ to another ~class object~, both ~class objects~ must already be instantiated. The ~copy assignment operator~ takes a ~const L-value reference~ parameter of that class type and ~returns~ ~L-value reference~ of the same class type.
+The ~copy assignment operator~ is called when a ~class object~ is assigned to another ~L-value class object~ of the same type. There is no instantiation when the ~copy assignment operator~ is called, because to assign one ~class object~ to another ~class object~, both ~class objects~ must already be instantiated. The ~copy assignment operator~ takes a ~const L-value reference~ parameter of that class type and ~returns~ ~L-value reference~ of the same class type.
 
 ~copy assignment operator~ which is ~defaulted~ by the compiler must be:
  - ~non-static~
@@ -3670,7 +3671,7 @@ The ~copy assignment operator~ is called when a ~class object~ is assigned to an
    class C1
    {
    public:
-        // The compiler will generate something like this as a copy assignment operator. All non-static data members are assigned by taking their values from other class object's non-static data members. Assignments will be in declaration order.
+        // The compiler will generate something like this as a copy assignment operator. All non-static data members are assigned by copying their values from other class object's non-static data members. Assignments will be in declaration order.
        //C1& operator=(const C1& other)
        //{
        //    ax = other.ax;
@@ -3725,7 +3726,7 @@ The ~copy assignment operator~ is called when a ~class object~ is assigned to an
 
  Similar to the ~copy constructor~, there are some cases where the ~copy assignment operator~ also needs to be ~explicitly defined~ to prevent logical errors which can cause memory/resource leaks. Similarly, we can say that if the ~destructor~ is ~explicitly defined~ for a class, typically the ~copy assignment operator~ also needs to be ~explicitly defined~ because most of the time it means we have some memory/resource to manage.
 
- ~explicitly defined copy constructor~ to make deep-copy of the pointer ~data member~ instead of shallow-copy:
+ ~explicitly defined copy assignment~ to make deep-copy of the pointer ~data member~ instead of shallow-copy:
  #+BEGIN_SRC C++ :includes <iostream> <stdexcept> <cstdlib> <cstring>
    class String
    {
@@ -3741,17 +3742,6 @@ The ~copy assignment operator~ is called when a ~class object~ is assigned to an
            std::strcpy(m_str, str);
        }
 
-       // Explicitly defined copy construtor to make deep-copy instead of shallow-copy to prevent copying pointers.
-       String(const String& other) : m_len{ other.m_len }, m_str{ static_cast<char*>(malloc(m_len + 1)) }
-       {
-           if (!m_str)
-           {
-               throw std::runtime_error{ "Cannot allocate memory!" };
-           }
-       
-           std::strcpy(m_str, other.m_str);
-       }
-       
        // Explicitly defined copy assignment operator to make deep-copy instead of shallow-copy to prevent copying pointers.
        String& operator=(const String& other)
        {
@@ -3798,30 +3788,373 @@ The ~copy assignment operator~ is called when a ~class object~ is assigned to an
        char* m_str;
    };
 
-   void func(String y)
+   int main()
    {
-       std::cout << "func() is called\n";
-       y.print();
+       String x{ "Hello world!" };
+       String y{ "y" };
 
-       // The desctructor for object 'y' will be called here and the memory allocated for object 'y' will be freed.
+       // The copy assignment will be called for object 'x'.
+       x = y;
+
+       x.print();
+
+       // The desctructor for object 'x' will be called here and the memory allocated for object 'x' will be freed.
+   }
+ #+END_SRC
+
+**** Move constructor
+ The ~move constructor~ is called when a ~class object~ instantiated by transfering/stealing its value from another ~class object~ of the same type. The ~move constructor~ has the same name as the class and takes a ~R-value reference~ parameter of that class type. Unlike the ~copy constructor~, the ~move constructor~ does not copy values but moves/transfers/steals them.
+
+ ~move constructor~ which is ~defaulted~ by the compiler must be:
+ - ~non-static~
+ - ~inline~ (because it will be defined in ~class definition~, meaning it is implicitly ~inline~)
+ - ~public~
+ function of a class.
+
+ The compiler will generate code for a ~move constructor~ that initializes all ~non-static data members~ by stealing their value from the ~class object~ being moved:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // The compiler will generate something like this as a move constructor. All non-static data members are initialized by stealing their value from other class object. Initilization will be in declaration order as in other constructors. After the object is instantiated the move constructor sets transfered/stealed values of the other object to valid but unspecified state. Additionaly, if a non-static data member is another class object its move constructor will also be called. In this example, the move constructor of std::string (cx) object will be called. To be able to call the move constructor for cx std::move is needed because other.cx is L-value expression and it must be converted to R-value reference by using std::move to call the move constructor. If we do not convert it to R-value reference by using std::move the copy constructor would be called instead of the move constructor.
+       // C1(const C1& other) : ax(other.ax), bx(other.bx), cx(std::move(other.cx))
+       // {
+              // other.ax = 0;
+              // other.bx = 0;
+              // The compiler can also add extra code depending on its implementation.
+       // }
+   private:
+       int ax;
+       double bx;
+       std::string cx;
+   };
+ #+END_SRC
+
+~explicitly defined move constructor~ to move the object instead of copying:
+ #+BEGIN_SRC C++ :includes <iostream> <stdexcept> <cstdlib> <cstring>
+   class String
+   {
+   public:
+       String() = default;
+       String(const char* str) : m_len{ std::strlen(str) }, m_str{ static_cast<char*>(malloc(m_len + 1)) }
+       {
+           if (!m_str)
+           {
+               throw std::runtime_error{ "Cannot allocate memory!" };
+           }
+
+           std::strcpy(m_str, str);
+       }
+
+       // Explicitly defined move construtor to move the object instead of making deep copy. 
+       String(String&& other) : m_len{ other.m_len }, m_str{ other.m_str }
+       {
+           // m_str and m_len values are stealed from other.m_str and other.m_len.
+           // We also set other.m_str and other.m_len to valid but unspecified state (usually 0, nullptr)
+           // so the destructor will not be called for the moved object and if it is possible it can be used
+           // later by assigning another object etc.
+           other.m_str = nullptr;
+           other.m_len = 0;
+       }
+       
+       void print() const
+       {
+           std::cout << '[' << m_str << "]\n";
+       }
+
+       std::size_t length() const
+       {
+           return m_len;        
+       }
+
+       ~String()
+       {
+           // This check is needed after we implement the move constructor because if the object is moved the destructor should not be called for the object.
+           if (m_str)
+           {
+               std::free(m_str);
+           }
+       }
+
+   private:
+       std::size_t m_len;
+       char* m_str;
+   };
+
+   String func()
+   {
+       String str{ "func" };
+       return str;
    }
 
    int main()
    {
-       String x{ "Hello world!" };
+       // The move constructor will be called for object 'x', because the return value of func() is R-value.
+       // First, the constructor will be called for str{ "func" } then its resources will be moved the
+       // objext 'x' by calling x's move constructor.
+       String x = func();
 
        x.print();
-
-       func(x);
-
-       x.print();
-       std::cout << x.length();
 
        // The desctructor for object 'x' will be called here and the memory allocated for object 'x' will be freed.
-       // In this case there is no double free because explicitly defined copy constructor didn't copy the pointer instead it allocated new memory space for the new String object. Both of the objects will print "Hello world!" but they store it in different memory spaces.
    }
  #+END_SRC
+
+**** Move assignment operator/function
+The ~move assignment operator~ is called when a ~class object~ is assigned to another ~R-value class object~ of the same type. There is no instantiation when the ~move assignment operator~ is called, because to assign one ~class object~ to another ~class object~, both ~class objects~ must already be instantiated. The ~move assignment operator~ takes a ~R-value reference~ parameter of that class type and ~returns~ ~L-value reference~ of the same class type.
+
+~move assignment operator~ which is ~defaulted~ by the compiler must be:
+ - ~non-static~
+ - ~inline~ (because it will be defined in ~class definition~, meaning it is implicitly ~inline~)
+ - ~public~
+ function of a class.
+
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+        // The compiler will generate something like this as a move assignment operator. All non-static data members are assigned by stealing their values from other class object's non-static data members. Assignments will be in declaration order.
+       //C1& operator=(C1&& other)
+       //{
+       //    ax = other.ax;
+       //    bx = other.bx;
+       //
+       //    other.ax = 0;
+       //    other.bx = 0;
+       //
+       //    return *this;
+       //}
+
+   private:
+       int ax;
+       int bx;
+   };
+ #+END_SRC
+
+ ~explicitly defined move assignment~ to move the object instead of copying:
+ #+BEGIN_SRC C++
+   class String
+   {
+   public:
+       String() = default;
+       String(const char* str) : m_len{ std::strlen(str) }, m_str{ static_cast<char*>(malloc(m_len + 1)) }
+       {
+           if (!m_str)
+           {
+               throw std::runtime_error{ "Cannot allocate memory!" };
+           }
+
+           std::strcpy(m_str, str);
+       }
+
+       // Explicitly defined move assignment to move the object instead of making deep copy. 
+       String& operator=(String&& other)
+       {
+           // Return directly if the object is assigned to itself.
+           if (this == &other)
+           {
+               return *this;
+           }
+
+           // Free the resource we already have first.
+           std::free(m_str);
+
+           // Steals the values of other
+           m_str = other.m_str;
+           m_len = other.m_len;
+           other.m_str = nullptr;
+           other.m_len = 0;
+
+           return *this;
+       }
+
+       void print() const
+       {
+           std::cout << '[' << m_str << "]\n";
+       }
+
+       std::size_t length() const
+       {
+           return m_len;        
+       }
+
+       ~String()
+       {
+           // This check is needed after we implement the move constructor and move assignment because if the object is moved the destructor should not be called for the object.
+           if (m_str)
+           {
+               std::free(m_str);
+           }
+       }
+
+   private:
+       std::size_t m_len;
+       char* m_str;
+   };
+
+   int main()
+   {
+       String x{ "x" };
+
+       // The move assignment operator of 'x' will be called and the resources of String{ "y" } object will be transfered to 'x'.
+       x = String{ "y" };
+
+       x.print();
+
+       // The desctructor for object 'x' will be called here and the memory allocated for object 'x' will be freed.
+   }
+ #+END_SRC
+
+*** Move Semantics
+ ~move semantics~ allows efficient transfer of resources (memory, file handles etc.) from one object to another. It is particularly useful when dealing with expensive-to-copy objects, such as containers or objects that manage dynamic resources. ~R-value references~ enable ~move semantics~ by binding to ~temporary objects~ (~R-value expressions~) that are about to go out of scope. ~move constructor~ and ~move assignment operator~ are used for transfering ownership of resources from one object to another.
+
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1();
+
+       C1(const C1&); // Copy constructor
+       C1(C1&&); // Move constructor
+
+       C1& operator=(const C1&); // Copy assignment
+       C1& operator=(C1&&); // Move assignment
+   };
+
+   C1 func();
+
+   int main()
+   {
+       C1 c1a;
+       C1 c1b = c1a; // c1a is L-value, copy constructor will be called and resources will be copied from c1a to c1b.
+       c1b = c1a; // c1a is L-value, copy assignment will be called and resources will be copied from c1a to c1b.
+
+       C1 c1c = func(); // Return value of func() is R-value, move constructor will be called and resources will be transfered from returned object to c1c.
+       c1c = func(); // Return value of func() is R-value, move assignment will be called and resources will be transfered from returned object to c1c.
+
+       return 0;
+   }
+ #+END_SRC
+
+ It is also possible to transfer the resources of ~L-value expressions~ by converting them to ~R-value references~. ~std::move~ can be used for this:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1() = default;
+
+       C1(const C1&)
+       {
+           std::cout << "Copy constructor\n";
+       }
+       
+       C1(C1&&)
+       {
+           std::cout << "Move constructor\n";
+       }
+   };
+
+   C1 func();
+
+   int main()
+   {
+       C1 c1a;
+       C1 c1b = c1a; // Copy constrcutor will be called.
+       C1 c1c = std::move(c1b); // c1b is L-value but we convert it to R-value reference, move constructor will be called and resources will be transfered from c1b to c1.
+
+       return 0;
+   }
+ #+END_SRC
+
+ ~move semantics~ and ~function overloading~:
+ #+BEGIN_SRC C++
+   // This overload will be called for L-value expressions.
+   void func(const std::string& s)
+   {
+       std::string str(s); // The copy constructor will be called for str.
+   }
+
+   // This overload will be called for R-value expressions.
+   void func(std::string&& s)
+   {
+       // We still need std::move to call the move constructor because even the data type of
+       // 's' is R-value reference, the value category of expression 's' is L-value expression.
+       std::string str(std::move(s)); // The move constructor will be called.
+   }
+
+   int main()
+   {
+       std::string s(100, '+');
+
+       func(s); // void func(const std::string& s) will be called.
+       func(std::string(100, '-')); // void func(std::string&& s) will be called.
+
+       return 0;
+   }
+ #+END_SRC
+
+ It is not possible to transfer/steal resources of a ~const class object~. ~const object~ means the object will never change in its lifetime, so it cannot be moved:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1() = default;
+
+       C1(const C1&)
+       {
+           std::cout << "Copy constructor\n";
+       }
+
+       C1(C1&&)
+       {
+           std::cout << "Move constructor\n";
+       }
+   };
+   int main()
+   {
+       const C1 x;
+       // std::move will return const R-value reference type because object 'x' is const. Copy constructor will be choosen in function overload resolution  because according to rules const overload has the priority. So, object 'x' is copied to 'y' instead of being moved
+       C1 y = std::move(x);
+
+       return 0;
+   }
+ #+END_SRC
+
+ It is more about the ~function overload resolution~ rules rather than ~move semantics~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1() = default;
+   };
+
+   void func(const C1&)
+   {
+       std::cout << "void func(const C1&)\n";
+   }
+
+   void func(C1&&)
+   {
+       
+       std::cout << "void func(C1&&)\n";
+   }
+
+   int main()
+   {
+       C1 x;
+       const C1 cx;
+
+       func(x); // void func(const C1&) will be called.
+       func(std::move(x)); // void func(C1&&) will be called.
+       func(cx); // void func(const C1&) will be called.
+       func(std::move(cx)); // void func(const C1&) will be called.
+       
+       return 0;
+   }
+ #+END_SRC
+
  
+
 *** Default member initializer / In-class initializer
 ~default member initializer~ is a way to declare how ~default initialization~ should be done for ~data members~ of classes.
 
@@ -3863,6 +4196,6 @@ If a ~data member~ is initialized explicitly ~default member initializer~ will n
        int mz = 20 ; // Valid.
    };
  #+END_SRC
- 
-cpp12 - 02:53:00
+
+cpp13 - 00:40:00
 
