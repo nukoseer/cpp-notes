@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-11-25 Mon 17:33 -->
+<!-- 2024-11-26 Tue 21:17 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>C++ Notes</title>
@@ -16,6 +16,7 @@
 <script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
 <script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/search.js"></script>
 <script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+<style> pre.src { background-color: black; color: white; font-size: 14px; }</style>
 </head>
 <body>
 <div id="content" class="content">
@@ -24,121 +25,123 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgfbb2a56">Fundemental Differences Between C and C++</a>
+<li><a href="#orgf8b8554">Fundemental Differences Between C and C++</a>
 <ul>
-<li><a href="#orgac2a32d">Syntax Differences</a>
+<li><a href="#org005d4bf">Syntax Differences</a>
 <ul>
-<li><a href="#org5414aa4">Implicit int</a></li>
-<li><a href="#org656feb6">Missing return statement in functions with non-void return type</a></li>
-<li><a href="#org3f53e40">Implicit/default function declaration</a></li>
-<li><a href="#org40d731a">Declaration of functions without parameter</a></li>
-<li><a href="#org905b16d">Nameless parameters in function definitions</a></li>
-<li><a href="#org091f4ec">Scope of for-statement</a></li>
+<li><a href="#org920ba1d">Implicit int</a></li>
+<li><a href="#org7ddf90c">Missing return statement in functions with non-void return type</a></li>
+<li><a href="#orgc32318a">Implicit/default function declaration</a></li>
+<li><a href="#orgb2629df">Declaration of functions without parameter</a></li>
+<li><a href="#org21ebeb3">Nameless parameters in function definitions</a></li>
+<li><a href="#org73e0556">Scope of for-statement</a></li>
 </ul>
 </li>
-<li><a href="#orgffd407e">Differences About Types and Type Conversions</a>
+<li><a href="#org6d2e165">Differences About Types and Type Conversions</a>
 <ul>
-<li><a href="#orge954dd0">Logic data type (boolean)</a></li>
-<li><a href="#org376a025">User defined types</a></li>
-<li><a href="#orgbd6d1e6">Empty structs</a></li>
-<li><a href="#org3a118cf">Implicit conversion from arithmetic types to pointer types</a></li>
-<li><a href="#org0767133">Implicit conversion between different pointer types.</a></li>
-<li><a href="#org1b968be">Implicit conversion from <code>void*</code> to <code>T*</code></a></li>
-<li><a href="#orgfdd4f68">Underlying enumeration type</a></li>
-<li><a href="#org780af7e">Implicit conversion from arithmetic types to enumeration types</a></li>
-<li><a href="#orge27600f">Implicit conversion between different enumeration types</a></li>
-<li><a href="#org1349fc0">Implicit conversion from enumeration types to arithmetic types.</a></li>
-<li><a href="#org786046d">Character literals</a></li>
-<li><a href="#orgc00f993">String literals</a></li>
+<li><a href="#orgb0e98e1">Logic data type (boolean)</a></li>
+<li><a href="#orgdff3e55">User defined types</a></li>
+<li><a href="#org8be4dca">Empty structs</a></li>
+<li><a href="#orga8886d5">Implicit conversion from arithmetic types to pointer types</a></li>
+<li><a href="#org333cd21">Implicit conversion between different pointer types.</a></li>
+<li><a href="#org17845aa">Implicit conversion from <code>void*</code> to <code>T*</code></a></li>
+<li><a href="#orgea4cc1e">Underlying enumeration type</a></li>
+<li><a href="#org809c0cc">Implicit conversion from arithmetic types to enumeration types</a></li>
+<li><a href="#org242b876">Implicit conversion between different enumeration types</a></li>
+<li><a href="#org58e105e">Implicit conversion from enumeration types to arithmetic types.</a></li>
+<li><a href="#org5e233e6">Character literals</a></li>
+<li><a href="#org9f411ca">String literals</a></li>
 </ul>
 </li>
-<li><a href="#orgce5963b">Differences About const Keyword</a>
+<li><a href="#org85290d3">Differences About const Keyword</a>
 <ul>
-<li><a href="#org8d9228a">Initialization of const objects</a></li>
-<li><a href="#orgcb101a0">Const expressions</a></li>
-<li><a href="#org810c0bd">Global const objects and linkage</a></li>
-<li><a href="#org71a08a5">Implicit conversion from <code>const T*</code> to <code>T*</code></a></li>
+<li><a href="#org7d9c882">Initialization of const objects</a></li>
+<li><a href="#orgcd7dccc">Const expressions</a></li>
+<li><a href="#orga99541e">Global const objects and linkage</a></li>
+<li><a href="#org4d917b9">Implicit conversion from <code>const T*</code> to <code>T*</code></a></li>
 </ul>
 </li>
-<li><a href="#org306f84e">Differences About Value Categories</a>
+<li><a href="#org3c5c993">Differences About Value Categories</a>
 <ul>
-<li><a href="#org6353a76">Primary value categories</a></li>
-<li><a href="#org48a1677">Prefix increment/decrement operator</a></li>
-<li><a href="#org08f4531">Assignment operator</a></li>
-<li><a href="#org432274c">Comma operator</a></li>
-<li><a href="#org45132e0">Ternary operator</a></li>
+<li><a href="#org8e656e8">Primary value categories</a></li>
+<li><a href="#orgf6fd77d">Prefix increment/decrement operator</a></li>
+<li><a href="#org52be66f">Assignment operator</a></li>
+<li><a href="#orgfb64832">Comma operator</a></li>
+<li><a href="#org5055696">Ternary operator</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orgc14fad4">C++ Topics</a>
+<li><a href="#orgd45f12a">C++ Topics</a>
 <ul>
-<li><a href="#orgef533af">Initialization</a>
+<li><a href="#org9f9ef49">Initialization</a>
 <ul>
-<li><a href="#orgb9f2079">Default initialization</a></li>
-<li><a href="#orgf93f970">Zero initialization</a></li>
-<li><a href="#orgc3a3515">Copy initialization</a></li>
-<li><a href="#org4fc09b3">Direct initialization</a></li>
-<li><a href="#orgbe35810">Direct-list / brace initialization (uniform initialization)</a></li>
-<li><a href="#org181de9c">Value initialization</a></li>
+<li><a href="#orgdc80b91">Default initialization</a></li>
+<li><a href="#org7dacc90">Zero initialization</a></li>
+<li><a href="#org2df77c5">Copy initialization</a></li>
+<li><a href="#orgd9ab744">Direct initialization</a></li>
+<li><a href="#org6344b20">Direct-list / brace initialization (uniform initialization)</a></li>
+<li><a href="#org3dfa59e">Value initialization</a></li>
 </ul>
 </li>
-<li><a href="#org61a93f0">nullptr</a></li>
-<li><a href="#org53230e9">Reference Semantics</a>
+<li><a href="#orga4d4e3f">nullptr</a></li>
+<li><a href="#orgc420046">Reference Semantics</a>
 <ul>
-<li><a href="#org1037454">L-value references</a></li>
-<li><a href="#org27f147c">L-value references and const semantics</a></li>
-<li><a href="#org9f3d13c">Differences between pointers and L-value references</a></li>
-<li><a href="#org58fde78">R-value references</a></li>
+<li><a href="#org3ec1ff9">L-value references</a></li>
+<li><a href="#org347a0e1">L-value references and const semantics</a></li>
+<li><a href="#orga1c6880">Differences between pointers and L-value references</a></li>
+<li><a href="#org284642d">R-value references</a></li>
 </ul>
 </li>
-<li><a href="#org52a71c1">Type Deduction</a>
+<li><a href="#org6f08f52">Type Deduction</a>
 <ul>
-<li><a href="#org35371c5">auto type deduction</a></li>
-<li><a href="#org6a37933">decltype type deduction</a></li>
+<li><a href="#orgaadc683">auto type deduction</a></li>
+<li><a href="#orgfc83f73">decltype type deduction</a></li>
 </ul>
 </li>
-<li><a href="#orgdd94b5d">Default Function Arguments</a></li>
-<li><a href="#org7df9a5a">Scoped enum / Enum class</a>
+<li><a href="#orgb8de2b9">Default Function Arguments</a></li>
+<li><a href="#orgc1447e0">Scoped enum / Enum class</a>
 <ul>
-<li><a href="#org971d88e">Disadvantages of the traditional enum type</a></li>
-<li><a href="#orga1104b4">Advantages of the scoped enum type</a></li>
+<li><a href="#orga18002a">Disadvantages of the traditional enum type</a></li>
+<li><a href="#orgeaf1114">Advantages of the scoped enum type</a></li>
 </ul>
 </li>
-<li><a href="#org50c75c3">Type Cast Operators</a>
+<li><a href="#org37ba691">Type Cast Operators</a>
 <ul>
-<li><a href="#orga8ad725">Why C-style type cast is not enough?</a></li>
+<li><a href="#org5d473df">Why C-style type cast is not enough?</a></li>
 </ul>
 </li>
-<li><a href="#org96499d8">Function Overloading</a>
+<li><a href="#orgdab9bcc">Function Overloading</a>
 <ul>
-<li><a href="#orgc069de3">Function overload resolution</a></li>
+<li><a href="#orgd6f1ff5">Function overload resolution</a></li>
 </ul>
 </li>
-<li><a href="#org8274c6f">Name Mangling</a></li>
-<li><a href="#orgd0d13ad">One Definition Rule (ODR)</a></li>
-<li><a href="#orga5bdfd8">Inline functions</a></li>
-<li><a href="#org0619693">Inline variables</a></li>
-<li><a href="#org07d97bd">constexpr</a>
+<li><a href="#orgdaf3fba">Name Mangling</a></li>
+<li><a href="#orgb25df09">One Definition Rule (ODR)</a></li>
+<li><a href="#org9d0b1dd">Inline functions</a></li>
+<li><a href="#org6145530">Inline variables</a></li>
+<li><a href="#orge2c61d9">constexpr</a>
 <ul>
-<li><a href="#org4b1a624">constexpr variables</a></li>
-<li><a href="#orgc65fa25">constexpr functions</a></li>
+<li><a href="#orgbdf09b9">constexpr variables</a></li>
+<li><a href="#org9409d89">constexpr functions</a></li>
 </ul>
 </li>
-<li><a href="#orgb33b6a4">Classes</a>
+<li><a href="#org187eaae">Classes</a>
 <ul>
-<li><a href="#org54d7690">Class definition</a></li>
-<li><a href="#org2386cd0">Access control</a></li>
-<li><a href="#orgffc4531">Non-static data members</a></li>
-<li><a href="#org95b4f86">Non-static member functions</a></li>
-<li><a href="#org344524b">Class scope</a></li>
-<li><a href="#org3b0d748">this keyword</a></li>
-<li><a href="#org6a8f3e9">Const member functions</a></li>
-<li><a href="#org78e7a8c">mutable keyword</a></li>
-<li><a href="#org081805c">Constructor and destructor of classes</a></li>
-<li><a href="#org6bbe240">Special member functions</a></li>
-<li><a href="#org7002141">Move Semantics</a></li>
-<li><a href="#org8e213f2">Default member initializer / In-class initializer</a></li>
+<li><a href="#org33c995c">Class definition</a></li>
+<li><a href="#org7ad33c8">Access control</a></li>
+<li><a href="#org49d5bb6">Non-static data members</a></li>
+<li><a href="#org2711976">Non-static member functions</a></li>
+<li><a href="#org26b760c">Class scope</a></li>
+<li><a href="#orgc1d00d5">this keyword</a></li>
+<li><a href="#org690ef14">Const member functions</a></li>
+<li><a href="#org23fc0bd">mutable keyword</a></li>
+<li><a href="#orgb97be80">Constructor and destructor of classes</a></li>
+<li><a href="#org828ad8c">Special member functions</a></li>
+<li><a href="#org0550cc6">Move Semantics</a></li>
+<li><a href="#org088036d">Default member initializer / In-class initializer</a></li>
+<li><a href="#orgc5b9611">Delegating Constructor</a></li>
+<li><a href="#orgbac3a9b">Temporary Objects</a></li>
 </ul>
 </li>
 </ul>
@@ -146,20 +149,20 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-orgfbb2a56" class="outline-2">
-<h2 id="orgfbb2a56">Fundemental Differences Between C and C++</h2>
-<div class="outline-text-2" id="text-orgfbb2a56">
+<div id="outline-container-orgf8b8554" class="outline-2">
+<h2 id="orgf8b8554">Fundemental Differences Between C and C++</h2>
+<div class="outline-text-2" id="text-orgf8b8554">
 <p>
 Main purpose of this section is to point out the differences between C and C++. It isn't about how code should or should not be written in C or C++. It is only about validity of the code.
 </p>
 </div>
-<div id="outline-container-orgac2a32d" class="outline-3">
-<h3 id="orgac2a32d">Syntax Differences</h3>
-<div class="outline-text-3" id="text-orgac2a32d">
+<div id="outline-container-org005d4bf" class="outline-3">
+<h3 id="org005d4bf">Syntax Differences</h3>
+<div class="outline-text-3" id="text-org005d4bf">
 </div>
-<div id="outline-container-org5414aa4" class="outline-4">
-<h4 id="org5414aa4">Implicit int</h4>
-<div class="outline-text-4" id="text-org5414aa4">
+<div id="outline-container-org920ba1d" class="outline-4">
+<h4 id="org920ba1d">Implicit int</h4>
+<div class="outline-text-4" id="text-org920ba1d">
 <p>
 If a function does not have a return type:
 </p>
@@ -179,9 +182,9 @@ This code is valid in C and invalid in C++:
 </div>
 </div>
 </div>
-<div id="outline-container-org656feb6" class="outline-4">
-<h4 id="org656feb6">Missing return statement in functions with non-void return type</h4>
-<div class="outline-text-4" id="text-org656feb6">
+<div id="outline-container-org7ddf90c" class="outline-4">
+<h4 id="org7ddf90c">Missing return statement in functions with non-void return type</h4>
+<div class="outline-text-4" id="text-org7ddf90c">
 <p>
 If a function has return type but does not return anything:
 </p>
@@ -198,9 +201,9 @@ This code is valid in C and invalid in C++:
 </div>
 </div>
 </div>
-<div id="outline-container-org3f53e40" class="outline-4">
-<h4 id="org3f53e40">Implicit/default function declaration</h4>
-<div class="outline-text-4" id="text-org3f53e40">
+<div id="outline-container-orgc32318a" class="outline-4">
+<h4 id="orgc32318a">Implicit/default function declaration</h4>
+<div class="outline-text-4" id="text-orgc32318a">
 <p>
 If name lookup fails for a function:
 </p>
@@ -220,9 +223,9 @@ This code will compile in C and compiler will assume <code>bar()</code> function
 </div>
 </div>
 </div>
-<div id="outline-container-org40d731a" class="outline-4">
-<h4 id="org40d731a">Declaration of functions without parameter</h4>
-<div class="outline-text-4" id="text-org40d731a">
+<div id="outline-container-orgb2629df" class="outline-4">
+<h4 id="orgb2629df">Declaration of functions without parameter</h4>
+<div class="outline-text-4" id="text-orgb2629df">
 <p>
 There are different rules for C and C++.
 </p>
@@ -248,9 +251,9 @@ According to the declarations above, this code is valid in C. Invalid in C++, be
 </div>
 </div>
 </div>
-<div id="outline-container-org905b16d" class="outline-4">
-<h4 id="org905b16d">Nameless parameters in function definitions</h4>
-<div class="outline-text-4" id="text-org905b16d">
+<div id="outline-container-org21ebeb3" class="outline-4">
+<h4 id="org21ebeb3">Nameless parameters in function definitions</h4>
+<div class="outline-text-4" id="text-org21ebeb3">
 <p>
 This is about function definitions not declarations.
 </p>
@@ -267,9 +270,9 @@ This code is invalid for C (before C20) and valid for C++:
 </div>
 </div>
 </div>
-<div id="outline-container-org091f4ec" class="outline-4">
-<h4 id="org091f4ec">Scope of for-statement</h4>
-<div class="outline-text-4" id="text-org091f4ec">
+<div id="outline-container-org73e0556" class="outline-4">
+<h4 id="org73e0556">Scope of for-statement</h4>
+<div class="outline-text-4" id="text-org73e0556">
 <ul class="org-ul">
 <li>In C, inside of the for loop has a different block scope than for-statement itself.</li>
 <li>In C++, inside of the for loop and for-statement itself are in same block scope.</li>
@@ -302,13 +305,13 @@ We can say above code looks like this for C compiler:
 </div>
 </div>
 </div>
-<div id="outline-container-orgffd407e" class="outline-3">
-<h3 id="orgffd407e">Differences About Types and Type Conversions</h3>
-<div class="outline-text-3" id="text-orgffd407e">
+<div id="outline-container-org6d2e165" class="outline-3">
+<h3 id="org6d2e165">Differences About Types and Type Conversions</h3>
+<div class="outline-text-3" id="text-org6d2e165">
 </div>
-<div id="outline-container-orge954dd0" class="outline-4">
-<h4 id="orge954dd0">Logic data type (boolean)</h4>
-<div class="outline-text-4" id="text-orge954dd0">
+<div id="outline-container-orgb0e98e1" class="outline-4">
+<h4 id="orgb0e98e1">Logic data type (boolean)</h4>
+<div class="outline-text-4" id="text-orgb0e98e1">
 <p>
 In C:
 </p>
@@ -359,9 +362,9 @@ But, this is invalid:
 </div>
 </div>
 </div>
-<div id="outline-container-org376a025" class="outline-4">
-<h4 id="org376a025">User defined types</h4>
-<div class="outline-text-4" id="text-org376a025">
+<div id="outline-container-orgdff3e55" class="outline-4">
+<h4 id="orgdff3e55">User defined types</h4>
+<div class="outline-text-4" id="text-orgdff3e55">
 <ul class="org-ul">
 <li>In C, <code>struct</code>, <code>enum</code> and <code>union</code> tags don't represent type itself. A keyword (<code>struct</code>, <code>enum</code> or <code>union</code>) must be used before a tag name to represent a type. A <code>typedef</code> declaration can be used too.</li>
 <li>In C++, tag names directly represent type names.</li>
@@ -392,9 +395,9 @@ Here are some examples:
 </div>
 </div>
 </div>
-<div id="outline-container-orgbd6d1e6" class="outline-4">
-<h4 id="orgbd6d1e6">Empty structs</h4>
-<div class="outline-text-4" id="text-orgbd6d1e6">
+<div id="outline-container-org8be4dca" class="outline-4">
+<h4 id="org8be4dca">Empty structs</h4>
+<div class="outline-text-4" id="text-org8be4dca">
 <ul class="org-ul">
 <li>In C, empty structs are invalid.</li>
 <li>In C++, empty structs are valid.</li>
@@ -410,9 +413,9 @@ An example:
 </div>
 </div>
 </div>
-<div id="outline-container-org3a118cf" class="outline-4">
-<h4 id="org3a118cf">Implicit conversion from arithmetic types to pointer types</h4>
-<div class="outline-text-4" id="text-org3a118cf">
+<div id="outline-container-orga8886d5" class="outline-4">
+<h4 id="orga8886d5">Implicit conversion from arithmetic types to pointer types</h4>
+<div class="outline-text-4" id="text-orga8886d5">
 <ul class="org-ul">
 <li>In C, implicit conversion from arithmetic types to pointer types is allowed. Compilers might show a warning.</li>
 <li>In C++, there is no implicit conversion from arithmetic types to pointer types.</li>
@@ -427,9 +430,9 @@ This is valid in C and invalid in C++:
 </div>
 </div>
 </div>
-<div id="outline-container-org0767133" class="outline-4">
-<h4 id="org0767133">Implicit conversion between different pointer types.</h4>
-<div class="outline-text-4" id="text-org0767133">
+<div id="outline-container-org333cd21" class="outline-4">
+<h4 id="org333cd21">Implicit conversion between different pointer types.</h4>
+<div class="outline-text-4" id="text-org333cd21">
 <ul class="org-ul">
 <li>In C, implicit conversion between different pointer is allowed. Compilers might show a warning.</li>
 <li>In C++, there is no implicit conversion between different pointer types.</li>
@@ -444,9 +447,9 @@ This is valid in C and invalid in C++:
 </div>
 </div>
 </div>
-<div id="outline-container-org1b968be" class="outline-4">
-<h4 id="org1b968be">Implicit conversion from <code>void*</code> to <code>T*</code></h4>
-<div class="outline-text-4" id="text-org1b968be">
+<div id="outline-container-org17845aa" class="outline-4">
+<h4 id="org17845aa">Implicit conversion from <code>void*</code> to <code>T*</code></h4>
+<div class="outline-text-4" id="text-org17845aa">
 <ul class="org-ul">
 <li>In C, implicit conversion from <code>void*</code> to <code>T*</code> is allowed.</li>
 <li>In C++, implicit conversion from <code>void*</code> to <code>T*</code> is not allowed.</li>
@@ -460,18 +463,18 @@ This code is valid in C but invalid in C++:
 </div>
 </div>
 </div>
-<div id="outline-container-orgfdd4f68" class="outline-4">
-<h4 id="orgfdd4f68">Underlying enumeration type</h4>
-<div class="outline-text-4" id="text-orgfdd4f68">
+<div id="outline-container-orgea4cc1e" class="outline-4">
+<h4 id="orgea4cc1e">Underlying enumeration type</h4>
+<div class="outline-text-4" id="text-orgea4cc1e">
 <ul class="org-ul">
 <li>In C, underlying enumeration type has to be <code>int</code>.</li>
 <li>In C++, it does not have to be <code>int</code> and can be specified with special syntax.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org780af7e" class="outline-4">
-<h4 id="org780af7e">Implicit conversion from arithmetic types to enumeration types</h4>
-<div class="outline-text-4" id="text-org780af7e">
+<div id="outline-container-org809c0cc" class="outline-4">
+<h4 id="org809c0cc">Implicit conversion from arithmetic types to enumeration types</h4>
+<div class="outline-text-4" id="text-org809c0cc">
 <ul class="org-ul">
 <li>In C, it is allowed.</li>
 <li>In C++, it is not.</li>
@@ -487,9 +490,9 @@ color = <span style="color: #00bcff;">3</span>;
 </div>
 </div>
 </div>
-<div id="outline-container-orge27600f" class="outline-4">
-<h4 id="orge27600f">Implicit conversion between different enumeration types</h4>
-<div class="outline-text-4" id="text-orge27600f">
+<div id="outline-container-org242b876" class="outline-4">
+<h4 id="org242b876">Implicit conversion between different enumeration types</h4>
+<div class="outline-text-4" id="text-org242b876">
 <ul class="org-ul">
 <li>In C, it is allowed.</li>
 <li>In C++, it is not.</li>
@@ -507,9 +510,9 @@ color = count;
 </div>
 </div>
 </div>
-<div id="outline-container-org1349fc0" class="outline-4">
-<h4 id="org1349fc0">Implicit conversion from enumeration types to arithmetic types.</h4>
-<div class="outline-text-4" id="text-org1349fc0">
+<div id="outline-container-org58e105e" class="outline-4">
+<h4 id="org58e105e">Implicit conversion from enumeration types to arithmetic types.</h4>
+<div class="outline-text-4" id="text-org58e105e">
 <ul class="org-ul">
 <li>In C, it is allowed.</li>
 <li>In C++, it is also allowed. Scoped enums can be used to prevent this.</li>
@@ -525,9 +528,9 @@ This code is valid in C and C++:
 </div>
 </div>
 </div>
-<div id="outline-container-org786046d" class="outline-4">
-<h4 id="org786046d">Character literals</h4>
-<div class="outline-text-4" id="text-org786046d">
+<div id="outline-container-org5e233e6" class="outline-4">
+<h4 id="org5e233e6">Character literals</h4>
+<div class="outline-text-4" id="text-org5e233e6">
 <ul class="org-ul">
 <li>In C, character literals are <code>int</code>.</li>
 <li>In C++, character literals are <code>char</code>.</li>
@@ -541,9 +544,9 @@ This code prints 4 in C and 1 in C++:
 </div>
 </div>
 </div>
-<div id="outline-container-orgc00f993" class="outline-4">
-<h4 id="orgc00f993">String literals</h4>
-<div class="outline-text-4" id="text-orgc00f993">
+<div id="outline-container-org9f411ca" class="outline-4">
+<h4 id="org9f411ca">String literals</h4>
+<div class="outline-text-4" id="text-org9f411ca">
 <ul class="org-ul">
 <li>In C, the type of string literals is <code>char[n]</code>. When string literals are used in an expression they are converted to address of the first element (array decay - array to pointer conversion). The type after array decay is <code>char*</code>.</li>
 <li>In C++, the type of string literals is <code>const char[n]</code>. Array decay also applies to C++ but the type after array decay is <code>const char*</code>.</li>
@@ -566,13 +569,13 @@ This is valid in C but invalid in C++:
 </div>
 </div>
 </div>
-<div id="outline-container-orgce5963b" class="outline-3">
-<h3 id="orgce5963b">Differences About const Keyword</h3>
-<div class="outline-text-3" id="text-orgce5963b">
+<div id="outline-container-org85290d3" class="outline-3">
+<h3 id="org85290d3">Differences About const Keyword</h3>
+<div class="outline-text-3" id="text-org85290d3">
 </div>
-<div id="outline-container-org8d9228a" class="outline-4">
-<h4 id="org8d9228a">Initialization of const objects</h4>
-<div class="outline-text-4" id="text-org8d9228a">
+<div id="outline-container-org7d9c882" class="outline-4">
+<h4 id="org7d9c882">Initialization of const objects</h4>
+<div class="outline-text-4" id="text-org7d9c882">
 <ul class="org-ul">
 <li>In C, <code>const</code> objects don't have to be initialized.</li>
 <li>In C++, <code>const</code> objects have to be initialized.</li>
@@ -602,9 +605,9 @@ But this is invalid:
 </div>
 </div>
 </div>
-<div id="outline-container-orgcb101a0" class="outline-4">
-<h4 id="orgcb101a0">Const expressions</h4>
-<div class="outline-text-4" id="text-orgcb101a0">
+<div id="outline-container-orgcd7dccc" class="outline-4">
+<h4 id="orgcd7dccc">Const expressions</h4>
+<div class="outline-text-4" id="text-orgcd7dccc">
 <ul class="org-ul">
 <li>In C, expressions generated by const variables are not counted as const expressions.</li>
 <li>In C++, they count as const expressions.</li>
@@ -619,9 +622,9 @@ This is invalid in C (assuming no VLA) but valid in C++:
 </div>
 </div>
 </div>
-<div id="outline-container-org810c0bd" class="outline-4">
-<h4 id="org810c0bd">Global const objects and linkage</h4>
-<div class="outline-text-4" id="text-org810c0bd">
+<div id="outline-container-orga99541e" class="outline-4">
+<h4 id="orga99541e">Global const objects and linkage</h4>
+<div class="outline-text-4" id="text-orga99541e">
 <ul class="org-ul">
 <li>In C, global const objects are in external linkage.</li>
 <li>In C++, global const objects are in internal linkage like <code>static</code> objects.</li>
@@ -636,9 +639,9 @@ This is invalid in C (assuming no VLA) but valid in C++:
 </div>
 </div>
 </div>
-<div id="outline-container-org71a08a5" class="outline-4">
-<h4 id="org71a08a5">Implicit conversion from <code>const T*</code> to <code>T*</code></h4>
-<div class="outline-text-4" id="text-org71a08a5">
+<div id="outline-container-org4d917b9" class="outline-4">
+<h4 id="org4d917b9">Implicit conversion from <code>const T*</code> to <code>T*</code></h4>
+<div class="outline-text-4" id="text-org4d917b9">
 <ul class="org-ul">
 <li>In C, implicit conversion from <code>const T*</code> to <code>T*</code> is allowed. Compilers might show a warning.</li>
 <li>In C++, there is no implicit conversion from <code>const T*</code> to <code>T*</code>.</li>
@@ -654,13 +657,13 @@ This is valid in C and invalid in C++:
 </div>
 </div>
 </div>
-<div id="outline-container-org306f84e" class="outline-3">
-<h3 id="org306f84e">Differences About Value Categories</h3>
-<div class="outline-text-3" id="text-org306f84e">
+<div id="outline-container-org3c5c993" class="outline-3">
+<h3 id="org3c5c993">Differences About Value Categories</h3>
+<div class="outline-text-3" id="text-org3c5c993">
 </div>
-<div id="outline-container-org6353a76" class="outline-4">
-<h4 id="org6353a76">Primary value categories</h4>
-<div class="outline-text-4" id="text-org6353a76">
+<div id="outline-container-org8e656e8" class="outline-4">
+<h4 id="org8e656e8">Primary value categories</h4>
+<div class="outline-text-4" id="text-org8e656e8">
 <ul class="org-ul">
 <li>In C, there are 2 primary value categories.
 <ul class="org-ul">
@@ -687,9 +690,9 @@ The <code>GL-value</code> and <code>R-value</code> categories are not <code>prim
 </p>
 </div>
 </div>
-<div id="outline-container-org48a1677" class="outline-4">
-<h4 id="org48a1677">Prefix increment/decrement operator</h4>
-<div class="outline-text-4" id="text-org48a1677">
+<div id="outline-container-orgf6fd77d" class="outline-4">
+<h4 id="orgf6fd77d">Prefix increment/decrement operator</h4>
+<div class="outline-text-4" id="text-orgf6fd77d">
 <ul class="org-ul">
 <li>In C, expressions generated by prefix increment/decrement operator are R-value expressions.</li>
 <li>In C++, they are L-value expressions.</li>
@@ -706,9 +709,9 @@ This code is valid in C++ and invalid in C:
 </div>
 </div>
 </div>
-<div id="outline-container-org08f4531" class="outline-4">
-<h4 id="org08f4531">Assignment operator</h4>
-<div class="outline-text-4" id="text-org08f4531">
+<div id="outline-container-org52be66f" class="outline-4">
+<h4 id="org52be66f">Assignment operator</h4>
+<div class="outline-text-4" id="text-org52be66f">
 <ul class="org-ul">
 <li>In C, expressions generated by assignment operator are R-value expressions.</li>
 <li>In C++, they are L-value expressions.</li>
@@ -723,9 +726,9 @@ This code is valid in C++ and invalid in C:
 </div>
 </div>
 </div>
-<div id="outline-container-org432274c" class="outline-4">
-<h4 id="org432274c">Comma operator</h4>
-<div class="outline-text-4" id="text-org432274c">
+<div id="outline-container-orgfb64832" class="outline-4">
+<h4 id="orgfb64832">Comma operator</h4>
+<div class="outline-text-4" id="text-orgfb64832">
 <ul class="org-ul">
 <li>In C, expressions generated by comma operator are R-value expressions.</li>
 <li>In C++, they can be L-value or R-value expressions.</li>
@@ -741,9 +744,9 @@ This code is valid in C++ and invalid in C:
 </div>
 </div>
 </div>
-<div id="outline-container-org45132e0" class="outline-4">
-<h4 id="org45132e0">Ternary operator</h4>
-<div class="outline-text-4" id="text-org45132e0">
+<div id="outline-container-org5055696" class="outline-4">
+<h4 id="org5055696">Ternary operator</h4>
+<div class="outline-text-4" id="text-org5055696">
 <ul class="org-ul">
 <li>In C, expressions generated by ternary operator are R-value expressions.</li>
 <li>In C++, they can be L-value or R-value expressions.</li>
@@ -762,20 +765,20 @@ This code is valid in C++ and invalid in C:
 </div>
 </div>
 </div>
-<div id="outline-container-orgc14fad4" class="outline-2">
-<h2 id="orgc14fad4">C++ Topics</h2>
-<div class="outline-text-2" id="text-orgc14fad4">
+<div id="outline-container-orgd45f12a" class="outline-2">
+<h2 id="orgd45f12a">C++ Topics</h2>
+<div class="outline-text-2" id="text-orgd45f12a">
 </div>
-<div id="outline-container-orgef533af" class="outline-3">
-<h3 id="orgef533af">Initialization</h3>
-<div class="outline-text-3" id="text-orgef533af">
+<div id="outline-container-org9f9ef49" class="outline-3">
+<h3 id="org9f9ef49">Initialization</h3>
+<div class="outline-text-3" id="text-org9f9ef49">
 <p>
 There are very different ways to initialize objects in C++.
 </p>
 </div>
-<div id="outline-container-orgb9f2079" class="outline-4">
-<h4 id="orgb9f2079">Default initialization</h4>
-<div class="outline-text-4" id="text-orgb9f2079">
+<div id="outline-container-orgdc80b91" class="outline-4">
+<h4 id="orgdc80b91">Default initialization</h4>
+<div class="outline-text-4" id="text-orgdc80b91">
 <p>
 Default initialized objects are created with a garbage value.
 </p>
@@ -785,9 +788,9 @@ Default initialized objects are created with a garbage value.
 </div>
 </div>
 </div>
-<div id="outline-container-orgf93f970" class="outline-4">
-<h4 id="orgf93f970">Zero initialization</h4>
-<div class="outline-text-4" id="text-orgf93f970">
+<div id="outline-container-org7dacc90" class="outline-4">
+<h4 id="org7dacc90">Zero initialization</h4>
+<div class="outline-text-4" id="text-org7dacc90">
 <p>
 Compilers zero initialize objects in the global scope. <code>zero initialization</code> is not a way to initialize objects it is more like a compiler process.
 </p>
@@ -800,9 +803,9 @@ Compilers zero initialize objects in the global scope. <code>zero initialization
 </div>
 </div>
 </div>
-<div id="outline-container-orgc3a3515" class="outline-4">
-<h4 id="orgc3a3515">Copy initialization</h4>
-<div class="outline-text-4" id="text-orgc3a3515">
+<div id="outline-container-org2df77c5" class="outline-4">
+<h4 id="org2df77c5">Copy initialization</h4>
+<div class="outline-text-4" id="text-org2df77c5">
 <p>
 If objects are initialized like in the C language, it is called <code>copy initialization</code>.
 </p>
@@ -812,9 +815,9 @@ If objects are initialized like in the C language, it is called <code>copy initi
 </div>
 </div>
 </div>
-<div id="outline-container-org4fc09b3" class="outline-4">
-<h4 id="org4fc09b3">Direct initialization</h4>
-<div class="outline-text-4" id="text-org4fc09b3">
+<div id="outline-container-orgd9ab744" class="outline-4">
+<h4 id="orgd9ab744">Direct initialization</h4>
+<div class="outline-text-4" id="text-orgd9ab744">
 <p>
 If objects are initialized by using paranthesis, it is called <code>direct initialization</code>.
 </p>
@@ -824,9 +827,9 @@ If objects are initialized by using paranthesis, it is called <code>direct initi
 </div>
 </div>
 </div>
-<div id="outline-container-orgbe35810" class="outline-4">
-<h4 id="orgbe35810">Direct-list / brace initialization (uniform initialization)</h4>
-<div class="outline-text-4" id="text-orgbe35810">
+<div id="outline-container-org6344b20" class="outline-4">
+<h4 id="org6344b20">Direct-list / brace initialization (uniform initialization)</h4>
+<div class="outline-text-4" id="text-org6344b20">
 <p>
 If objects are initialized by using braces, it is called <code>direct-list initialization</code>. <code>direct-list/brace initialization</code> is added to the language to have a uniform way to initialize objects. This is why it is also called <code>uniform initialization</code>. It can be used to initialize any object.
 </p>
@@ -876,9 +879,9 @@ Example:
 </div>
 </div>
 </div>
-<div id="outline-container-org181de9c" class="outline-4">
-<h4 id="org181de9c">Value initialization</h4>
-<div class="outline-text-4" id="text-org181de9c">
+<div id="outline-container-org3dfa59e" class="outline-4">
+<h4 id="org3dfa59e">Value initialization</h4>
+<div class="outline-text-4" id="text-org3dfa59e">
 <p>
 If objects are initialized by using braces but inside of the braces are empty, it is called <code>value initialization</code>. Value initialized objects are first initialized to zero, if any additional initialization steps are required, this is done after <code>zero initialization</code>.
 </p>
@@ -889,9 +892,9 @@ If objects are initialized by using braces but inside of the braces are empty, i
 </div>
 </div>
 </div>
-<div id="outline-container-org61a93f0" class="outline-3">
-<h3 id="org61a93f0">nullptr</h3>
-<div class="outline-text-3" id="text-org61a93f0">
+<div id="outline-container-orga4d4e3f" class="outline-3">
+<h3 id="orga4d4e3f">nullptr</h3>
+<div class="outline-text-3" id="text-orga4d4e3f">
 <p>
 In C++, there is a keyword that represents a null pointer, and it is called <code>nullptr</code>. It is not a macro like in C. It is a keyword, a constant and its type is <code>nullptr_t</code>.
 </p>
@@ -910,9 +913,9 @@ You can assign <code>nullptr</code> to other pointer types but there is no impli
 </div>
 </div>
 </div>
-<div id="outline-container-org53230e9" class="outline-3">
-<h3 id="org53230e9">Reference Semantics</h3>
-<div class="outline-text-3" id="text-org53230e9">
+<div id="outline-container-orgc420046" class="outline-3">
+<h3 id="orgc420046">Reference Semantics</h3>
+<div class="outline-text-3" id="text-orgc420046">
 <p>
 There is an alternative way to represent pointers in C++, which is called <code>reference</code>, but this is only an alternative at the language layer, the underlying representation does not change once the code is compiled. Everything works with the pointers in assembly level.
 </p>
@@ -939,9 +942,9 @@ An example:
 </pre>
 </div>
 </div>
-<div id="outline-container-org1037454" class="outline-4">
-<h4 id="org1037454">L-value references</h4>
-<div class="outline-text-4" id="text-org1037454">
+<div id="outline-container-org3ec1ff9" class="outline-4">
+<h4 id="org3ec1ff9">L-value references</h4>
+<div class="outline-text-4" id="text-org3ec1ff9">
 <p>
 L-value references are similar to <code>top-level const pointer objects</code>:
 </p>
@@ -1035,9 +1038,9 @@ L-value references often used to pass the object to the function (<code>call by 
 </div>
 </div>
 </div>
-<div id="outline-container-org27f147c" class="outline-4">
-<h4 id="org27f147c">L-value references and const semantics</h4>
-<div class="outline-text-4" id="text-org27f147c">
+<div id="outline-container-org347a0e1" class="outline-4">
+<h4 id="org347a0e1">L-value references and const semantics</h4>
+<div class="outline-text-4" id="text-org347a0e1">
 <p>
 We said that L-value references are like <code>top-level const pointer</code> by default but they can also be used like <code>low-level const pointer</code>.
 Pointer parameters can be used as a mutator or accessor. L-value references also can be used in a similar way:
@@ -1123,9 +1126,9 @@ This becomes even more important when we call functions that take L-value refere
 </div>
 </div>
 </div>
-<div id="outline-container-org9f3d13c" class="outline-4">
-<h4 id="org9f3d13c">Differences between pointers and L-value references</h4>
-<div class="outline-text-4" id="text-org9f3d13c">
+<div id="outline-container-orga1c6880" class="outline-4">
+<h4 id="orga1c6880">Differences between pointers and L-value references</h4>
+<div class="outline-text-4" id="text-orga1c6880">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -1169,9 +1172,9 @@ This becomes even more important when we call functions that take L-value refere
 </table>
 </div>
 </div>
-<div id="outline-container-org58fde78" class="outline-4">
-<h4 id="org58fde78">R-value references</h4>
-<div class="outline-text-4" id="text-org58fde78">
+<div id="outline-container-org284642d" class="outline-4">
+<h4 id="org284642d">R-value references</h4>
+<div class="outline-text-4" id="text-org284642d">
 <p>
 R-value references are mostly about move semantics and perfect forwarding. Details will be discussed in the future. We will just briefly explain the syntax for now.
 R-value references cannot be default-initialized like L-value references, and can be initialized only with R-value objects.
@@ -1190,9 +1193,9 @@ R-value references cannot be default-initialized like L-value references, and ca
 </div>
 </div>
 </div>
-<div id="outline-container-org52a71c1" class="outline-3">
-<h3 id="org52a71c1">Type Deduction</h3>
-<div class="outline-text-3" id="text-org52a71c1">
+<div id="outline-container-org6f08f52" class="outline-3">
+<h3 id="org6f08f52">Type Deduction</h3>
+<div class="outline-text-3" id="text-org6f08f52">
 <p>
 In C++, we don't need to write the type explicitly in some contexts. We can use one of the type deduction mechanisms to have the compiler determine the type for us by looking at the code.
 There are several different mechanisms for type deduction:
@@ -1204,9 +1207,9 @@ There are several different mechanisms for type deduction:
 <li>template</li>
 </ul>
 </div>
-<div id="outline-container-org35371c5" class="outline-4">
-<h4 id="org35371c5">auto type deduction</h4>
-<div class="outline-text-4" id="text-org35371c5">
+<div id="outline-container-orgaadc683" class="outline-4">
+<h4 id="orgaadc683">auto type deduction</h4>
+<div class="outline-text-4" id="text-orgaadc683">
 <p>
 The <code>auto</code> keyword can be used to determine the type of the variable during initialization. A very important point is that the type deduction is made for <code>auto</code> keyword not for the variable itself.
 </p>
@@ -1425,9 +1428,9 @@ Reference collapsing rules:
 </table>
 </div>
 </div>
-<div id="outline-container-org6a37933" class="outline-4">
-<h4 id="org6a37933">decltype type deduction</h4>
-<div class="outline-text-4" id="text-org6a37933">
+<div id="outline-container-orgfc83f73" class="outline-4">
+<h4 id="orgfc83f73">decltype type deduction</h4>
+<div class="outline-text-4" id="text-orgfc83f73">
 <p>
 <code>auto</code> type deduction can be used for initialization but <code>decltype</code> type deduction does not have this limitation. It can be used in any context intead of types. <code>decltype</code> is also <code>unevaluated context</code> like <code>sizeof</code>.
 </p>
@@ -1565,9 +1568,9 @@ Other type deduction mechanisms will be discussed later.
 </div>
 </div>
 </div>
-<div id="outline-container-orgdd94b5d" class="outline-3">
-<h3 id="orgdd94b5d">Default Function Arguments</h3>
-<div class="outline-text-3" id="text-orgdd94b5d">
+<div id="outline-container-orgb8de2b9" class="outline-3">
+<h3 id="orgb8de2b9">Default Function Arguments</h3>
+<div class="outline-text-3" id="text-orgb8de2b9">
 <p>
 Unlike C, C++ supports default function arguments. If a function mostly takes the same value for an argument, default function arguments are very helpful.
 When the <code>default function argument</code> is used, we do not need to pass a value to that argument when calling the function. The compiler will insert the value that we specified:
@@ -1687,16 +1690,16 @@ The compiler takes the <code>default arguments</code> cumulatively:
 </div>
 </div>
 </div>
-<div id="outline-container-org7df9a5a" class="outline-3">
-<h3 id="org7df9a5a">Scoped enum / Enum class</h3>
-<div class="outline-text-3" id="text-org7df9a5a">
+<div id="outline-container-orgc1447e0" class="outline-3">
+<h3 id="orgc1447e0">Scoped enum / Enum class</h3>
+<div class="outline-text-3" id="text-orgc1447e0">
 <p>
 In addition to the <code>traditional enum type</code>, C++ has a new enum type called <code>scoped enum</code> / <code>enum class</code>. <code>Scoped enum</code> were introduced to overcome the disadvantages of the <code>traditional enum type</code>.
 </p>
 </div>
-<div id="outline-container-org971d88e" class="outline-4">
-<h4 id="org971d88e">Disadvantages of the traditional enum type</h4>
-<div class="outline-text-4" id="text-org971d88e">
+<div id="outline-container-orga18002a" class="outline-4">
+<h4 id="orga18002a">Disadvantages of the traditional enum type</h4>
+<div class="outline-text-4" id="text-orga18002a">
 <ul class="org-ul">
 <li><p>
 <code>Underlying type</code> depends to the compiler. The compiler chooses <code>int</code> as default type but if <code>int</code> isn't big enough to store the <code>enumeration constants</code>, the type choosen is compiler dependent. This is why <code>traditional enum types</code> cannot be used as <code>incomplete types</code>. The compiler cannot know the size when used as an <code>incomplete type</code>, because it may be larger than <code>int</code>.
@@ -1727,9 +1730,9 @@ Implicit type conversion from <code>traditional enum types</code> to <code>arith
 </ul>
 </div>
 </div>
-<div id="outline-container-orga1104b4" class="outline-4">
-<h4 id="orga1104b4">Advantages of the scoped enum type</h4>
-<div class="outline-text-4" id="text-orga1104b4">
+<div id="outline-container-orgeaf1114" class="outline-4">
+<h4 id="orgeaf1114">Advantages of the scoped enum type</h4>
+<div class="outline-text-4" id="text-orgeaf1114">
 <ul class="org-ul">
 <li><p>
 The <code>underlying type</code> can be specified. If not specified <code>int</code> is default.
@@ -1788,9 +1791,9 @@ In C++20, <code>using enum declaration</code> was added to the language. If we a
 </div>
 </div>
 </div>
-<div id="outline-container-org50c75c3" class="outline-3">
-<h3 id="org50c75c3">Type Cast Operators</h3>
-<div class="outline-text-3" id="text-org50c75c3">
+<div id="outline-container-org37ba691" class="outline-3">
+<h3 id="org37ba691">Type Cast Operators</h3>
+<div class="outline-text-3" id="text-org37ba691">
 <p>
 In C++, there 2 different type conversions: <code>implicit type conversion</code> and <code>explicit type conversion</code>. In some cases the compiler is free to do <code>implicit type conversion</code> depending on the rules of the language, but if we want to explicity convert a type, we have to do <code>explicit type conversion</code> by using <code>type cast operators</code>.
 </p>
@@ -1876,9 +1879,9 @@ Example for <code>dynamic_cast</code>:
  &#x2026;
 </p>
 </div>
-<div id="outline-container-orga8ad725" class="outline-4">
-<h4 id="orga8ad725">Why C-style type cast is not enough?</h4>
-<div class="outline-text-4" id="text-orga8ad725">
+<div id="outline-container-org5d473df" class="outline-4">
+<h4 id="org5d473df">Why C-style type cast is not enough?</h4>
+<div class="outline-text-4" id="text-org5d473df">
 <p>
 Different <code>explicit type conversions</code> can have different intentions and meanings. There can be many different reasons for converting one type to another type:
 </p>
@@ -1894,9 +1897,9 @@ The list can be extended with different examples, but the point is that not ever
 </div>
 </div>
 </div>
-<div id="outline-container-org96499d8" class="outline-3">
-<h3 id="org96499d8">Function Overloading</h3>
-<div class="outline-text-3" id="text-org96499d8">
+<div id="outline-container-orgdab9bcc" class="outline-3">
+<h3 id="orgdab9bcc">Function Overloading</h3>
+<div class="outline-text-3" id="text-orgdab9bcc">
 <p>
 In C++, multiple functions can have the same name but with different parameters. These functions can perform different tasks based on the parameters passed to them. The compiler differentiates between the overloaded functions by their number of parameters, types of parameters, and the order of parameters. When the compiler encounters a call to an overloaded function, it uses the argument types and number of arguments to determine which version of the overloaded function to invoke. This process, called <code>static/early binding</code> or <code>compile-time polymorphism</code>, happens at compile-time, meaning the function to be executed is determined before the program runs. Function overloading is all about compile-time, it has no run-time overhead. For function overloading, there are 2 different and important points for the compiler to decide. Is there a function overloading for the particular function and if so, which function to choose. The process by the compiler to decide which function to choose is called <code>function overload resolution</code>.
 </p>
@@ -2082,9 +2085,9 @@ There are 4 different <code>function overloads</code> here:
 </pre>
 </div>
 </div>
-<div id="outline-container-orgc069de3" class="outline-4">
-<h4 id="orgc069de3">Function overload resolution</h4>
-<div class="outline-text-4" id="text-orgc069de3">
+<div id="outline-container-orgd6f1ff5" class="outline-4">
+<h4 id="orgd6f1ff5">Function overload resolution</h4>
+<div class="outline-text-4" id="text-orgd6f1ff5">
 <p>
 <code>Function overload resolution</code> is handled by the compiler as a 3 step process. Actually, 3 steps is the maximum, it may take fewer steps:
 </p>
@@ -2343,9 +2346,9 @@ We were always using one paramater for <code>function oveloads</code>, but funct
 </div>
 </div>
 </div>
-<div id="outline-container-org8274c6f" class="outline-3">
-<h3 id="org8274c6f">Name Mangling</h3>
-<div class="outline-text-3" id="text-org8274c6f">
+<div id="outline-container-orgdaf3fba" class="outline-3">
+<h3 id="orgdaf3fba">Name Mangling</h3>
+<div class="outline-text-3" id="text-orgdaf3fba">
 <p>
 <code>Name mangling</code> is a process used by C++ compilers to generate unique names for functions, variables, and other entities to support features like <code>function overloading</code>, <code>namespaces</code>, and <code>template instantiation</code>. Since C++ allows multiple functions with the same name (through <code>function overloading</code>), the compiler needs a way to differentiate between these functions at the binary level. <code>Name mangling</code> achieves this by encoding additional information, such as the function's <code>parameter types</code>, <code>return type</code>, and the <code>namespace</code> or <code>class</code> it belongs to, into the function's name. 
 </p>
@@ -2415,9 +2418,9 @@ To solve this kind of problems we typically use <code>extern "C"</code> declarat
 </div>
 </div>
 </div>
-<div id="outline-container-orgd0d13ad" class="outline-3">
-<h3 id="orgd0d13ad">One Definition Rule (ODR)</h3>
-<div class="outline-text-3" id="text-orgd0d13ad">
+<div id="outline-container-orgb25df09" class="outline-3">
+<h3 id="orgb25df09">One Definition Rule (ODR)</h3>
+<div class="outline-text-3" id="text-orgb25df09">
 <p>
 Objects (variables, functions, templates, classes etc.) in C++ can have multiple declarations but only one definition across the project. This is called <code>one definition rule</code>. If a program has more than one definition of a particular object, the program is <code>ill-formed</code> and the compiler isn't required to give any diagnostics. The linker program may give some diagnostics but it is also not guaranteed. If the same object has multiple definitions in the same source file, it is a syntax error and diagnostic is required.
 </p>
@@ -2469,9 +2472,9 @@ Definitions that can coexist in different source files without violating ODR:
 </ul>
 </div>
 </div>
-<div id="outline-container-orga5bdfd8" class="outline-3">
-<h3 id="orga5bdfd8">Inline functions</h3>
-<div class="outline-text-3" id="text-orga5bdfd8">
+<div id="outline-container-org9d0b1dd" class="outline-3">
+<h3 id="org9d0b1dd">Inline functions</h3>
+<div class="outline-text-3" id="text-org9d0b1dd">
 <p>
 Functions defined with the <code>inline</code> keyword are called <code>inline functions</code>, meaning that they will not violate the <code>ODR</code>. This means we can define <code>inline functions</code> in <code>header files</code>. <code>inline functions</code> are not directly related with the <code>inline expansion</code>. <code>inline expansion</code> is an old and effective optimization method often used by compilers. In a nutshell, this means that instead of calling a function, the compiler embeds the code for that function directly into the source code, depending on the different parameters. The main purpose of defining an <code>inline function</code> using the <code>inline</code> keyword is not to allow the compiler to do <code>inline expansion</code> but to avoid violating <code>ODR</code>. Unless a special compiler flag is used, it is up to the compiler to decide whether to do <code>inline expansion</code> or not.
 </p>
@@ -2490,9 +2493,9 @@ When an <code>inline function</code> in a <code>header file</code> is included f
 </div>
 </div>
 </div>
-<div id="outline-container-org0619693" class="outline-3">
-<h3 id="org0619693">Inline variables</h3>
-<div class="outline-text-3" id="text-org0619693">
+<div id="outline-container-org6145530" class="outline-3">
+<h3 id="org6145530">Inline variables</h3>
+<div class="outline-text-3" id="text-org6145530">
 <p>
 Variables defined with the <code>inline</code> keyword are called <code>inline variables</code>, meaning that they will not violate the <code>ODR</code> similar to <code>inline functions</code>. <code>Inline variables</code> were added in C++17. When an <code>inline variable</code> in a <code>header file</code> is included from multiple source files, this is not against the <code>ODR</code> and there will be only one definition from the compiler perspective even it is included in multiple source files.
 </p>
@@ -2505,13 +2508,13 @@ Variables defined with the <code>inline</code> keyword are called <code>inline v
 </div>
 </div>
 </div>
-<div id="outline-container-org07d97bd" class="outline-3">
-<h3 id="org07d97bd">constexpr</h3>
-<div class="outline-text-3" id="text-org07d97bd">
+<div id="outline-container-orge2c61d9" class="outline-3">
+<h3 id="orge2c61d9">constexpr</h3>
+<div class="outline-text-3" id="text-orge2c61d9">
 </div>
-<div id="outline-container-org4b1a624" class="outline-4">
-<h4 id="org4b1a624">constexpr variables</h4>
-<div class="outline-text-4" id="text-org4b1a624">
+<div id="outline-container-orgbdf09b9" class="outline-4">
+<h4 id="orgbdf09b9">constexpr variables</h4>
+<div class="outline-text-4" id="text-orgbdf09b9">
 <p>
 In C++, variables defined with the <code>const</code> keyword can be initialized with const and non-const expressions:
 </p>
@@ -2559,9 +2562,9 @@ x = <span style="color: #00bcff;">5</span>; <span style="color: #989898; font-st
 </div>
 </div>
 </div>
-<div id="outline-container-orgc65fa25" class="outline-4">
-<h4 id="orgc65fa25">constexpr functions</h4>
-<div class="outline-text-4" id="text-orgc65fa25">
+<div id="outline-container-org9409d89" class="outline-4">
+<h4 id="org9409d89">constexpr functions</h4>
+<div class="outline-text-4" id="text-org9409d89">
 <p>
 <code>constexpr</code> functions are functions whose return value is obtained at compile time when certain conditions are met. If <code>constexpr</code> functions are called with non-const arguments, the return value will be calculated at runtime like normal functions.
 </p>
@@ -2620,16 +2623,16 @@ Some restrictions when defining <code>constexpr</code> functions:
 </div>
 </div>
 </div>
-<div id="outline-container-orgb33b6a4" class="outline-3">
-<h3 id="orgb33b6a4">Classes</h3>
-<div class="outline-text-3" id="text-orgb33b6a4">
+<div id="outline-container-org187eaae" class="outline-3">
+<h3 id="org187eaae">Classes</h3>
+<div class="outline-text-3" id="text-org187eaae">
 <p>
 The use of classes in C++ is not limited to object-oriented programming. Classes are the main tools for data abstraction also beyond object-oriented programming.
 </p>
 </div>
-<div id="outline-container-org54d7690" class="outline-4">
-<h4 id="org54d7690">Class definition</h4>
-<div class="outline-text-4" id="text-org54d7690">
+<div id="outline-container-org33c995c" class="outline-4">
+<h4 id="org33c995c">Class definition</h4>
+<div class="outline-text-4" id="text-org33c995c">
 <p>
 Classes are <code>user-defined types</code> that can have <code>data members</code>, <code>member functions</code> and <code>type member / member type / nested type</code>. They are defined/declared with the keywords <code>class</code> and <code>struct</code> (note that unlike C, <code>struct</code> is also a class).
 A class definition gives the compiler all the information about that class. It is also possible to declare a class without defining it. In this case, the compiler cannot get all the information about the class from the class declaration. All it knows is that the class is declared and that it must get all the necessary information about this class from the definition which can be in another source file. 
@@ -2721,9 +2724,9 @@ If a class will be used also in other source files, the definition can be placed
 </div>
 </div>
 </div>
-<div id="outline-container-org2386cd0" class="outline-4">
-<h4 id="org2386cd0">Access control</h4>
-<div class="outline-text-4" id="text-org2386cd0">
+<div id="outline-container-org7ad33c8" class="outline-4">
+<h4 id="org7ad33c8">Access control</h4>
+<div class="outline-text-4" id="text-org7ad33c8">
 <p>
 Normally, when an identifier is used, the compiler performs a name lookup to find out what object that name represents, but in C++ (also in other languages which supports OOP style programming) there is one more step after the name lookup. The compiler must check that the code trying to access an identifier has permission to access that identifier. This is called <code>access control</code>.
 </p>
@@ -2817,9 +2820,9 @@ Same <code>access specifier</code> can be used multiple times:
 </div>
 </div>
 </div>
-<div id="outline-container-orgffc4531" class="outline-4">
-<h4 id="orgffc4531">Non-static data members</h4>
-<div class="outline-text-4" id="text-orgffc4531">
+<div id="outline-container-org49d5bb6" class="outline-4">
+<h4 id="org49d5bb6">Non-static data members</h4>
+<div class="outline-text-4" id="text-org49d5bb6">
 <p>
 <code>non-static data members</code> are variables that are actually held within the object of a class, that is, they are variables of the object that is created of that class. 
 </p>
@@ -2848,9 +2851,9 @@ When <code>non-static data members</code> are added to an object, the object's s
 </div>
 </div>
 </div>
-<div id="outline-container-org95b4f86" class="outline-4">
-<h4 id="org95b4f86">Non-static member functions</h4>
-<div class="outline-text-4" id="text-org95b4f86">
+<div id="outline-container-org2711976" class="outline-4">
+<h4 id="org2711976">Non-static member functions</h4>
+<div class="outline-text-4" id="text-org2711976">
 <p>
 <code>non-static member functions</code> are no different from normal functions at the assembly level, they are just an abstraction that exists at the language layer. <code>non-static member functions</code> are functions defined in the <code>class definition</code>. They have an implicit <code>this</code> pointer that refers to the object on which they are called. <code>this</code> pointer allows them to access the object's <code>non-static data members</code> and other <code>non-static member functions</code>.
 </p>
@@ -3022,9 +3025,9 @@ The <code>non-static data members</code> accessed in <code>non-static member fun
 </div>
 </div>
 </div>
-<div id="outline-container-org344524b" class="outline-4">
-<h4 id="org344524b">Class scope</h4>
-<div class="outline-text-4" id="text-org344524b">
+<div id="outline-container-org26b760c" class="outline-4">
+<h4 id="org26b760c">Class scope</h4>
+<div class="outline-text-4" id="text-org26b760c">
 <p>
 <code>class members</code> declared in the <code>class definition</code> are included in the <code>class scope</code>.
 In which cases is a identifier searched within a <code>class definition</code>?
@@ -3134,9 +3137,9 @@ All of the <code>access specifiers</code> are in the same <code>class scope</cod
 </div>
 </div>
 </div>
-<div id="outline-container-org3b0d748" class="outline-4">
-<h4 id="org3b0d748">this keyword</h4>
-<div class="outline-text-4" id="text-org3b0d748">
+<div id="outline-container-orgc1d00d5" class="outline-4">
+<h4 id="orgc1d00d5">this keyword</h4>
+<div class="outline-text-4" id="text-orgc1d00d5">
 <p>
 <code>this</code> is a keyword that can only be used in <code>non-static member functions</code> of a class. <code>this</code> represents a pointer and often called <code>this pointer</code>. <code>this pointer</code> holds the address of the object on which the function is called.
 </p>
@@ -3289,9 +3292,9 @@ It is not possible to return the caller object or the address of the caller obje
 </div>
 </div>
 </div>
-<div id="outline-container-org6a8f3e9" class="outline-4">
-<h4 id="org6a8f3e9">Const member functions</h4>
-<div class="outline-text-4" id="text-org6a8f3e9">
+<div id="outline-container-org690ef14" class="outline-4">
+<h4 id="org690ef14">Const member functions</h4>
+<div class="outline-text-4" id="text-org690ef14">
 <p>
 <code>this pointer</code> is a hidden parameter that all <code>non-static member functions</code> have, so we cannot tell whether a function is a mutator or an accessor function. To avoid this confusion, if a function is not a mutator, we can define/declare it as <code>const</code> to indicate this. When a <code>non-static member function</code> is defined as <code>const</code>, the hidden <code>this pointer</code> becomes <code>const</code>. The <code>const member functions</code> basically tell us that they will not change the value/state of the object.
 </p>
@@ -3460,9 +3463,9 @@ To define <code>const member functions</code>, the <code>const</code> keyword mu
 </div>
 </div>
 </div>
-<div id="outline-container-org78e7a8c" class="outline-4">
-<h4 id="org78e7a8c">mutable keyword</h4>
-<div class="outline-text-4" id="text-org78e7a8c">
+<div id="outline-container-org23fc0bd" class="outline-4">
+<h4 id="org23fc0bd">mutable keyword</h4>
+<div class="outline-text-4" id="text-org23fc0bd">
 <p>
 Normally, the <code>const member functions</code> and <code>const objects</code> of the class cannot change the value of the object's <code>non-static data members</code>, but the <code>non-static data members</code> declared with the <code>mutable</code> keyword can be changed by the <code>const member functions</code>.
 </p>
@@ -3521,9 +3524,9 @@ Assume there is a <code>Date</code> class with some <code>non-static data member
 </div>
 </div>
 </div>
-<div id="outline-container-org081805c" class="outline-4">
-<h4 id="org081805c">Constructor and destructor of classes</h4>
-<div class="outline-text-4" id="text-org081805c">
+<div id="outline-container-orgb97be80" class="outline-4">
+<h4 id="orgb97be80">Constructor and destructor of classes</h4>
+<div class="outline-text-4" id="text-orgb97be80">
 <p>
 The <code>constructor</code> and <code>destructor</code> are in the category of <code>non-static member functions</code>. The instantiation of a class object is performed by the <code>constructor</code> of the class, while the end of life of the object is performed by the <code>destructor</code> of the class.
 </p>
@@ -3533,8 +3536,8 @@ There is a special type of <code>constructor</code> called <code>default constru
 </p>
 </div>
 <ul class="org-ul">
-<li><a id="orgc9cb16d"></a>Constructor<br />
-<div class="outline-text-5" id="text-orgc9cb16d">
+<li><a id="orgdfc0116"></a>Constructor<br />
+<div class="outline-text-5" id="text-orgdfc0116">
 <p>
 If any class object, regardless of its type, is alive, it was brought to life by a <code>constructor</code>. There is no exception to this rule in C++. Every object is instantiated by a call to a <code>constructor</code> function. After the <code>constructor</code> is called, the class object becomes available, which means that the memory space allocated for that class object is no longer a pile of garbage, but is now filled with values that can be used by the class. This typically means initializing the <code>non-static data members</code> of the class.
 </p>
@@ -3675,8 +3678,8 @@ Definition and declaration of a <code>constructor</code> can also be separate:
 </div>
 </div>
 </li>
-<li><a id="org9e0bd6f"></a>Destructor<br />
-<div class="outline-text-5" id="text-org9e0bd6f">
+<li><a id="orgbfd8b4a"></a>Destructor<br />
+<div class="outline-text-5" id="text-orgbfd8b4a">
 <p>
 Every class object that is instantiated has a lifespan/lifetime, and its lifetime will end at some point in the program's runtime. End-of-life class objects are deleted with a call to a <code>destructor</code> function. There is also no exception to this rule in C++. After the call to the <code>destructor</code>, the object's life is completely over and all memory allocated for the object is freed.
 </p>
@@ -3823,8 +3826,8 @@ Definition and declaration of a <code>destructor</code> can also be separate:
 </div>
 </div>
 </li>
-<li><a id="org1606bcf"></a>When are the constructor and the destructor called?<br />
-<div class="outline-text-5" id="text-org1606bcf">
+<li><a id="org325cfae"></a>When are the constructor and the destructor called?<br />
+<div class="outline-text-5" id="text-org325cfae">
 <p>
 For a <code>global class object</code>:
 </p>
@@ -4282,8 +4285,8 @@ For arrays of <code>class objects</code>, the <code>constructor</code> and <code
 </div>
 </div>
 </li>
-<li><a id="orge52a314"></a>When the default constructor is called?<br />
-<div class="outline-text-5" id="text-orge52a314">
+<li><a id="orgb7be6e1"></a>When the default constructor is called?<br />
+<div class="outline-text-5" id="text-orgb7be6e1">
 <p>
 Normally, <code>default initialized</code> objects are created with <code>garbage value</code>, but <code>default initialized</code> class objects are created with a call to the <code>default constructor</code>. The <code>non-static data members</code> of the class can still have garbage value if they are not initialized in the <code>default constructor</code>:
 </p>
@@ -4388,8 +4391,8 @@ It is also important to understand that classes do not have to have a <code>defa
 </p>
 </div>
 </li>
-<li><a id="orgfd73a6f"></a>How non-default constructors can be called?<br />
-<div class="outline-text-5" id="text-orgfd73a6f">
+<li><a id="org04b3a05"></a>How non-default constructors can be called?<br />
+<div class="outline-text-5" id="text-org04b3a05">
 <p>
 A <code>non-default constructor</code> is any <code>constructor</code> that requires one or more arguments to be passed when an object is created. These <code>constructors</code> differ from the <code>default constructor</code>, which either takes no arguments or has all default values for its parameters. <code>non-default constructors</code> are explicitly defined by the programmer and are used to initialize objects with specific values.
 </p>
@@ -4427,8 +4430,8 @@ A <code>non-default constructor</code> is any <code>constructor</code> that requ
 </div>
 </div>
 </li>
-<li><a id="org4b6826c"></a>Constructor initializer list<br />
-<div class="outline-text-5" id="text-org4b6826c">
+<li><a id="org8dc822d"></a>Constructor initializer list<br />
+<div class="outline-text-5" id="text-org8dc822d">
 <p>
 The <code>constructor</code> initializes the <code>non-static data members</code> of the class object it creates. The syntax used by <code>constructors</code> to initialize <code>non-static data members</code> is called the <code>constructor initializer list</code>.
 </p>
@@ -4565,9 +4568,9 @@ The <code>constructor initializer list</code> can also be used with <code>non-de
 </li>
 </ul>
 </div>
-<div id="outline-container-org6bbe240" class="outline-4">
-<h4 id="org6bbe240">Special member functions</h4>
-<div class="outline-text-4" id="text-org6bbe240">
+<div id="outline-container-org828ad8c" class="outline-4">
+<h4 id="org828ad8c">Special member functions</h4>
+<div class="outline-text-4" id="text-org828ad8c">
 <p>
 <code>special member functions</code> are <code>member functions</code> related to a very important group of functions of a class. There are 6 different <code>special member functions</code>.
 </p>
@@ -4669,8 +4672,8 @@ Cases that can cause a syntax error when the compiler tries to <code>default</co
 </ul>
 </div>
 <ul class="org-ul">
-<li><a id="org7fd9cae"></a>Default constructor<br />
-<div class="outline-text-5" id="text-org7fd9cae">
+<li><a id="orgd46a3ff"></a>Default constructor<br />
+<div class="outline-text-5" id="text-orgd46a3ff">
 <p>
 For a <code>constructor</code> to be the <code>default constructor</code>, it must either take no parameters or all its parameters must take default arguments. In other words, a <code>constructor</code> is the <code>default constructor</code> if it can be called without passing any arguments. The <code>default constructor</code> is one of the <code>special member functions</code>.
 </p>
@@ -4820,8 +4823,8 @@ The <code>default constructor</code> will be <code>deleted</code> because the <c
 </div>
 </div>
 </li>
-<li><a id="org42fee6a"></a>Copy constructor<br />
-<div class="outline-text-5" id="text-org42fee6a">
+<li><a id="orgf69ea5a"></a>Copy constructor<br />
+<div class="outline-text-5" id="text-orgf69ea5a">
 <p>
 The <code>copy constructor</code> is called when a <code>class object</code> instantiated by taking its value from another <code>class object</code> of the same type. The <code>copy constructor</code> has the same name as the class and takes a <code>const L-value reference</code> parameter of that class type.
 </p>
@@ -5099,8 +5102,8 @@ If pointer or reference <code>non-static data members</code> are stored inside o
 </div>
 </div>
 </li>
-<li><a id="org8adc8f8"></a>Copy assignment operator/function<br />
-<div class="outline-text-5" id="text-org8adc8f8">
+<li><a id="orgd86ef88"></a>Copy assignment operator/function<br />
+<div class="outline-text-5" id="text-orgd86ef88">
 <p>
 The <code>copy assignment operator</code> is called when a <code>class object</code> is assigned to another <code>L-value class object</code> of the same type. There is no instantiation when the <code>copy assignment operator</code> is called, because to assign one <code>class object</code> to another <code>class object</code>, both <code>class objects</code> must already be instantiated. The <code>copy assignment operator</code> takes a <code>const L-value reference</code> parameter of that class type and <code>returns</code> <code>L-value reference</code> of the same class type.
 </p>
@@ -5262,8 +5265,8 @@ Similar to the <code>copy constructor</code>, there are some cases where the <co
 </div>
 </div>
 </li>
-<li><a id="orgf583021"></a>Move constructor<br />
-<div class="outline-text-5" id="text-orgf583021">
+<li><a id="org55ca5c4"></a>Move constructor<br />
+<div class="outline-text-5" id="text-org55ca5c4">
 <p>
 The <code>move constructor</code> is called when a <code>class object</code> instantiated by transfering/stealing its value from another <code>class object</code> of the same type. The <code>move constructor</code> has the same name as the class and takes a <code>R-value reference</code> parameter of that class type. Unlike the <code>copy constructor</code>, the <code>move constructor</code> does not copy values but moves/transfers/steals them.
 </p>
@@ -5376,8 +5379,8 @@ The compiler will generate code for a <code>move constructor</code> that initial
 </div>
 </div>
 </li>
-<li><a id="org487273b"></a>Move assignment operator/function<br />
-<div class="outline-text-5" id="text-org487273b">
+<li><a id="orgfd10339"></a>Move assignment operator/function<br />
+<div class="outline-text-5" id="text-orgfd10339">
 <p>
 The <code>move assignment operator</code> is called when a <code>class object</code> is assigned to another <code>R-value class object</code> of the same type. There is no instantiation when the <code>move assignment operator</code> is called, because to assign one <code>class object</code> to another <code>class object</code>, both <code>class objects</code> must already be instantiated. The <code>move assignment operator</code> takes a <code>R-value reference</code> parameter of that class type and <code>returns</code> <code>L-value reference</code> of the same class type.
 </p>
@@ -5495,13 +5498,319 @@ function of a class.
 </div>
 </div>
 </li>
+<li><a id="org7feee11"></a>When special member functions are defaulted, deleted or not declared by the compiler?<br />
+<div class="outline-text-5" id="text-org7feee11">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+</colgroup>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">User declared / Implicitly declared by the compiler</th>
+<th scope="col" class="org-left">Default constructor</th>
+<th scope="col" class="org-left">Destructor</th>
+<th scope="col" class="org-left">Copy constructor</th>
+<th scope="col" class="org-left">Copy assignment</th>
+<th scope="col" class="org-left">Move constructor</th>
+<th scope="col" class="org-left">Move assignment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Nothing</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">defaulted</td>
+</tr>
+
+<tr>
+<td class="org-left">Any constructor</td>
+<td class="org-left">not declared</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">defaulted</td>
+</tr>
+
+<tr>
+<td class="org-left">Default constructor</td>
+<td class="org-left">user declared</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">defaulted</td>
+</tr>
+
+<tr>
+<td class="org-left">Destructor</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">user declared</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">not declared</td>
+<td class="org-left">not declared</td>
+</tr>
+
+<tr>
+<td class="org-left">Copy constructor</td>
+<td class="org-left">not declared</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">user declared</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">not declared</td>
+<td class="org-left">not declared</td>
+</tr>
+
+<tr>
+<td class="org-left">Copy assignment</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">user declared</td>
+<td class="org-left">not declared</td>
+<td class="org-left">not declared</td>
+</tr>
+
+<tr>
+<td class="org-left">Move constructor</td>
+<td class="org-left">not declared</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">deleted</td>
+<td class="org-left">deleted</td>
+<td class="org-left">user declared</td>
+<td class="org-left">not declared</td>
+</tr>
+
+<tr>
+<td class="org-left">Move assignment</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">defaulted</td>
+<td class="org-left">deleted</td>
+<td class="org-left">deleted</td>
+<td class="org-left">not declared</td>
+<td class="org-left">user declared</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+In summary:
+</p>
+<ul class="org-ul">
+<li>If <code>destructor</code> is not <code>user declared</code>, it is always <code>defaulted</code>.</li>
+<li>If any <code>constructor</code> (non-special or special) is <code>user declared</code>, <code>default constructor</code> is <code>not declared</code> and otherwise it is <code>defaulted</code>.</li>
+<li>If one of <code>destructor</code>, <code>copy constructor</code> or <code>copy assignment operator</code> is <code>user declared</code>, <code>move members</code> are <code>not declared</code>.</li>
+<li>If one of <code>move constructor</code> or <code>move assignment operator</code> is <code>user declared</code>, <code>copy members</code> are <code>deleted</code>, and other <code>move member</code> is <code>not declared</code>.</li>
+</ul>
+
+<p>
+When nothing is <code>user declared</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">C1</span>
+<span style="color: #ffffff;">{</span>
+<span style="color: #b6a0ff;">public</span>:
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">C1() = default;</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">~C1() = default;</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">C1(const C1&amp;) = default;</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">C1&amp; operator=(const C1&amp;) = default;</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">C1(C1&amp;&amp;) = default;</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">C1&amp; operator=(C1&amp;&amp;) = default;</span>
+<span style="color: #ffffff;">}</span>;
+</pre>
+</div>
+
+<p>
+When the <code>default constructor</code> is <code>user declared</code>: 
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">C1</span>
+<span style="color: #ffffff;">{</span>
+<span style="color: #b6a0ff;">public</span>:
+    <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #ffffff;">)</span> = <span style="color: #b6a0ff;">default</span>;
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">~C1() = default;</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">C1(const C1&amp;) = default;</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">C1&amp; operator=(const C1&amp;) = default;</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">C1(C1&amp;&amp;) = default;</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">C1&amp; operator=(C1&amp;&amp;) = default;</span>
+<span style="color: #ffffff;">}</span>;
+</pre>
+</div>
+
+<p>
+When the <code>destructor</code> is <code>user declared</code>: 
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">C1</span>
+<span style="color: #ffffff;">{</span>
+<span style="color: #b6a0ff;">public</span>:
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">C1() = default;</span>
+    ~<span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #ffffff;">)</span> = <span style="color: #b6a0ff;">default</span>;
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">C1(const C1&amp;) = default;</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">C1&amp; operator=(const C1&amp;) = default;</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">Move constructor is not declared.</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">Move assignment operator is not declared.</span>
+<span style="color: #ffffff;">}</span>;
+</pre>
+</div>
+
+<p>
+When the <code>copy constructor</code> is <code>user declared</code>: 
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">C1</span>
+<span style="color: #ffffff;">{</span>
+<span style="color: #b6a0ff;">public</span>:
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">Default constructor is not declared.</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">~C1() = default;</span>
+    <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #b6a0ff;">const</span> <span style="color: #6ae4b9;">C1</span>&amp;<span style="color: #ffffff;">)</span> = <span style="color: #b6a0ff;">default</span>;
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">C1&amp; operator=(const C1&amp;) = default;</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">Move constructor is not declared.</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">Move assignment operator is not declared.</span>
+<span style="color: #ffffff;">}</span>;
+</pre>
+</div>
+
+<p>
+When the <code>copy assignment operator</code> is <code>user declared</code>: 
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">C1</span>
+<span style="color: #ffffff;">{</span>
+<span style="color: #b6a0ff;">public</span>:
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">C1() = default;</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">~C1() = default;</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">C1(const C1&amp;) = default;</span>
+    <span style="color: #6ae4b9;">C1</span>&amp; <span style="color: #b6a0ff;">operator</span><span style="color: #feacd0;">=</span><span style="color: #ffffff;">(</span><span style="color: #b6a0ff;">const</span> <span style="color: #6ae4b9;">C1</span>&amp;<span style="color: #ffffff;">)</span> = <span style="color: #b6a0ff;">default</span>;
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">Move constructor is not declared.</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">Move assignment operator is not declared.</span>
+<span style="color: #ffffff;">}</span>;
+</pre>
+</div>
+
+<p>
+When the <code>move constructor</code> is <code>user declared</code>: 
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">C1</span>
+<span style="color: #ffffff;">{</span>
+<span style="color: #b6a0ff;">public</span>:
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">Default constructor is not declared.</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">~C1() = default;</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">C1(const C1&amp;) = delete;</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">C1&amp; operator=(const C1&amp;) = delete;</span>
+    <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #6ae4b9;">C1</span>&amp;&amp;<span style="color: #ffffff;">)</span> = <span style="color: #b6a0ff;">default</span>;
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">Move assignment operator is not declared.</span>
+<span style="color: #ffffff;">}</span>;
+</pre>
+</div>
+
+<p>
+When the <code>move assignment operator</code> is <code>user declared</code>: 
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">C1</span>
+<span style="color: #ffffff;">{</span>
+<span style="color: #b6a0ff;">public</span>:
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">C1() = default;</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">~C1() = default;</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">C1(const C1&amp;) = delete;</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">C1&amp; operator=(const C1&amp;) = delete;</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">Move constructor is not declared.</span>
+    <span style="color: #6ae4b9;">C1</span>&amp; <span style="color: #b6a0ff;">operator</span><span style="color: #feacd0;">=</span><span style="color: #ffffff;">(</span><span style="color: #6ae4b9;">C1</span>&amp;&amp;<span style="color: #ffffff;">)</span> = <span style="color: #b6a0ff;">default</span>;
+<span style="color: #ffffff;">}</span>;
+</pre>
+</div>
+
+<p>
+It is possible to define a <code>class</code> which cannot be copied or moved:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">C1</span>
+<span style="color: #ffffff;">{</span>
+<span style="color: #b6a0ff;">public</span>:
+    <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #ffffff;">)</span>;
+    <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #6ae4b9;">int</span><span style="color: #ffffff;">)</span>;
+    <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #b6a0ff;">const</span> <span style="color: #6ae4b9;">C1</span>&amp;<span style="color: #ffffff;">)</span> = <span style="color: #b6a0ff;">delete</span>;
+    <span style="color: #6ae4b9;">C1</span>&amp; <span style="color: #b6a0ff;">operator</span><span style="color: #feacd0;">=</span><span style="color: #ffffff;">(</span><span style="color: #b6a0ff;">const</span> <span style="color: #6ae4b9;">C1</span>&amp;<span style="color: #ffffff;">)</span> = <span style="color: #b6a0ff;">delete</span>;
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">Move constructor and move assignment operator is not declared because copy members are user declared.</span>
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">~C1() = default;</span>
+
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">This class cannot be copied or moved. Copy members are deleted by user and move members are not declared.</span>
+<span style="color: #ffffff;">}</span>;
+
+<span style="color: #6ae4b9;">int</span> <span style="color: #feacd0;">main</span><span style="color: #ffffff;">(</span><span style="color: #ffffff;">)</span>
+<span style="color: #ffffff;">{</span>
+    <span style="color: #6ae4b9;">C1</span> <span style="color: #ffffff;">c1a</span>;
+    <span style="color: #6ae4b9;">C1</span> <span style="color: #ffffff;">c1b</span> = c1a; <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">This is a syntax error. A deleted function(the copy constructor) cannot be referenced.</span>
+
+    <span style="color: #b6a0ff;">return</span> <span style="color: #00bcff;">0</span>;
+<span style="color: #ffffff;">}</span>
+</pre>
+</div>
+
+<p>
+It is also possible to define a <code>class</code> which cannot be copied but can be moved:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">C1</span>
+<span style="color: #ffffff;">{</span>
+<span style="color: #b6a0ff;">public</span>:
+    <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #ffffff;">)</span>;
+    <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #6ae4b9;">int</span><span style="color: #ffffff;">)</span>;
+    <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #b6a0ff;">const</span> <span style="color: #6ae4b9;">C1</span>&amp;<span style="color: #ffffff;">)</span> = <span style="color: #b6a0ff;">delete</span>;
+    <span style="color: #6ae4b9;">C1</span>&amp; <span style="color: #b6a0ff;">operator</span><span style="color: #feacd0;">=</span><span style="color: #ffffff;">(</span><span style="color: #b6a0ff;">const</span> <span style="color: #6ae4b9;">C1</span>&amp;<span style="color: #ffffff;">)</span> = <span style="color: #b6a0ff;">delete</span>;
+    <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #6ae4b9;">C1</span>&amp;&amp;<span style="color: #ffffff;">)</span>;
+    <span style="color: #6ae4b9;">C1</span>&amp; <span style="color: #b6a0ff;">operator</span><span style="color: #feacd0;">=</span><span style="color: #ffffff;">(</span><span style="color: #6ae4b9;">C1</span>&amp;&amp;<span style="color: #ffffff;">)</span>;
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">~C1() = default;</span>
+
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">This class cannot be copied but can be moved.</span>
+<span style="color: #ffffff;">}</span>;
+
+<span style="color: #6ae4b9;">int</span> <span style="color: #feacd0;">main</span><span style="color: #ffffff;">(</span><span style="color: #ffffff;">)</span>
+<span style="color: #ffffff;">{</span>
+    <span style="color: #6ae4b9;">C1</span> <span style="color: #ffffff;">c1a</span>;
+    <span style="color: #6ae4b9;">C1</span> <span style="color: #ffffff;">c1b</span> = c1a; <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">This is a syntax error. A deleted function(the copy constructor) cannot be referenced.</span>
+    <span style="color: #6ae4b9;">C1</span> <span style="color: #ffffff;">c1c</span> = <span style="color: #00bcff;">std</span>::<span style="color: #feacd0;">move</span><span style="color: #ffffff;">(</span>c1a<span style="color: #ffffff;">)</span>; <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">This is valid. The object can be moved.</span>
+
+    <span style="color: #b6a0ff;">return</span> <span style="color: #00bcff;">0</span>;
+<span style="color: #ffffff;">}</span>
+</pre>
+</div>
+</div>
+</li>
 </ul>
 </div>
-<div id="outline-container-org7002141" class="outline-4">
-<h4 id="org7002141">Move Semantics</h4>
-<div class="outline-text-4" id="text-org7002141">
+<div id="outline-container-org0550cc6" class="outline-4">
+<h4 id="org0550cc6">Move Semantics</h4>
+<div class="outline-text-4" id="text-org0550cc6">
 <p>
 <code>move semantics</code> allows efficient transfer of resources (memory, file handles etc.) from one object to another. It is particularly useful when dealing with expensive-to-copy objects, such as containers or objects that manage dynamic resources. <code>R-value references</code> enable <code>move semantics</code> by binding to <code>temporary objects</code> (<code>R-value expressions</code>) that are about to go out of scope. <code>move constructor</code> and <code>move assignment operator</code> are used for transfering ownership of resources from one object to another.
+</p>
+
+<p>
+Resource to check: <a href="https://accu.org/conf-docs/PDFs_2014/Howard_Hinnant_Accu_2014.pdf">Everything You Ever Wanted To Know About Move Semantics</a>
 </p>
 
 <div class="org-src-container">
@@ -5615,6 +5924,7 @@ It is not possible to transfer/steal resources of a <code>const class object</co
         <span style="color: #00bcff;">std</span>::cout &lt;&lt; <span style="color: #79a8ff;">"Move constructor\n"</span>;
     <span style="color: #ffffff;">}</span>
 <span style="color: #ffffff;">}</span>;
+
 <span style="color: #6ae4b9;">int</span> <span style="color: #feacd0;">main</span><span style="color: #ffffff;">(</span><span style="color: #ffffff;">)</span>
 <span style="color: #ffffff;">{</span>
     <span style="color: #b6a0ff;">const</span> <span style="color: #6ae4b9;">C1</span> <span style="color: #ffffff;">x</span>;
@@ -5663,9 +5973,9 @@ It is more about the <code>function overload resolution</code> rules rather than
 </div>
 </div>
 </div>
-<div id="outline-container-org8e213f2" class="outline-4">
-<h4 id="org8e213f2">Default member initializer / In-class initializer</h4>
-<div class="outline-text-4" id="text-org8e213f2">
+<div id="outline-container-org088036d" class="outline-4">
+<h4 id="org088036d">Default member initializer / In-class initializer</h4>
+<div class="outline-text-4" id="text-org088036d">
 <p>
 <code>default member initializer</code> is a way to declare how <code>default initialization</code> should be done for <code>data members</code> of classes.
 </p>
@@ -5717,9 +6027,81 @@ If a <code>data member</code> is initialized explicitly <code>default member ini
 <span style="color: #ffffff;">}</span>;
 </pre>
 </div>
+</div>
+</div>
+<div id="outline-container-orgc5b9611" class="outline-4">
+<h4 id="orgc5b9611">Delegating Constructor</h4>
+<div class="outline-text-4" id="text-orgc5b9611">
+<p>
+Classes can have multiple <code>constructors</code> with a common code. In such cases, a <code>delegated constructor</code> can be used to gather the common code into a single <code>constructor</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C++"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">C1</span>
+<span style="color: #ffffff;">{</span>
+<span style="color: #b6a0ff;">public</span>:
+    <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #6ae4b9;">int</span> <span style="color: #ffffff;">x</span><span style="color: #ffffff;">)</span> : <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span>x, <span style="color: #00bcff;">0</span>, <span style="color: #00bcff;">0</span><span style="color: #ffffff;">)</span> <span style="color: #ffffff;">{}</span>
+    <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #b6a0ff;">const</span> <span style="color: #6ae4b9;">char</span>* <span style="color: #ffffff;">p</span><span style="color: #ffffff;">)</span> : <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #00bcff;">std</span>::<span style="color: #feacd0;">atoi</span><span style="color: #ffffff;">(</span>p<span style="color: #ffffff;">)</span>, <span style="color: #00bcff;">0</span>, <span style="color: #00bcff;">0</span><span style="color: #ffffff;">)</span> <span style="color: #ffffff;">{}</span>
+
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">This is delegating constructor. This constructor will get called when other 2 constructor is called. It can also be called directly.</span>
+    <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #6ae4b9;">int</span>, <span style="color: #6ae4b9;">int</span>, <span style="color: #6ae4b9;">int</span><span style="color: #ffffff;">)</span>
+    <span style="color: #ffffff;">{</span>
+
+    <span style="color: #ffffff;">}</span>
+<span style="color: #ffffff;">}</span>;
+</pre>
+</div>
 
 <p>
-cpp13 - 00:40:00
+If a <code>delegating constructor</code> is used for a <code>constructor</code>, the <code>non-static data members</code> cannot be initialized using <code>constructor initializer list</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">C1</span>
+<span style="color: #ffffff;">{</span>
+<span style="color: #b6a0ff;">public</span>:
+    <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #6ae4b9;">int</span> <span style="color: #ffffff;">x</span><span style="color: #ffffff;">)</span> : <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span>x, <span style="color: #00bcff;">0</span>, <span style="color: #00bcff;">0</span><span style="color: #ffffff;">)</span>, mx<span style="color: #ffffff;">{</span> <span style="color: #00bcff;">10</span> <span style="color: #ffffff;">}</span> <span style="color: #ffffff;">{}</span> <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">This is syntax error. If delegating constructor is called, constructor initializer list cannot be used for initializing non-static data members.</span>
+    <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #b6a0ff;">const</span> <span style="color: #6ae4b9;">char</span>* <span style="color: #ffffff;">p</span><span style="color: #ffffff;">)</span> : <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #00bcff;">std</span>::<span style="color: #feacd0;">atoi</span><span style="color: #ffffff;">(</span>p<span style="color: #ffffff;">)</span>, <span style="color: #00bcff;">0</span>, <span style="color: #00bcff;">0</span><span style="color: #ffffff;">)</span> <span style="color: #ffffff;">{}</span>
+
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">This is delegating constructor. This constructor will get called when other 2 constructors are called. It can also be called directly.</span>
+    <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #6ae4b9;">int</span>, <span style="color: #6ae4b9;">int</span>, <span style="color: #6ae4b9;">int</span><span style="color: #ffffff;">)</span>
+    <span style="color: #ffffff;">{</span>
+
+    <span style="color: #ffffff;">}</span>
+
+<span style="color: #b6a0ff;">private</span>:
+    <span style="color: #6ae4b9;">int</span> <span style="color: #ffffff;">mx</span>;
+<span style="color: #ffffff;">}</span>;
+</pre>
+</div>
+
+<p>
+There can also be multiple <code>delegating constructors</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">C1</span>
+<span style="color: #ffffff;">{</span>
+<span style="color: #b6a0ff;">public</span>:
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">This constructor calls a delagating constructor.</span>
+    <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #6ae4b9;">int</span> <span style="color: #ffffff;">x</span><span style="color: #ffffff;">)</span> : <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span>x, <span style="color: #00bcff;">0</span><span style="color: #ffffff;">)</span> <span style="color: #ffffff;">{}</span>
+
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">This constructor is a delagating constructor and also calls the other delagating constructor.</span>
+    <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #6ae4b9;">int</span> <span style="color: #ffffff;">x</span>, <span style="color: #6ae4b9;">int</span> <span style="color: #ffffff;">y</span><span style="color: #ffffff;">)</span> : <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span>x, y, <span style="color: #00bcff;">0</span><span style="color: #ffffff;">)</span> <span style="color: #ffffff;">{}</span>
+
+    <span style="color: #989898; font-style: italic;">// </span><span style="color: #989898; font-style: italic;">This is also a delegating constructor.</span>
+    <span style="color: #feacd0;">C1</span><span style="color: #ffffff;">(</span><span style="color: #6ae4b9;">int</span> <span style="color: #ffffff;">x</span>, <span style="color: #6ae4b9;">int</span> <span style="color: #ffffff;">y</span>, <span style="color: #6ae4b9;">int</span> <span style="color: #ffffff;">z</span><span style="color: #ffffff;">)</span>
+    <span style="color: #ffffff;">{</span>
+
+    <span style="color: #ffffff;">}</span>
+<span style="color: #ffffff;">}</span>;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbac3a9b" class="outline-4">
+<h4 id="orgbac3a9b">Temporary Objects</h4>
+<div class="outline-text-4" id="text-orgbac3a9b">
+<p>
+cpp013 - 01:37:00
 </p>
 </div>
 </div>
@@ -5727,7 +6109,7 @@ cpp13 - 00:40:00
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Created: 2024-11-25 Mon 17:33</p>
+<p class="date">Created: 2024-11-26 Tue 21:17</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

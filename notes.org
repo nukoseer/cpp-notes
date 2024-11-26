@@ -1,6 +1,7 @@
 #+TITLE: C++ Notes
 #+OPTIONS: num:nil
 #+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+#+HTML_HEAD_EXTRA: <style> pre.src { background-color: black; color: white; font-size: 14px; }</style>
 
 * Fundemental Differences Between C and C++
  Main purpose of this section is to point out the differences between C and C++. It isn't about how code should or should not be written in C or C++. It is only about validity of the code.
@@ -4005,8 +4006,177 @@ The ~move assignment operator~ is called when a ~class object~ is assigned to an
    }
  #+END_SRC
 
+**** When special member functions are defaulted, deleted or not declared by the compiler?
+| User declared / Implicitly declared by the compiler | Default constructor | Destructor    | Copy constructor | Copy assignment | Move constructor | Move assignment |
+|-----------------------------------------------------+---------------------+---------------+------------------+-----------------+------------------+-----------------|
+| /                                                   | <                   |               |                  |                 |                  | >               |
+| Nothing                                             | defaulted           | defaulted     | defaulted        | defaulted       | defaulted        | defaulted       |
+| Any constructor                                     | not declared        | defaulted     | defaulted        | defaulted       | defaulted        | defaulted       |
+| Default constructor                                 | user declared       | defaulted     | defaulted        | defaulted       | defaulted        | defaulted       |
+| Destructor                                          | defaulted           | user declared | defaulted        | defaulted       | not declared     | not declared    |
+| Copy constructor                                    | not declared        | defaulted     | user declared    | defaulted       | not declared     | not declared    |
+| Copy assignment                                     | defaulted           | defaulted     | defaulted        | user declared   | not declared     | not declared    |
+| Move constructor                                    | not declared        | defaulted     | deleted          | deleted         | user declared    | not declared    |
+| Move assignment                                     | defaulted           | defaulted     | deleted          | deleted         | not declared     | user declared   |
+
+In summary:
+- If ~destructor~ is not ~user declared~, it is always ~defaulted~.
+- If any ~constructor~ (non-special or special) is ~user declared~, ~default constructor~ is ~not declared~ and otherwise it is ~defaulted~.
+- If one of ~destructor~, ~copy constructor~ or ~copy assignment operator~ is ~user declared~, ~move members~ are ~not declared~.
+- If one of ~move constructor~ or ~move assignment operator~ is ~user declared~, ~copy members~ are ~deleted~, and other ~move member~ is ~not declared~.
+
+When nothing is ~user declared~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // C1() = default;
+       // ~C1() = default;
+       // C1(const C1&) = default;
+       // C1& operator=(const C1&) = default;
+       // C1(C1&&) = default;
+       // C1& operator=(C1&&) = default;
+   };
+ #+END_SRC
+
+When the ~default constructor~ is ~user declared~: 
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1() = default;
+       // ~C1() = default;
+       // C1(const C1&) = default;
+       // C1& operator=(const C1&) = default;
+       // C1(C1&&) = default;
+       // C1& operator=(C1&&) = default;
+   };
+ #+END_SRC
+
+When the ~destructor~ is ~user declared~: 
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // C1() = default;
+       ~C1() = default;
+       // C1(const C1&) = default;
+       // C1& operator=(const C1&) = default;
+       // Move constructor is not declared.
+       // Move assignment operator is not declared.
+   };
+ #+END_SRC
+
+When the ~copy constructor~ is ~user declared~: 
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // Default constructor is not declared.
+       // ~C1() = default;
+       C1(const C1&) = default;
+       // C1& operator=(const C1&) = default;
+       // Move constructor is not declared.
+       // Move assignment operator is not declared.
+   };
+ #+END_SRC
+
+When the ~copy assignment operator~ is ~user declared~: 
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // C1() = default;
+       // ~C1() = default;
+       // C1(const C1&) = default;
+       C1& operator=(const C1&) = default;
+       // Move constructor is not declared.
+       // Move assignment operator is not declared.
+   };
+ #+END_SRC
+
+When the ~move constructor~ is ~user declared~: 
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // Default constructor is not declared.
+       // ~C1() = default;
+       // C1(const C1&) = delete;
+       // C1& operator=(const C1&) = delete;
+       C1(C1&&) = default;
+       // Move assignment operator is not declared.
+   };
+ #+END_SRC
+
+When the ~move assignment operator~ is ~user declared~: 
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // C1() = default;
+       // ~C1() = default;
+       // C1(const C1&) = delete;
+       // C1& operator=(const C1&) = delete;
+       // Move constructor is not declared.
+       C1& operator=(C1&&) = default;
+   };
+ #+END_SRC
+ 
+It is possible to define a ~class~ which cannot be copied or moved:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1();
+       C1(int);
+       C1(const C1&) = delete;
+       C1& operator=(const C1&) = delete;
+       // Move constructor and move assignment operator is not declared because copy members are user declared.
+       // ~C1() = default;
+
+       // This class cannot be copied or moved. Copy members are deleted by user and move members are not declared.
+   };
+
+   int main()
+   {
+       C1 c1a;
+       C1 c1b = c1a; // This is a syntax error. A deleted function(the copy constructor) cannot be referenced.
+
+       return 0;
+   }
+ #+END_SRC
+
+It is also possible to define a ~class~ which cannot be copied but can be moved:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1();
+       C1(int);
+       C1(const C1&) = delete;
+       C1& operator=(const C1&) = delete;
+       C1(C1&&);
+       C1& operator=(C1&&);
+       // ~C1() = default;
+
+       // This class cannot be copied but can be moved.
+   };
+
+   int main()
+   {
+       C1 c1a;
+       C1 c1b = c1a; // This is a syntax error. A deleted function(the copy constructor) cannot be referenced.
+       C1 c1c = std::move(c1a); // This is valid. The object can be moved.
+
+       return 0;
+   }
+ #+END_SRC
+ 
 *** Move Semantics
  ~move semantics~ allows efficient transfer of resources (memory, file handles etc.) from one object to another. It is particularly useful when dealing with expensive-to-copy objects, such as containers or objects that manage dynamic resources. ~R-value references~ enable ~move semantics~ by binding to ~temporary objects~ (~R-value expressions~) that are about to go out of scope. ~move constructor~ and ~move assignment operator~ are used for transfering ownership of resources from one object to another.
+
+Resource to check: [[https://accu.org/conf-docs/PDFs_2014/Howard_Hinnant_Accu_2014.pdf][Everything You Ever Wanted To Know About Move Semantics]]
 
  #+BEGIN_SRC C++
    class C1
@@ -4110,6 +4280,7 @@ The ~move assignment operator~ is called when a ~class object~ is assigned to an
            std::cout << "Move constructor\n";
        }
    };
+
    int main()
    {
        const C1 x;
@@ -4153,8 +4324,6 @@ The ~move assignment operator~ is called when a ~class object~ is assigned to an
    }
  #+END_SRC
 
- 
-
 *** Default member initializer / In-class initializer
 ~default member initializer~ is a way to declare how ~default initialization~ should be done for ~data members~ of classes.
 
@@ -4197,5 +4366,62 @@ If a ~data member~ is initialized explicitly ~default member initializer~ will n
    };
  #+END_SRC
 
-cpp13 - 00:40:00
+*** Delegating Constructor
+ Classes can have multiple ~constructors~ with a common code. In such cases, a ~delegated constructor~ can be used to gather the common code into a single ~constructor~.
 
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1(int x) : C1(x, 0, 0) {}
+       C1(const char* p) : C1(std::atoi(p), 0, 0) {}
+
+       // This is delegating constructor. This constructor will get called when other 2 constructor is called. It can also be called directly.
+       C1(int, int, int)
+       {
+           
+       }
+   };
+ #+END_SRC
+ 
+ If a ~delegating constructor~ is used for a ~constructor~, the ~non-static data members~ cannot be initialized using ~constructor initializer list~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1(int x) : C1(x, 0, 0), mx{ 10 } {} // This is syntax error. If delegating constructor is called, constructor initializer list cannot be used for initializing non-static data members.
+       C1(const char* p) : C1(std::atoi(p), 0, 0) {}
+
+       // This is delegating constructor. This constructor will get called when other 2 constructors are called. It can also be called directly.
+       C1(int, int, int)
+       {
+           
+       }
+
+   private:
+       int mx;
+   };
+ #+END_SRC
+
+ There can also be multiple ~delegating constructors~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // This constructor calls a delagating constructor.
+       C1(int x) : C1(x, 0) {}
+
+       // This constructor is a delagating constructor and also calls the other delagating constructor.
+       C1(int x, int y) : C1(x, y, 0) {}
+
+       // This is also a delegating constructor.
+       C1(int x, int y, int z)
+       {
+           
+       }
+   };
+ #+END_SRC
+
+*** Temporary Objects
+
+cpp013 - 01:37:00
