@@ -1,4 +1,5 @@
 #+TITLE: C++ Notes
+#+AUTHOR: nukoseer
 #+OPTIONS: num:nil
 #+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
 #+HTML_HEAD_EXTRA: <style> pre.src { background-color: black; color: white; font-size: 14px; }</style>
@@ -4367,16 +4368,17 @@ If a ~data member~ is initialized explicitly ~default member initializer~ will n
  #+END_SRC
 
 *** Delegating Constructor
- Classes can have multiple ~constructors~ with a common code. In such cases, a ~delegated constructor~ can be used to gather the common code into a single ~constructor~.
+ Classes can have multiple ~constructors~ with a common code. In such cases, a ~delegating constructor~ can be used to gather the common code into a single ~constructor~.
 
  #+BEGIN_SRC C++
    class C1
    {
    public:
+       // Delegating constructors
        C1(int x) : C1(x, 0, 0) {}
        C1(const char* p) : C1(std::atoi(p), 0, 0) {}
 
-       // This is delegating constructor. This constructor will get called when other 2 constructor is called. It can also be called directly.
+       // This constructor will get called when other 2 constructor is called. It can also be called directly.
        C1(int, int, int)
        {
            
@@ -4389,10 +4391,11 @@ If a ~data member~ is initialized explicitly ~default member initializer~ will n
    class C1
    {
    public:
-       C1(int x) : C1(x, 0, 0), mx{ 10 } {} // This is syntax error. If delegating constructor is called, constructor initializer list cannot be used for initializing non-static data members.
+       // Delegating constructor
+       C1(int x) : C1(x, 0, 0), mx{ 10 } {} // This is syntax error. If a constructor is a delegating constructor, constructor initializer list cannot be used for initializing non-static data members.
        C1(const char* p) : C1(std::atoi(p), 0, 0) {}
 
-       // This is delegating constructor. This constructor will get called when other 2 constructors are called. It can also be called directly.
+       // This constructor will get called when other 2 constructors are called. It can also be called directly.
        C1(int, int, int)
        {
            
@@ -4408,13 +4411,11 @@ If a ~data member~ is initialized explicitly ~default member initializer~ will n
    class C1
    {
    public:
-       // This constructor calls a delagating constructor.
+       // This delegating constructor is calling another delegating constructor
        C1(int x) : C1(x, 0) {}
-
-       // This constructor is a delagating constructor and also calls the other delagating constructor.
+       // This is also delegating constructor
        C1(int x, int y) : C1(x, y, 0) {}
 
-       // This is also a delegating constructor.
        C1(int x, int y, int z)
        {
            
@@ -4423,5 +4424,279 @@ If a ~data member~ is initialized explicitly ~default member initializer~ will n
  #+END_SRC
 
 *** Temporary Objects
+ In some cases, even if there is no visible variable in the code, the compiler can create an object according to the rules. Such objects are called ~temporary objects~ and have different lifetimes. Expressions created by ~temporary objects~ are ~PR-value expressions~.
 
-cpp013 - 01:37:00
+ #+BEGIN_SRC C++ :includes iostream
+   class C1
+   {
+   public:
+       C1()
+       {
+           std::cout << "Default constructor\n";
+       }
+
+       C1(int a, int b)
+       {
+           std::cout << "C1(int a, int b), a = " << a << " b = " << b << '\n';
+       }
+       
+       ~C1()
+       {
+           std::cout << "Destructor\n";
+       }
+   };
+
+   void func(const C1&)
+   {
+       std::cout << "void func(const C1&)\n";
+   }
+
+   void func(C1&&)
+   {
+       std::cout << "void func(C1&&)\n";
+   }
+
+   int main()
+   {
+       C1& r = C1(); // This is a syntax error. C1() is a temporary object and a PR-value expression. PR-value expressions cannot be bound to L-value references.
+       // These are valid.
+       const C1& cr = C1();
+       C1&& rr = C1{ 1, 3 };
+
+       func(C1{}); // If func() is called with a temporary object, the C1&& overload will be called because temporary objects are PR-value expressions.
+       
+   }
+ #+END_SRC
+
+ The life of a ~temporary object~ ends after the ~evaluation of the expression~ in which that ~temporary object expression~ is contained:
+ #+BEGIN_SRC C++ :includes iostream
+   class C1
+   {
+   public:
+       C1()
+       {
+           std::cout << "Default constructor, this: " << this << '\n';
+       }
+
+       ~C1()
+       {
+           std::cout << "Destructor, this: " << this << '\n';
+       }
+
+       void func()
+       {
+           std::cout << "void func(), this: " << this << '\n';
+       }
+   };
+
+   int main()
+   {
+       std::cout << "main() starts\n";
+       C1{}.func();
+       // The life of the C1{} (temporary object) has to end immediately in this point of the code. The destructor for C1{} will be called here (after the evaluation of the expression that contains temporary object, C1{}.func()).
+       std::cout << "main() ends\n";
+   }
+ #+END_SRC
+
+ If we want to call a function with an object and never use that object again, we can use ~temporary object~:
+ #+BEGIN_SRC C++ :includes iostream vector
+   void func(const std::vector<int>& vec)
+   {
+       
+   }
+
+   int main()
+   {
+       // We don't need ivec after calling func() but it will live until the end of scope.
+       std::vector<int> ivec(10, 5);
+       func(ivec);
+
+       // We used a temporary object for calling func() and it will be destructed after this expression is evaluated. This prevents scope leakage.
+       func(std::vector<int>(10, 5));
+   }
+ #+END_SRC
+
+**** Life extension
+ If a ~temporary object~ is bound to a ~reference~, its lifetime gets extended to the end of the scope of that ~reference~. This is called ~life extension~.
+
+ #+BEGIN_SRC C++ :includes iostream
+   class C1
+   {
+   public:
+       C1()
+       {
+           std::cout << "Default constructor, this: " << this << '\n';
+       }
+
+       ~C1()
+       {
+           std::cout << "Destructor, this: " << this << '\n';
+       }
+
+       void func()
+       {
+           std::cout << "void func(), this: " << this << '\n';
+       }
+   };
+
+   int main()
+   {
+       std::cout << "main() starts\n";
+
+       if (1)
+       {
+           C1&& r = C1{};
+           std::cout << "main() continues\n";
+           r.func(); // The temporary object C1{} is still alive here because it is bound to a reference 'r'.
+           // The destructor for the temporary object will be called here.
+       }
+
+       std::cout << "main() ends\n";
+   }
+ #+END_SRC
+
+*** Reference qualifiers
+ Normally the ~non-static member functions~ of a ~class~ can be called both with ~class objects~ whose value category is ~L-value expression~ and with class objects whose value category is ~R-value expression~. However, in some cases, we may want to prevent the function from being called for ~class objects~ with the ~R-value expression~ category, or to create separate implementations for ~class objects~ with the ~L-value expression~ category and class objects with the ~R-value expression~ category. ~Reference qualifiers~ can be used the implement this behaviour.
+
+#+BEGIN_SRC C++ :includes iostream
+   class C1
+   {
+   public:
+       // This function can only be called with L-value expressions.
+       void f1()&; // & -> L-value reference qualifier
+       // This function can only be called with R-value expressions.
+       void f2()&&; // & -> R-value reference qualifier
+   };
+
+   int main()
+   {
+       C1 c1;
+
+       // This is valid. c1 is a L-value expression. f1() is L-value reference qualified.
+       c1.f1();
+       // This is valid. C1{} is a R-value expression. f2() is R-value reference qualified.
+       C1{}.f2();
+       // This is valid. std::move(c1) is a X-value expression (R-value expression). f2() is R-value reference qualified.
+       std::move(c1).f2();
+
+        // This is a syntax error. std::move(c1) is X-value expression (R-value expression). f1() is L-value reference qualified.
+       std::move(c1).f1();
+       // This is syntax error. C1{} is a R-value expression. f1() is L-value reference qualified.
+       C1{}.f1();
+       // This is syntax error. c1 is a L-value expression. f2() is R-value reference qualified.
+       c1.f2();
+   }
+ #+END_SRC
+
+ Functions with ~reference qualifiers~ can also be overloeaded:
+#+BEGIN_SRC C++ :includes iostream
+   class C1
+   {
+   public:
+       // These are valid overloads.
+       void func() &
+       {
+           std::cout << "void func() &\n";
+       }
+
+       void func() const &
+       {
+           std::cout << "void func() const &\n";
+       }
+
+       void func() &&
+       {
+           std::cout << "void func() &&\n";
+       }
+   };
+
+   int main()
+   {
+       C1 c1; 
+       const C1 cc1;
+
+       // func() with L-value reference qualified will be called.
+       c1.func();
+       // func() with const L-value reference qualified will be called.
+       cc1.func();
+       // func() with R-value reference qualified will be called.
+       C1{}.func();
+   }
+ #+END_SRC
+
+ ~Temporary objects~ are assignable even it is not useful:
+#+BEGIN_SRC C++ :includes iostream
+   class C1
+   {
+
+   };
+
+   int main()
+   {
+       C1 c1; 
+
+       // This is valid and can be prevented by making the class's operator= function L-value reference qualified.
+       C1{} = c1;
+   }
+ #+END_SRC
+
+ Making ~temporary objects~ of a class unassignable:
+#+BEGIN_SRC C++ :includes iostream
+   class C1
+   {
+   public:
+       // This is valid after C++20. Before C++20, reference qualified special member functions cannot be defaulted by the compiler.
+       C1& operator=(const C1&) & = default;
+
+       // Before C++20, reference qualified special functions must be defined explicitly.
+       // C1& operator=(const C1& other) &
+       // {
+       //     // ...
+
+       //     return *this;
+       // }
+   };
+
+   int main()
+   {
+       C1 c1; 
+
+       // This is invalid now because operator= is L-value reference qualified.
+       C1{} = c1;
+   }
+ #+END_SRC
+
+ If one of the oveloads of a function has a ~reference qualifier~ all overloads must have a ~reference qualifier~:
+#+BEGIN_SRC C++ :includes iostream
+   class C1
+   {
+   public:
+       // This is invalid. If an overload has a reference qualifier all of the other overloads also have to have a reference qualifier.
+       void func();
+       void func() &;
+   };
+ #+END_SRC
+ 
+*** Conversion constructor
+ ~Conversion constructors~ can be used for implicit or explicit ~type conversion~. ~Non-class type expressions~ can be converted to a ~class type~  using ~conversion constructors~.
+
+#+BEGIN_SRC C++ :includes iostream
+   class C1
+   {
+       C1() = default;
+       // This is a conversion constructor.
+       C1(int);
+   };
+
+   int main()
+   {
+       C1 c1;
+
+       // Normally this is invalid but the conversion constructor makes it possible.
+       c1 = 2; // First, C1(12) is called and a temporary object is created then the copy assignment operator of c1 is called with this temporary object. c1.operator=(C1(12));
+       // c1 = C1(12); // Similar to this.
+   }
+ #+END_SRC
+ 
+ cpp013 - 02:29:00
+
