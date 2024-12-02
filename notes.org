@@ -4491,7 +4491,7 @@ If a ~data member~ is initialized explicitly ~default member initializer~ will n
 
    int main()
    {
-       std::cout << "main() starts\n";
+       std::cout << "main() begins\n";
        C1{}.func();
        // The life of the C1{} (temporary object) has to end immediately in this point of the code. The destructor for C1{} will be called here (after the evaluation of the expression that contains temporary object, C1{}.func()).
        std::cout << "main() ends\n";
@@ -4541,7 +4541,7 @@ If a ~data member~ is initialized explicitly ~default member initializer~ will n
 
    int main()
    {
-       std::cout << "main() starts\n";
+       std::cout << "main() begins\n";
 
        if (1)
        {
@@ -4589,7 +4589,8 @@ If a ~data member~ is initialized explicitly ~default member initializer~ will n
  #+END_SRC
 
  Functions with ~reference qualifiers~ can also be overloeaded:
-#+BEGIN_SRC C++ :includes iostream
+#+NAME: REFERENCE_QUALIFIER_01 
+#+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
    class C1
    {
    public:
@@ -4624,8 +4625,16 @@ If a ~data member~ is initialized explicitly ~default member initializer~ will n
    }
  #+END_SRC
 
+ Output:
+ #+RESULTS: REFERENCE_QUALIFIER_01
+ #+begin_example
+ void func() &
+ void func() const &
+ void func() &&
+ #+end_example
+
  ~Temporary objects~ are assignable even it is not useful:
-#+BEGIN_SRC C++ :includes iostream
+#+BEGIN_SRC C++
    class C1
    {
 
@@ -4641,7 +4650,7 @@ If a ~data member~ is initialized explicitly ~default member initializer~ will n
  #+END_SRC
 
  Making ~temporary objects~ of a class unassignable:
-#+BEGIN_SRC C++ :includes iostream
+#+BEGIN_SRC C++
    class C1
    {
    public:
@@ -4667,7 +4676,7 @@ If a ~data member~ is initialized explicitly ~default member initializer~ will n
  #+END_SRC
 
  If one of the oveloads of a function has a ~reference qualifier~ all overloads must have a ~reference qualifier~:
-#+BEGIN_SRC C++ :includes iostream
+#+BEGIN_SRC C++
    class C1
    {
    public:
@@ -4678,25 +4687,255 @@ If a ~data member~ is initialized explicitly ~default member initializer~ will n
  #+END_SRC
  
 *** Conversion constructor
- ~Conversion constructors~ can be used for implicit or explicit ~type conversion~. ~Non-class type expressions~ can be converted to a ~class type~  using ~conversion constructors~.
+ ~Conversion constructors~ can be used for ~implicit or explicit type conversion~. ~Non-class type expressions~ can be converted to a ~class type~ using ~conversion constructors~. This is how ~user-defined conversion~ is done in C++.
 
-#+BEGIN_SRC C++ :includes iostream
+#+NAME: CONVERSION_CONSTRUCTOR_01
+#+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
    class C1
    {
-       C1() = default;
+   public:
+       C1()
+       {
+           std::cout << "C1 default constructor, this: " << this << '\n';
+       }
+
+       ~C1()
+       {
+           std::cout << "C1 destructor, this: " << this << '\n';
+       }
+       
+       // This is a conversion constructor.
+       C1(int)
+       {
+           std::cout << "C1(int) constructor, this: " << this << '\n';
+       }
+
+       C1& operator=(const C1& other)
+       {
+           std::cout << "C1 copy assignment, this: " << this << " other: " << &other << '\n';
+           
+           return *this;
+       }
+   };
+
+   int main()
+   {
+       std::cout << "main() begins\n";
+       {
+           C1 c1;
+
+           // Normally this is invalid but the conversion constructor makes it possible.
+           c1 = 2; // First, C1(12) is called and a temporary object is created then the copy assignment operator of c1 is called with this temporary object. c1.operator=(C1(12));
+           // c1 = C1(12); // Similar to this.
+
+           std::cout << "main() continues\n";
+       }
+       std::cout << "main() ends";
+   }
+ #+END_SRC
+
+Output:
+ #+RESULTS: CONVERSION_CONSTRUCTOR_01
+ #+begin_example
+ main() begins
+ C1 default constructor, this: 0x7ffc58b4051e
+ C1(int) constructor, this: 0x7ffc58b4051f
+ C1 copy assignment, this: 0x7ffc58b4051e other: 0x7ffc58b4051f
+ C1 destructor, this: 0x7ffc58b4051f
+ main() continues
+ C1 destructor, this: 0x7ffc58b4051e
+ main() ends
+ #+end_example
+
+ ~Conversion constructors~ should be used with caution because they will allow the compiler to do ~implicit type conversion~:
+#+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1();
        // This is a conversion constructor.
        C1(int);
+   };
+
+   void func(C1);
+   void foo(const C1&);
+
+   int main()
+   {
+       C1 m{};
+       int n{};
+
+       // For example, if we mistakenly type 'n' instead of 'm', both of these function calls will be still valid because the compiler will do implicit type conversion using the conversion constructor.
+       func(n); 
+       foo(n);
+   }
+ #+END_SRC
+
+ The compiler can do ~implicit standard type conversion~ and ~implicit user-defined type conversion~ sequentially. These are both valid, meaning order does not matter:
+  - ~implicit standard type conversion~ + ~implicit user-defined type conversion~.
+  - ~implicit user-defined type conversion~ + ~implicit standard type conversion~.
+
+ This makes ~conversion constructors~ a bit dangerous. Example for ~implicit standard type conversion~ + ~implicit user-defined type conversion~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1();
+       // These are conversion constructors.
+       C1(int);
+       C1(bool);
    };
 
    int main()
    {
        C1 c1;
+       double dval{};
+       int ival;
+       int* ptr = &ival;
 
-       // Normally this is invalid but the conversion constructor makes it possible.
-       c1 = 2; // First, C1(12) is called and a temporary object is created then the copy assignment operator of c1 is called with this temporary object. c1.operator=(C1(12));
-       // c1 = C1(12); // Similar to this.
+       // These are also valid because implicit conversion from double to int and from bool to int is valid.
+       // Implicit standard conversion from double to int
+       // Imlicit user-defined conversion from int to C1
+       // Similar to static_cast<C1>(static_cast<int>(dval));
+       c1 = dval; 
+       // Implicit standard conversion from bool to int
+       // Imlicit user-defined conversion from int to C1
+        // Similar to static_cast<C1>(static_cast<int>(10 > 5));
+       c1 = 10 > 5;
+
+       // This is very dangerous because implicit type conversion from pointer types to bool type exist. We can call C1(bool) conversion constructor with pointer types.
+       // Implicit standard conversion from pointer types to bool
+       // Imlicit user-defined conversion from bool to C1
+        // Similar to static_cast<C1>(static_cast<bool>(ptr));
+       c1 = ptr;
+   }
+
+ #+END_SRC
+
+ The compiler won't do more than one ~user-defined conversion~ sequentially, meaning ~implicit user-defined type conversion~ + ~implicit user-defined type conversion~ is not allowed:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   
+   };
+
+   class C2
+   {
+   public:
+       // Conversion consructor for C1 to C2.
+       // There is an implicit conversion from C1 to C2.
+       C2(C1);
+   };
+
+   class C3
+   {
+   public:
+       // Conversion consructor for C2 to C3.
+       // There is an implicit conversion from C2 to C3.
+       C3(C2);
+   }
+
+   int main()
+   {
+       C1 c1;
+       // This is valid because there is an implicit conversion from C1 to C2 because of the conversion constructor. 
+       C2 c2 = c1;
+       // This is invalid the compiler won't to sequential user-defined conversions.
+       // There is an implicit conversion from C1 to C2 and from C2 to C3 but the compiler will not allow multiple implicit user-defined conversions.
+       C3 c3 = c1;
+       // But it is possible explicitly.
+       // Explicit type conversion from C1 to C2 and implicit type conversion from C2 to C3 is valid.
+       C3 c3a = static_cast<C2>(c1);
+   }
+
+ #+END_SRC
+
+*** Explicit constructor
+ It is possible to prevent ~implicit user-defined conversion~ by declaring ~explicit constructor~. ~explicit~ keyword must be used in the ~declaration~ of the ~constructor~ not in the ~definition~.
+ 
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1();
+       // This is an explicit conversion constructor.
+       explicit C1(int);
+   };
+
+   void func(C1)
+   {
+       
+   }
+
+   C1 foo()
+   {
+       return 2;
+   }
+
+   int main()
+   {
+       // These are invalid now because C1(int) conversion constructor is an explicit constructor.
+       // This would all be valid if C1(int) were not an explicit constructor.
+       C1 c1;
+       c1 = 3.5;
+       c1 = 10 > 5;
+       func(45);
+       c1 = foo();
    }
  #+END_SRC
+
+ ~explicit constructor~ also prevents ~copy initilization~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       C1();
+       // This is an explicit conversion constructor.
+       explicit C1(int);
+   };
+
+   int main()
+   {
+       // Actually, this is not a type conversion but explicit conversion also prevents copy initialization.
+       // This is similar to c1(2) but it is invalid.
+       C1 c1 = 2;
+       // This is valid.
+       C1 c1a(2);
+   }
+ #+END_SRC
+
+ The ~explicit constructors~ are not seen by the compiler as ~viable functions~ in ~function overload resolution~:
+ #+NAME: EXPLICIT_CONSTRUCTOR_01
+ #+BEGIN_SRC C++  :includes iostream :results output :exports both :wrap example
+   class C1
+   {
+   public:
+       // This is an explicit conversion constructor.
+       explicit C1(int)
+       {
+           std::cout << "explicit C1(int)\n";
+       }
+
+       // This is an non-explicit conversion constructor.
+       C1(double)
+       {
+           std::cout << "C1(double)\n";
+       }
+   };
+
+   int main()
+   {
+       // It is normal to expect that this is a syntax error because C1(int) is explicit constructor but explicit constructor are not part of the function overload resolution so C1(double) is choosen by the compiler.
+       C1 c1 = 2;
+   }
+ #+END_SRC
+
+ Output:
+ #+RESULTS: EXPLICIT_CONSTRUCTOR_01
+ #+begin_example
+ C1(double)
+ #+end_example
  
- cpp013 - 02:29:00
+cpp013 - 03:06:00
+
 
