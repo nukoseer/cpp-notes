@@ -4904,9 +4904,9 @@ Output:
    }
  #+END_SRC
 
- The ~explicit constructors~ are not seen by the compiler as ~viable functions~ in ~function overload resolution~:
+ ~Explicit constructors~ are not seen by the compiler as ~viable functions~ in ~function overload resolution~:
  #+NAME: EXPLICIT_CONSTRUCTOR_01
- #+BEGIN_SRC C++  :includes iostream :results output :exports both :wrap example
+ #+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
    class C1
    {
    public:
@@ -4935,7 +4935,276 @@ Output:
  #+begin_example
  C1(double)
  #+end_example
+
+ ~Explicit constructors~ only prevent ~implicit conversions~, we can still use ~explicit cast~:
+ #+NAME: EXPLICIT_CONSTRUCTOR_02
+ #+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
+   class C1
+   {
+   public:
+       // This is an explicit conversion constructor.
+       explicit C1(int)
+       {
+           std::cout << "explicit C1(int)\n";
+       }
+
+       C1()
+       {
+           std::cout << "C1()\n";
+       }
+   };
+
+   int main()
+   {
+       C1 c1;
+       int x = 54;
+
+       // This would be invalid without explicit type cast because C1(int) is explicit conversion constructor.
+       c1 = static_cast<C1>(x);
+   }
+ #+END_SRC
+
+ Output:
+ #+RESULTS: EXPLICIT_CONSTRUCTOR_02
+
+*** Copy elision
+ ~Copy elision~ is an optimization performed by the compiler in certain cases where it can avoid creating a temporary copy of an object, even if the language's syntax suggests that a copy would be made. Instead of actually performing the copy, the compiler generates code that constructs or moves the object directly in its final destination. This optimization doesn't change the program's behavior or semantics. It simply avoids the overhead of unnecessary copying or moving. As of C++17, certain types of ~copy elision~ are guaranteed by the standard, such as in return value cases.
+
+ If a ~copy elision~ is in the C++ standard:
+  - It is mandatory, not compiler dependent.
+  - The compiler doesn't need to throw any error if ~move/copy constructor~ of a class cannot be called in that context, for example if it is ~deleted~ or ~private~.
+ If a ~copy elision~ is not in the C++ standard:
+  - It is optional and compiler dependent.
+  - The compiler has to throw a syntax error if ~move/copy constructor~ of a class cannot be called in that context, for example if it is ~deleted~ or ~private~.
+
+ ~Copy elision~ on function arguments. This is mandatory ~copy elision~ as of C++17:
+ #+NAME: COPY_ELLISION_01
+ #+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
+   class C1
+   {
+   public:
+       C1()
+       {
+           std::cout << "C1 default constructor\n";
+       }
+
+       C1(const C1&)
+       {
+           std::cout << "C1 copy constructor\n";
+       }
+       
+       ~C1()
+       {
+           std::cout << "C1 destructor\n";
+       }
+   };
+
+   void func(C1)
+   {
+       
+   }
+
+   int main()
+   {
+       // Without copy elision:
+       // Default constructor of temporary object C1{} will be called.
+       // Copy constructor will be called for parameter of func(C1).
+       // With copy elision:
+       // Default constructor of temporary object C1{} will be directly called at the address of func(C1)'s parameter.
+       // There won't be any copy constructor call.
+       func(C1{});
+   }
+ #+END_SRC
+
+ Output:
+ #+RESULTS: COPY_ELLISION_01
+
+If a ~copy elision~ is not part of the C++ standard (meaning, before C++17). The compiler has to throw a syntax error if ~copy constructor~ cannot be called in that context.
+ #+NAME: COPY_ELLISION_02
+ #+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
+   class C1
+   {
+   public:
+       C1()
+       {
+           std::cout << "C1 default constructor\n";
+       }
+
+       C1(const C1&) = delete;
+       
+       ~C1()
+       {
+           std::cout << "C1 destructor\n";
+       }
+   };
+
+   void func(C1)
+   {
+       
+   }
+
+   int main()
+   {
+       // Before C++17:
+       // It does not matter if the compiler decided to do copy elision or not. This will be syntax error because the copy constructor of C1 is deleted.
+       // The compiler has to check if the copy constructor can be called, if not, throws a syntax error.
+       // Reason behind this is there is no way to know if a compiler will choose to do copy elision or not. Some of them can choose to do copy elision some of them not. Because of that, it is not guaranteed that the copy constrcutor will never be called.
+       // As of C++17:
+       // This copy elision type is in standard and it means mandatory for compiler to do.
+       // This guarantees that all of the compilers will perform copy elision and the copy constructor will never be called.
+       // Because of this there is no need to check for the compiler if copy constructor can be called or not.
+       func(C1{}); // As of C++17, this is valid.
+   }
+ #+END_SRC
+
+ Output:
+ #+RESULTS: COPY_ELLISION_02
+
+~Copy elision~ if a function returns a ~temporary object~. This ~copy elision~ is called ~return value optimization~ or shortly ~RVO~:
+ #+NAME: COPY_ELLISION_03
+ #+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
+   class C1
+   {
+   public:
+       C1()
+       {
+           std::cout << "C1 default constructor\n";
+       }
+
+       C1(const C1&)
+       {
+           std::cout << "C1 copy constructor\n";
+       }
+       
+       ~C1()
+       {
+           std::cout << "C1 destructor\n";
+       }
+   };
+
+   C1 func(void)
+   {
+       return C1{};
+   }
+
+   int main()
+   {
+       // Without copy elision:
+       // Default constructor of temporary object C1{} inside func() will be called.
+       // Copy constructor will be called for the return value of func().
+       // Copy constructor of c1 will be called with the return value of func().
+       // With copy elision:
+       // Default constructor of temporary object C1{} will be directly called at the address of c1.
+       // There won't be any copy constructor call.
+       C1 c1 = func();
+   }
+ #+END_SRC
+
+ Output:
+ #+RESULTS: COPY_ELLISION_03
+
+~Copy elision~ if a function returns a ~local object~. This ~copy elision~ is called ~named return value optimization~ or shortly ~NRVO~. This is not mandatory ~copy elision~, meaning not part of the language standard:
+ #+NAME: COPY_ELLISION_04
+ #+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
+   class C1
+   {
+   public:
+       C1()
+       {
+           std::cout << "C1 default constructor\n";
+       }
+
+       C1(const C1&)
+       {
+           std::cout << "C1 copy constructor\n";
+       }
+       
+       ~C1()
+       {
+           std::cout << "C1 destructor\n";
+       }
+   };
+
+   C1 func(void)
+   {
+       C1 c1;
+
+       // Codes for setting and changing c etc.
+
+       return c1;
+   }
+
+   int main()
+   {
+       // Without copy elision:
+       // Default constructor of local object c1 inside func() will be called.
+       // Copy constructor will be called for the return value of func().
+       // Copy constructor of c1 will be called with the return value of func().
+       // With copy elision:
+       // Default constructor of local object c1 will be directly called at the address of c1 in the main.
+       // There won't be any copy constructor call.
+       C1 c1 = func();
+   }
+ #+END_SRC
+
+ Output:
+ #+RESULTS: COPY_ELLISION_04
+
+*** Static data members
+ ~Static data members~ in C++ are members of a class that are ~shared by all objects~ of that class. They belong to the class itself, rather than to any specific object (unlike ~non-static data members~), and have the same value for all instances of the class. ~Static data members~ have ~static lifetime~. They are created before the ~main function~ starts and live until the end of program. ~Static data members~ can also be ~inlined~ (~inline variables~ in C++17).
+
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       static int i; // There will be only one i shared by all of the objects. This is also called class variable.
+       int a, b, c; // Each object of C1 will have it is own a, b and c because they are non-static data members.
+   };
+ #+END_SRC
+
+ ~Static data members~ can be qualified with a class name to access them outside of class:
+ #+BEGIN_SRC C++ 
+   class C1
+   {
+   public:
+       static int x;
+   };
+
+   int main()
+   {
+       C1::x;
+   }
+ #+END_SRC
+
+ ~Static data members~ can be also accessed from instances of class by using ~dot and arrow operarators~.
+ #+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
+   class C1
+   {
+   public:
+       static int x;
+   };
+
+   int main()
+   {
+       C1 a;
+       C1 b;
+       C1* c = &b;
+
+       std::cout << "C1::x" << C1::x << '\n';
+
+       // This can be dangerous because the static data member name can be
+       // mistakenly written instead of the non-static data member name,
+       // which will not cause any syntax errors unless there is a type mismatch, etc.
+       a.x = 1;
+       std::cout << "C1::x" << C1::x << '\n';
+       b.x = 2;
+       std::cout << "C1::x" << C1::x << '\n';
+       c->x = 3;
+       std::cout << "C1::x" << C1::x << '\n';
+   }
+ #+END_SRC
+
  
-cpp013 - 03:06:00
+cpp014 - 00:34:00
 
 
