@@ -5204,7 +5204,438 @@ If a ~copy elision~ is not part of the C++ standard (meaning, before C++17). The
    }
  #+END_SRC
 
+ The ~access control~ rules also apply to ~static data members~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+       static int x;
+   };
+
+   int main()
+   {
+       // This is invalid. Cannot access private member.
+       C1::x = 10;
+   }
+ #+END_SRC
+
+ ~Declaration~ of ~static data members~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // This is just a declaration not a definition.
+       // The compiler will not give any storage space for x because it doesn't have definition.
+       static int x;
+   };
+
+   int main()
+   {
+       // This would compile but cannot be linked. C1::x doesn't have any definition but declaration. 
+       C1::x = 5;
+   }
+ #+END_SRC
+
+ ~Definition~ of ~static data members~:
+ #+BEGIN_SRC C++
+   // c1.h
+   class C1
+   {
+   public:
+       // This is just a declaration not a definition.
+       // The compiler will not give any storage space for x because it doesn't have definition.
+       static int x;
+   };
+
+   // c1.c
+   int C1::x; // This is tne definition of C1::x. Note that static keyword is not used in the definition.
+
+   // main.cpp
+   // #include c1.h
+   int main()
+   {
+       // This would compile and link. C1::x has a declaration and definition.
+       C1::x = 5;
+   }
+ #+END_SRC
+
+ A ~static data member~ which is ~declared~ in ~class definition~ can be an ~incomplete type~:
+ #+BEGIN_SRC C++
+   class C2; // Forward declaration.
+
+   class C1
+   {
+   private:
+       // C2 is incomplete type but this declaration is valid because there is no storage space required at this point.
+       // The compiler will know necessary storage space when it finds the definition of C2 in other source files.
+       static C2 c2;
+   };
+ #+END_SRC
+
+The ~static data members~ which are ~const~ and ~integral type~ can be ~defined~ in ~class definition~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // This is a declaration and a definition for x. 
+       static const int x = 10; // This is valid definition, x is const and has integral type(int).
+       // static const double y = 5.5; // This is invalid, y is const but double is real number type not integral type.
+   };
+
+   int main()
+   {
+       // This is valid.
+       C1::x;
+   }
+
+ #+END_SRC
+
+As of C++17, ~static data members~ can also be ~inlined~ (~inline variables~):
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // This is a declaration and a definition for x. 
+       static inline double x = 5.5; 
+   };
+
+   int main()
+   {
+       // This is valid.
+       C1::x = 10.10;
+   }
+ #+END_SRC
+
+ ~Constructor initializer list~ cannot be used for ~static data members~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // This is a syntax error. mz is static data member 
+       // and cannot be initialized in constructor initializer list.
+       // Static data members are already initialized before main function is being called.
+       C1() : mx(10), my(20), mz(30) {}
+   private:
+       int mx, int my;
+       static int mz;
+   };
+ #+END_SRC
+
+ ~Static data members~ can also be accessed by ~this pointer~:
+ #+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
+   class C1
+   {
+   public:
+       void func(int a)
+       {
+           // These are same.
+           this->x = a;
+           x = a;
+           C1::x = a;
+       }
+   private:
+       static int x;
+   };
+
+   int main()
+   {
+       C1 c1a, c1b, c1c;
+
+       c1a.func(10);
+       std::cout << "C1::x: " << C1::x << '\n'
+       c1b.func(20);
+       std::cout << "C1::x: " << C1::x << '\n'
+       c1c.func(30);
+       std::cout << "C1::x: " << C1::x << '\n'
+   }
+ #+END_SRC
+
+ As an example, a ~static data member~ can be used for a lookup table:
+ #+BEGIN_SRC C++
+   class Date
+   {
+   private:
+       // Names of the week days are not specific to any instance of Date class.
+       // Names can be stored in a static data member and can be accessed by instances when required.
+       static constexpr const char* week_days[] = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+   };
+ #+END_SRC
  
-cpp014 - 00:34:00
+ ~Non-static const member functions~ can mutate ~static data members~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       void func() const
+       {
+           // Valid. Const member function means this pointer is const
+           // but mx is static data member and doesn't have any relation with this pointer.
+           mx = 5; // Equals to C1::mx = 5;
+           // Invalid. This pointer is const.
+           my = 5; // Equals to this->my = 5;
+       }
+       
+   private:
+       static int mx;
+       int my;
+   };
+ #+END_SRC
+
+*** Static member functions
+~Static member functions~ in C++ are functions that belong to a class rather than to any specific object of the class. They can be called without creating an instance of the class and have access only to the static members of the class. ~Static member functions~ don't have ~this pointer~.
+
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       void f1(); // Non-static member function.
+       static void f2(); // Static member function.
+   };
+
+   int main()
+   {
+       // This is invalid. f1() is a non-static member function and can only be called with an instance.
+       C1::f1();
+       // This is valid. f2() is a static member function and doesn't belong to any specific object.
+       C1::f2();
+   }
+ #+END_SRC
+
+ ~Static member functions~ doesn't have ~this pointer~ but this doesn't mean they cannot access ~private members~ of the class:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       static void func();
+       
+   private:
+       int mx;
+   };
+
+   C1::func()
+   {
+       C1 c1{};
+
+       // mx is private member of C1 and can be accessed inside static member functions.
+       // Accessing private members and not having this pointer are different concepts.
+       auto int a = c1.mx;
+   }
+ #+END_SRC
+
+The ~access control~ rules also apply to ~static member functions~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   private:
+       static void func();
+       int mx;
+   };
+
+   C1::func()
+   {
+       C1 c1{};
+
+       // mx is private member of C1 and can be accessed inside static member functions.
+       // Accessing private members and not having this pointer are different concepts.
+       auto int a = c1.mx;
+   }
+
+   int main()
+   {
+       // This is invalid. C1::func() is private and cannot be accessed outside of the class.
+       C1::func();
+   }
+ #+END_SRC
+
+ ~Static member functions~ can be ~defined~ in ~class definition~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       // This is a declaration and a definition. Implicitly inline.
+       static void func()
+       {
+           
+       }
+   };
+ #+END_SRC
+ 
+ ~Declaration~ and ~definition~ can also be separated:
+ #+BEGIN_SRC C++
+   // c1.h
+   class C1
+   {
+   public:
+       // This is a declaration.
+       static void func();
+   };
+
+   // c1.cpp
+   void C1::func
+   {
+       
+   }
+ #+END_SRC
+
+ ~Static member functions~ cannot be ~const~ because there is no ~this pointer~ to make ~const~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       static void func() const; // This is invalid.
+   };
+ #+END_SRC
+
+~Static member functions~ can use ~static data members~ with ~unqualied name~:
+ #+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       static void func()
+       {
+           // Valid.
+           mx = 10;
+       }
+
+   private:
+       static int mx;
+   };
+ #+END_SRC
+
+ ~Static member functions~ can also be called from instances of class by using ~dot and arrow operarators~.
+#+BEGIN_SRC C++
+   class C1
+   {
+   public:
+       static void func();
+   };
+
+   int main()
+   {
+       C1 c1a, c1b;
+
+       // These are valid. func() is static member function and doesn't belong to any specific instance but still can be called with this syntax.
+       // Equals to C1::func();
+       c1a.func();
+       c1b.func();
+   }
+ #+END_SRC
+
+ There is no type difference between pointers to ~global functions~ and pointers to ~static member functions~:
+#+BEGIN_SRC C++
+  class C1
+  {
+  public:
+      static int f1(int);
+  };
+
+  static int f2(int);
+
+  int main()
+  {
+      // fp1 and fp2 are function pointers with same type and can store address of C1::f1() and f2().
+      int (*fp1)(int) = &C1::f1;
+      int (*fp2)(int) = &f2;
+  }
+#+END_SRC
+
+ An ~identifier~ used to initialize a ~static data member~ is first searched in ~class scope~, if it is not found it is searched in ~namespace scope~:
+#+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
+  class C1
+  {
+  public:
+      static int func()
+      {
+          return 777;
+      }
+
+      static int x;
+  };
+
+  int func()
+  {
+      return 5;
+  }
+
+  // Valid. func() will be first searched in class scope.
+  int C1::x = func();
+
+  int main()
+  {
+      // Prints 777.
+      std::cout << "C1::x: " << C1::x << '\n';
+  }
+#+END_SRC
+
+ A simple example using ~static member function~ and ~static data member~ to keep track of how many instances of a class are created:
+#+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
+  class C1
+  {
+  public:
+      C1()
+      {
+          ++live_count;
+      }
+
+      C1(int)
+      {
+          ++live_count;
+      }
+
+      ~C1()
+      {
+          --live_count;
+      }
+
+      // Delete copy constructor and copy operator.
+      C1(const C1&) = delete;
+      C1& operator=(const C1&) = delete;
+
+      static int get_live_count()
+      {
+          return live_count;
+      }
+
+  private:
+      static inline int live_count;
+  };
+
+  int main()
+  {
+      C1 c1a, c1b, c1c;
+      auto p1 = new C1{ 3 };
+      auto p2 = new C1{ 5 };
+
+      std::cout << "C1::get_live_count: " << C1::get_live_count() << '\n';
+
+      delete p1;
+
+      std::cout << "C1::get_live_count: " << C1::get_live_count() << '\n';
+      
+  }
+#+END_SRC
+
+ ~Named constructor idiom~ example using ~static member function~:
+#+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
+  class C1
+  {
+  public:
+      static C1* create_object()
+      {
+          return new C1;
+      }
+
+  private:
+      // Client codes cannot local class instances by calling constructor.
+      C1(); // Private default constructor.
+  };
+
+  int main()
+  {
+      
+      
+  }
+#+END_SRC
+ 
+cpp014 - 02:03:00
 
 
