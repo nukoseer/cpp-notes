@@ -5624,6 +5624,8 @@ The ~access control~ rules also apply to ~static member functions~:
           return new C1;
       }
 
+      void func();
+    
   private:
       // Client codes cannot local class instances by calling constructor.
       C1(); // Private default constructor.
@@ -5631,11 +5633,276 @@ The ~access control~ rules also apply to ~static member functions~:
 
   int main()
   {
-      
-      
+      auto c1a = C1::create_object();
+      c1a->func();
   }
 #+END_SRC
- 
-cpp014 - 02:03:00
+
+#+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
+  class Complex
+  {
+  public:
+      static Complex create_cartesian(double r, double i)
+      {
+          return C1(r, i);
+      }
+
+      static Complex create_polar(double angle, double distance)
+      {
+          return C1(angle, distance, 0);
+      }
+
+  private:
+      Complex(double r, double i); // Cartesian.
+      Complex(double angle, double distance, int); // Polar.
+  };
+
+  int main()
+  {
+      auto complex_cartesian = Complex::create_cartesian(2.3, 5.6);
+      auto complex_polar = Complex::create_polar(2.3, 0.5);
+  }
+#+END_SRC
+
+ Classic ~singleton~ example:
+#+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
+  class C1
+  {
+  public:
+      static C1* get_instance()
+      {
+          if (!m_instance)
+          {
+              m_instance = new C1;
+          }
+
+          return m_instance;
+      }
+      
+      static void f1();
+      static void f2();
+  private:
+      C1(); // Private default constructor.
+      inline static C1* m_instance;
+  };
+
+  int main()
+  {
+      C1* c1a = C1::get_instance();
+
+      c1a->f1();
+      C1::get_instance()->f2();
+  }
+#+END_SRC
+
+ Meyer's ~singleton~ example:
+#+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
+  class C1
+  {
+  public:
+      static C1& get_instance()
+      {
+          static C1 c;
+
+          return c;
+      }
+      
+      static void f1();
+      static void f2();
+  private:
+      C1(); // Private default constructor.
+  };
+
+  int main()
+  {
+      C1& c1a = C1::get_instance();
+
+      c1a.f1();
+      C1::get_instance().f2();
+  }
+#+END_SRC
+
+*** Friend declarations
+ In C++, ~friend declarations~ allow a function or a class to access the ~private~ and ~protected~ members of another class. This is useful when you want an external function or another class to have ~privileged access~ to certain parts of a class that would otherwise be inaccessible. ~Friend declarations~ in C++ grant other functions or classes ~full access to all private and protected members of a class~. It is not possible to restrict this access to specific members without employing special design patterns or idioms. Once a function or class is declared as a ~friend~, it has ~unrestricted access~ to the class's ~private~ and ~protected~ members.
+
+#+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
+  class C1
+  {
+  public:
+      friend void f1(C1);
+
+      // It is also possible to define friend functions inlined.
+      // This is not a member function of C1. This is called hidden friend.
+      friend void f2(C1 c1)
+      {
+          c1.f3();
+      }
+
+  private:
+      void f3();
+      int mx;
+  };
+
+  // Friend function
+  void f1(C1 c1)
+  {
+      C1 c1a;
+      // Friend declaration make it possible to reach private members of class.
+      c1a.f3();
+      c1a.mx = 3;
+      c1.f3();
+  }
+#+END_SRC
+
+~Friend declarations~ can be in the ~private~, ~protected~ or ~public~ section of the class. It does not make any difference:
+#+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
+  class C1
+  {
+  private:
+      friend void f1(C1);
+      void f2();
+      int mx;
+  };
+
+  // Friend function
+  void f1(C1 c1)
+  {
+      C1 c1a;
+      // Friend declaration make it possible to reach private members of class.
+      c1a.f2();
+      c1a.mx = 3;
+      c1.f2();
+  }
+#+END_SRC
+
+~Friend declaration~ can be made for a specific function of an another class:
+#+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
+  class C2
+  {
+      void f1();
+  };
+
+  class C1
+  {
+  private:
+      // To define C2::f1() function as a friend, the class definition of C2 has to be visible here.
+      friend void C2::f1();
+      void f2();
+  };
+
+  void C2::f1()
+  {
+      C1 c;
+      c.f2();
+  }
+#+END_SRC
+
+~Friend declarations~ can be made for an another class:
+#+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
+  class C1
+  {
+  private:
+      // Friend class can be incomplete type.
+      friend class C2;
+      
+      void f1();
+      void f2();
+  };
+
+  class C2
+  {
+      void f3()
+      {
+          C1 c1;
+          c1.f1();
+          c1.f2();
+      }
+
+      void f4()
+      {
+          C1 c1;
+          c1.f1();
+          c1.f2();
+      }
+  };
+#+END_SRC
+
+~Friend declarations~ are one-way:
+#+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
+  class C1
+  {
+  private:
+      // Friend class can be incomplete type.
+      friend class C2;
+      
+      void f1();
+      void f2();
+      
+      void f3()
+      {
+          C2 c2;
+
+          // This is invalid. Members of C2 can reach the private/protected members of C1 but C1 cannot access C2's.
+          c2.f4();
+      }
+  };
+
+  class C2
+  {
+  private:
+      void f4()
+      {
+          C1 c1;
+          c1.f1();
+          c1.f2();
+      }
+
+      void f5()
+      {
+          C1 c1;
+          c1.f1();
+          c1.f2();
+      }
+  };
+#+END_SRC
+
+~Friend declarations~ do not chain:
+#+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
+  class C1
+  {
+  private:
+      void f1();
+      friend class C2;
+  };
+
+  class C2
+  {
+  private:
+      void f2()
+      {
+          C1 c1;
+          c1.f1();
+      }
+      
+      friend class C3;
+  };
+
+  class C3
+  {
+  private:
+      void f3()
+      {
+          C2 c2;
+          
+          c2.f2();
+
+          C1 c1;
+          // C3 is friend of C2, C2 is friend of C1. But, this does not make C3 and C1 friends.
+          c1.f1(); // This is invalid. Friend of my friend is not my friend.
+      }
+  };
+#+END_SRC
+
+cpp015 - 00:00:00
 
 
