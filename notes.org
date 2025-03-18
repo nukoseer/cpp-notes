@@ -5903,6 +5903,63 @@ The ~access control~ rules also apply to ~static member functions~:
   };
 #+END_SRC
 
-cpp015 - 00:00:00
+*** Operator overloading
+ ~Operator overloading~ is a mechanism to redefine the behaviour of operators (+, -, *, ==, etc.) for ~user-defined types~. It works in ~compile time~ and does not affect ~runtime~. In some cases, calling functions directly can result in verbose and hard to read code, using ~operator overloading~ can help make the code more understandable.
+
+ The functions used for overloading operators are called ~operator functions~. There are 2 different ~operator function~ types.
+  - ~global operator functions~
+  - ~member operator functions~ (cannot be ~static~)
+
+ General rules:
+  - At least one of the operands must be a ~user-defined type~ (~struct~, ~class~, ~union~ and ~enum~).
+  - Only operators in the C++ operator set can be overloaded.
+  - There are operators that cannot be overloaded (~.~, ~sizeof~, ~typeid~, ~ternary~, ~::~ and ~.*~ operators).
+  - Some operators can be overloaded with only ~member operator functions~ (~[]~, ~->~, ~type cast~, ~()~ operators).
+  - ~Operator functions~ must be named according to certain rules (operator keyword + operator token: ~operator==~, ~operator+~).
+  - All ~operator functions~ can also be called by name (~std::cout.operator<<(5)~).
+  - ~Operator functions~ cannot take default arguments with one exception (~()~ operator).
+  - ~Operator arities~ cannot be changed using ~operator overloading~ (~unary~, ~binary~ operators).
+  - ~Operators' precedence~ and ~operators' associativity~ cannot be changed using ~operator overloading~.
+  - ~Operator functions~ can also be overloaded (~operator overloading~ + ~function overloading~).
+
+Examples:
+#+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
+  class C1
+  {
+  public:
+      C1& operator=(bool);
+  };
+
+  C1 operator*(const C1&, const C1&);
+  C1 operator/(const C1&, const C1&);
+  C1 operator+(const C1&, const C1&);
+  bool operator<(const C1&, const C1&);
+
+  int main()
+  {
+      C1 c1, c2, c3, c4, c5, c6;
+
+      c6 = c1 + c2 * c3 / c4 < c5;
+      c6 = operator<(operator+(c1, operator/(operator*(c2, c3), c4)), c5);
+
+      return 0;
+  }
+#+END_SRC
+
+#+BEGIN_SRC C++ :includes iostream :results output :exports both :wrap example
+  int main()
+  {
+      int x = 10;
+      double dval = 4.5;
+      
+      std::cout << x << " " << dval << std::endl;
+
+      operator<<(std::cout.operator<<(x), " ").operator<<(dval).operator<<(std::endl);
+      
+      return 0;
+  }
+#+END_SRC
+
+cpp015 - 02:08:30
 
 
